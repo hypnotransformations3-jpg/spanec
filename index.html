@@ -394,7 +394,7 @@ tr:nth-child(even) td{background:var(--cr)}
     <div class="trend-title">📈 Trend jutranjenga počutja</div>
     <div class="bars" id="trendBars"></div>
   </div>
-  <div class="page-footer"><a href="https://www.hypno-transformations.com" target="_blank">hypno-transformations.com</a></div>
+  <div class="page-footer"><a href="https://www.hypno-transformations.com" target="_blank">www.hypno-transformations.com</a></div>
 </div>
 
 <!-- MODAL -->
@@ -567,7 +567,7 @@ function updateProgress(){
 
 function buildMailto(name,email,day,d){
   const subj='🌙 Spanec Dan '+day+'/21 — '+name;
-  const body=name+' je uspešno shranil/a Dan '+day+' od 21.\n\nPODATKI — DAN '+day+(d.date?' ('+d.date+')':'')+'\n\n🌃 ZVEČER\nV posteljo ob: '+(d.bed||'—')+'\nČas zaspatja: '+(d.fall?d.fall+' min':'—')+'\nUgasitev elektronike: '+(d.elec?d.elec+' min':'—')+'\nZadnja kava: '+(d.coffee?d.coffee+' ur':'—')+'\nAlkohol: '+(d.alc||'—')+'\nHrana: '+(d.food||'—')+'\nListek vprašanj: '+(d.q||'—')+'\n\n🌜 PONOČI\nPrebujanja: '+(d.wake??0)+'×\nZaspal/a nazaj: '+(d.back||'—')+'\n\n🌅 ZJUTRAJ\nVstajanje ob: '+(d.getup||'—')+'\nJutranje počutje: '+(d.morn?d.morn+'/5 — '+SL[d.morn]:'—')+'\n\n✨ REFLEKSIJA\nAha moment: '+(d.aha||'—')+'\nSugestija za spanec: '+(d.tip||'—')+'\n\n—\nHypno-Transformations · hypno-transformations.com';
+  const body=name+' je uspešno shranil/a Dan '+day+' od 21.\n\nPODATKI — DAN '+day+(d.date?' ('+d.date+')':'')+'\n\n🌃 ZVEČER\nV posteljo ob: '+(d.bed||'—')+'\nČas zaspatja: '+(d.fall?d.fall+' min':'—')+'\nUgasitev elektronike: '+(d.elec?d.elec+' min':'—')+'\nZadnja kava: '+(d.coffee?d.coffee+' ur':'—')+'\nAlkohol: '+(d.alc||'—')+'\nHrana: '+(d.food||'—')+'\nListek vprašanj: '+(d.q||'—')+'\n\n🌜 PONOČI\nPrebujanja: '+(d.wake??0)+'×\nZaspal/a nazaj: '+(d.back||'—')+'\n\n🌅 ZJUTRAJ\nVstajanje ob: '+(d.getup||'—')+'\nJutranje počutje: '+(d.morn?d.morn+'/5 — '+SL[d.morn]:'—')+'\n\n✨ REFLEKSIJA\nAha moment: '+(d.aha||'—')+'\nSugestija za spanec: '+(d.tip||'—')+'\n\n—\nHypno-Transformations · www.hypno-transformations.com';
   return 'mailto:'+ADMIN+'?cc='+encodeURIComponent(email)+'&subject='+encodeURIComponent(subj)+'&body='+encodeURIComponent(body);
 }
 
