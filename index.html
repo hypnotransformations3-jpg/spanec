@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="sl">
+<html lang="sl-SI">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
@@ -185,6 +185,7 @@ tr:nth-child(even) td{background:var(--cr)}
   <div class="header-logo">Hypno-Transformations · Program</div>
   <h1>Moj Dnevnik <span>Spanja in Počitka</span></h1>
   <p class="header-desc">Tukaj beležite svoje podatke, analizirate navade in spremljate napredek pri doseganju krepčilnega spanca.</p>
+  <a href="https://www.hypno-transformations.com" target="_blank" style="display:inline-block;margin-top:8px;font-size:11px;color:var(--gl);opacity:0.85;text-decoration:none;letter-spacing:1px;">🌐 www.hypno-transformations.com</a>
 </div>
 
 <!-- USER BAR -->
@@ -240,11 +241,11 @@ tr:nth-child(even) td{background:var(--cr)}
       <table class="data-table">
         <tr>
           <td><span class="emoji">😴💤</span>Kdaj ste šli zvečer v posteljo?</td>
-          <td><input type="time" id="fBed" oninput="autosave()"></td>
+          <td><input type="time" id="fBed" oninput="autosave()" step="60" lang="sl"></td>
         </tr>
         <tr>
           <td><span class="emoji">☀️</span>Kdaj ste zjutraj vstali?</td>
-          <td><input type="time" id="fGetup" oninput="autosave()"></td>
+          <td><input type="time" id="fGetup" oninput="autosave()" step="60" lang="sl"></td>
         </tr>
         <tr>
           <td><span class="emoji">⏳✨</span>Čas, da ste zaspali (ocena v minutah)</td>
@@ -371,9 +372,7 @@ tr:nth-child(even) td{background:var(--cr)}
       </div>
     </div>
 
-    <div class="page-footer"><a href="https://www.hypno-transformations.com" target="_blank">hypno-transformations.com</a></div>
-  </div>
-</div>
+    <div class="page-footer"><a href="https://www.hypno-transformations.com" target="_blank">🌐 www.hypno-transformations.com</a></div>
 
 <!-- ══════════════ PREGLED TAB ══════════════ -->
 <div id="tab-pregled" class="hidden">
@@ -411,7 +410,8 @@ tr:nth-child(even) td{background:var(--cr)}
       2. Odpre se vaš email z vsemi podatki<br>
       3. Pritisnite <b>Pošlji</b> — to je vse!<br><br>
       ✉️ <b>Prejemnik:</b> info@hypno-transformations.com<br>
-      📋 <b>CC kopija:</b> <span id="modalEmail"></span>
+      📋 <b>CC kopija:</b> <span id="modalEmail"></span><br><br>
+      🌐 <a href="https://www.hypno-transformations.com" target="_blank" style="color:var(--t);">www.hypno-transformations.com</a>
     </div>
     <div class="summary-box" id="modalSummary"></div>
     <button class="close-btn" onclick="closeModal()">Zapri</button>
