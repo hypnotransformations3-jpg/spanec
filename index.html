@@ -1,569 +1,171 @@
 <!DOCTYPE html>
 <html lang="sl-SI">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>Moj Dnevnik Spanja · Hypno-Transformations</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
-<style>
-:root {
-  --t:#2d6e6e;--t2:#3d8b8b;--tl:#5aacac;--tp:#d0eaea;
-  --go:#c8a96e;--gl:#e8cfa0;
-  --cr:#f9f4ee;--ww:#fdfaf6;--ch:#2c2c2c;--ts:#5a5a5a;--br:#e0d8ce;
-}<!DOCTYPE html>
-<html lang="sl-SI">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>Moj Dnevnik Spanja · Hypno-Transformations</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Lato:wght@400;700&display=swap" rel="stylesheet">
-<style>
-:root {
-  --t:#2d6e6e; --t2:#3d8b8b; --gl:#e8cfa0; --cr:#f9f4ee; --ww:#fdfaf6; --br:#e0d8ce; --ch:#2c2c2c;
-}
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Lato',sans-serif;background:var(--cr);color:var(--ch);line-height:1.5}
-
-/* Header & Tabs */
-.header{background:linear-gradient(135deg,var(--t),var(--t2));padding:20px;text-align:center;color:#fff}
-.header h1{font-family:'Playfair Display',serif;font-size:22px}
-.header h1 span{color:var(--gl)}
-
-.tabs{display:flex;background:var(--ww);border-bottom:1px solid var(--br);sticky:top;z-index:10}
-.tab{flex:1;padding:15px;border:none;background:none;font-weight:700;color:#5a5a5a;cursor:pointer}
-.tab.active{color:var(--t);border-bottom:3px solid var(--t)}
-
-/* User info */
-.user-bar{background:var(--ww);padding:15px;border-bottom:1px solid var(--br);display:flex;gap:10px}
-.user-field{flex:1}
-.user-field label{display:block;font-size:10px;font-weight:700;color:var(--t);text-transform:uppercase;margin-bottom:3px}
-input, textarea{width:100%;padding:10px;border:1px solid var(--br);border-radius:8px;background:var(--cr);font-family:inherit}
-
-/* Forms */
-.main{padding:15px;padding-bottom:100px}
-.section{background:var(--ww);border:1px solid var(--br);border-radius:15px;margin-bottom:15px;overflow:hidden}
-.section-header{background:var(--t);color:#fff;padding:10px 15px;font-family:'Playfair Display',serif;font-size:14px}
-.data-table{width:100%;border-collapse:collapse}
-.data-table td{padding:12px 15px;border-bottom:1px solid var(--br);font-size:13px}
-.data-table td:first-child{width:60%}
-
-/* Buttons */
-.yn-row{display:flex;gap:5px}
-.yn-btn{flex:1;padding:8px;border:1px solid var(--br);border-radius:5px;cursor:pointer;font-weight:700;background:#eee}
-.yn-btn.active-da{background:var(--t);color:#fff}
-.yn-btn.active-ne{background:#c0756a;color:#fff}
-.save-btn{width:100%;padding:18px;background:var(--t);color:#fff;border:none;border-radius:12px;font-weight:700;font-size:16px;cursor:pointer}
-
-/* Table Preview */
-.table-wrap{overflow-x:auto;padding:10px;background:#fff}
-table{width:100%;border-collapse:collapse;min-width:1500px;font-size:11px}
-th{background:var(--t);color:#fff;padding:10px;text-align:left}
-td{padding:8px;border-bottom:1px solid var(--br)}
-
-.modal{position:fixed;inset:0;background:rgba(0,0,0,0.7);display:flex;align-items:center;justify-content:center;padding:20px;z-index:100}
-.modal-content{background:#fff;padding:25px;border-radius:20px;text-align:center;max-width:400px;width:100%}
-.hidden{display:none}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>Moj Dnevnik Spanja</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --t:#2d6e6e; --t2:#3d8b8b; --gl:#e8cfa0; --cr:#f9f4ee; --ww:#fdfaf6; --br:#e0d8ce; }
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Lato',sans-serif;background:var(--cr);color:#2c2c2c}
+        .header{background:linear-gradient(135deg,var(--t),var(--t2));padding:20px;text-align:center;color:#fff}
+        .header h1{font-family:'Playfair Display',serif;font-size:22px}
+        .tabs{display:flex;background:var(--ww);border-bottom:1px solid var(--br);position:sticky;top:0;z-index:10}
+        .tab{flex:1;padding:15px;border:none;background:none;font-weight:700;color:#5a5a5a;cursor:pointer}
+        .tab.active{color:var(--t);border-bottom:3px solid var(--t)}
+        .user-bar{background:var(--ww);padding:15px;border-bottom:1px solid var(--br);display:flex;gap:10px}
+        .user-field{flex:1}
+        .user-field label{display:block;font-size:10px;font-weight:700;color:var(--t);text-transform:uppercase;margin-bottom:3px}
+        input, textarea{width:100%;padding:10px;border:1px solid var(--br);border-radius:8px;background:var(--cr);font-family:inherit}
+        .main{padding:15px;padding-bottom:100px}
+        .section{background:var(--ww);border:1px solid var(--br);border-radius:15px;margin-bottom:15px;overflow:hidden}
+        .section-header{background:var(--t);color:#fff;padding:10px 15px;font-size:14px}
+        .data-table{width:100%;border-collapse:collapse}
+        .data-table td{padding:12px 15px;border-bottom:1px solid var(--br);font-size:13px}
+        .yn-row{display:flex;gap:5px}
+        .yn-btn{flex:1;padding:8px;border:1px solid var(--br);border-radius:5px;cursor:pointer;font-weight:700;background:#eee}
+        .save-btn{width:100%;padding:18px;background:var(--t);color:#fff;border:none;border-radius:12px;font-weight:700;font-size:16px;cursor:pointer}
+        .table-wrap{overflow-x:auto;padding:10px;background:#fff}
+        table{width:100%;border-collapse:collapse;min-width:1600px;font-size:11px}
+        th{background:var(--t);color:#fff;padding:10px;text-align:left}
+        td{padding:8px;border-bottom:1px solid var(--br)}
+        .modal{position:fixed;inset:0;background:rgba(0,0,0,0.7);display:flex;align-items:center;justify-content:center;padding:20px;z-index:100}
+        .modal-content{background:#fff;padding:25px;border-radius:20px;text-align:center;max-width:400px;width:100%}
+        .hidden{display:none}
+        .active-da{background:var(--t) !important; color:#fff !important}
+        .active-ne{background:#c0756a !important; color:#fff !important}
+    </style>
 </head>
 <body>
 
 <div class="header"><h1>Moj Dnevnik <span>Spanja</span></h1></div>
 
 <div class="user-bar">
-  <div class="user-field"><label>Ime</label><input type="text" id="uName"></div>
-  <div class="user-field"><label>Email</label><input type="text" id="uEmail"></div>
+    <div class="user-field"><label>Ime (za iskanje v bazi)</label><input type="text" id="uName"></div>
+    <div class="user-field"><label>Email</label><input type="text" id="uEmail"></div>
 </div>
 
 <div class="tabs">
-  <button class="tab active" onclick="switchTab('vnos',this)">VNOS</button>
-  <button class="tab" onclick="switchTab('pregled',this)">PREGLED</button>
+    <button class="tab active" onclick="switchTab('vnos',this)">VNOS</button>
+    <button class="tab" onclick="switchTab('pregled',this)">PREGLED</button>
 </div>
 
 <div id="tab-vnos" class="main">
-  <div class="section">
-    <div class="section-header">Večerni in jutranji podatki</div>
-    <table class="data-table">
-      <tr><td>Kdaj ste šli zvečer v posteljo?</td><td><input type="time" id="f1"></td></tr>
-      <tr><td>Čas, da ste zaspali (min)</td><td><input type="number" id="f2"></td></tr>
-      <tr><td>Ugasnjena elektronika (min prej)</td><td><input type="number" id="f3"></td></tr>
-      <tr><td>Zadnja kava (ur prej)</td><td><input type="number" id="f4"></td></tr>
-      <tr><td>Zadnji alkohol (ur prej)</td><td><input type="text" id="f5"></td></tr>
-      <tr><td>Zadnji obrok / hrana (ur prej)</td><td><input type="text" id="f6"></td></tr>
-      <tr><td>Zapisana vprašanja/skrbi za jutri?</td><td>
-        <div class="yn-row">
-          <button class="yn-btn" id="btn7da" onclick="setYN('f7','da')">Da</button>
-          <button class="yn-btn" id="btn7ne" onclick="setYN('f7','ne')">Ne</button>
-        </div>
-        <input type="hidden" id="f7">
-      </td></tr>
-      <tr><td>Število prebujanj ponoči</td><td><input type="number" id="f8" value="0"></td></tr>
-      <tr><td>Ste uspeli zaspati nazaj?</td><td>
-        <div class="yn-row">
-          <button class="yn-btn" id="btn9da" onclick="setYN('f9','da')">Da</button>
-          <button class="yn-btn" id="btn9ne" onclick="setYN('f9','ne')">Ne</button>
-        </div>
-        <input type="hidden" id="f9">
-      </td></tr>
-      <tr><td>Kdaj ste zjutraj vstali?</td><td><input type="time" id="f10"></td></tr>
-      <tr><td>Počutje (1-5)</td><td><input type="number" id="f11" min="1" max="5"></td></tr>
-    </table>
-  </div>
-
-  <div class="section">
-    <div class="section-header">Refleksija</div>
-    <div style="padding:15px">
-      <label style="font-size:12px">Kaj vas je danes razveselilo?</label>
-      <textarea id="f12" rows="2"></textarea>
-      <label style="font-size:12px; margin-top:10px; display:block">Namera za nocoj</label>
-      <textarea id="f13" rows="2"></textarea>
+    <div class="section">
+        <div class="section-header">Današnji vnos</div>
+        <table class="data-table">
+            <tr><td>Kdaj ste sli zvecer v posteljo?</td><td><input type="time" id="f1"></td></tr>
+            <tr><td>Kdaj ste zjutraj vstali?</td><td><input type="time" id="f2"></td></tr>
+            <tr><td>Cas zaspatja (min)</td><td><input type="number" id="f3"></td></tr>
+            <tr><td>Elektronika (min)</td><td><input type="number" id="f4"></td></tr>
+            <tr><td>Kava (ur)</td><td><input type="number" id="f5"></td></tr>
+            <tr><td>Alkohol</td><td><input type="text" id="f6"></td></tr>
+            <tr><td>Hrana</td><td><input type="text" id="f7"></td></tr>
+            <tr><td>Vprasanja za jutri</td><td>
+                <div class="yn-row">
+                    <button class="yn-btn" id="btn8da" onclick="setYN('f8','da')">Da</button>
+                    <button class="yn-btn" id="btn8ne" onclick="setYN('f8','ne')">Ne</button>
+                </div>
+                <input type="hidden" id="f8">
+            </td></tr>
+            <tr><td>Prebujanja ponoci</td><td><input type="number" id="f9" value="0"></td></tr>
+            <tr><td>Zaspati nazaj</td><td>
+                <div class="yn-row">
+                    <button class="yn-btn" id="btn10da" onclick="setYN('f10','da')">Da</button>
+                    <button class="yn-btn" id="btn10ne" onclick="setYN('f10','ne')">Ne</button>
+                </div>
+                <input type="hidden" id="f10">
+            </td></tr>
+            <tr><td>Jutranje pocutje (1-5)</td><td><input type="number" id="f11" min="1" max="5"></td></tr>
+        </table>
     </div>
-  </div>
-
-  <button class="save-btn" onclick="sendData()">💾 SHRAI IN POŠLJI</button>
+    <div class="section" style="padding:15px">
+        <label>Kaj vas je razveselilo</label><textarea id="f12"></textarea>
+        <label style="display:block; margin-top:10px">Namera za nocoj</label><textarea id="f13"></textarea>
+    </div>
+    <button class="save-btn" onclick="sendData()">💾 SHRAI IN POŠLJI</button>
 </div>
 
 <div id="tab-pregled" class="hidden">
-  <div class="table-wrap">
-    <table>
-      <thead>
-        <tr>
-          <th>Dan</th><th>Postelja</th><th>Zaspal</th><th>Elek.</th><th>Kava</th><th>Alkohol</th><th>Hrana</th><th>Skrbi</th><th>Preb.</th><th>Nazaj</th><th>Vstajanje</th><th>Počutje</th><th>Aha moment</th><th>Namera</th>
-        </tr>
-      </thead>
-      <tbody id="pregledBody"></tbody>
-    </table>
-  </div>
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Dan</th><th>Datum</th><th>Postelja</th><th>Vstajanje</th><th>Zaspatja</th><th>Elek.</th><th>Kava</th><th>Alkohol</th><th>Hrana</th><th>Vprasanja</th><th>Prebujanja</th><th>Nazaj</th><th>Pocutje</th><th>Razveselilo</th><th>Namera</th>
+                </tr>
+            </thead>
+            <tbody id="pregledBody"></tbody>
+        </table>
+    </div>
 </div>
 
 <div id="modal" class="modal hidden">
-  <div class="modal-content">
-    <h2>Vnos pripravljen!</h2>
-    <p>Kliknite spodnji gumb, da odprete email aplikacijo in potrdite pošiljanje.</p>
-    <a id="emailLink" class="save-btn" style="display:block; text-decoration:none; margin-top:20px">ODPRI EMAIL</a>
-    <button onclick="closeModal()" style="margin-top:15px; background:none; border:none; color:grey; cursor:pointer">Zapri</button>
-  </div>
+    <div class="modal-content">
+        <h2>Vnos pripravljen!</h2>
+        <p>Preveri podatke v emailu in klikni POŠLJI.</p>
+        <a id="emailLink" class="save-btn" style="display:block; text-decoration:none; margin-top:20px">ODPRI EMAIL</a>
+        <button onclick="closeModal()" style="margin-top:15px; background:none; border:none; color:grey; cursor:pointer">Zapri</button>
+    </div>
 </div>
 
 <script>
-// TUKAJ PRILEPI SVOJ URL IZ DEPLOYMENTA
-const API_URL = 'https://script.google.com/macros/s/AKfycbws4fF9tMmrEQN6aRxyVaMsscHMQqgsc2qo6h_hHu_NfL4WDbBDYfrZ6wKrlcT8Sop4/exec';
+// TVOJ REALNI URL, KI SI GA POSLAL:
+const API_URL = 'https://script.google.com/macros/s/AKfycbwqI4CAqpL1GDWy0wkMv2Px5xkE6IcJTR0IyeK7waCgr-BOiFwxC3MCsU_nBZ95O4yU/exec'; 
 const ADMIN_EMAIL = 'info@hypno-transformations.com';
 
 function switchTab(name, btn) {
-  document.getElementById('tab-vnos').classList.toggle('hidden', name !== 'vnos');
-  document.getElementById('tab-pregled').classList.toggle('hidden', name !== 'pregled');
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  btn.classList.add('active');
-  if(name === 'pregled') loadFromApi();
+    document.getElementById('tab-vnos').classList.toggle('hidden', name !== 'vnos');
+    document.getElementById('tab-pregled').classList.toggle('hidden', name !== 'pregled');
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    if(name === 'pregled') loadFromApi();
 }
 
-function setYN(field, val) {
-  document.getElementById(field).value = val;
-  const is7 = (field === 'f7');
-  document.getElementById(is7 ? 'btn7da' : 'btn9da').className = 'yn-btn' + (val === 'da' ? ' active-da' : '');
-  document.getElementById(is7 ? 'btn7ne' : 'btn9ne').className = 'yn-btn' + (val === 'ne' ? ' active-ne' : '');
-}
-
-function sendData() {
-  const name = document.getElementById('uName').value;
-  const email = document.getElementById('uEmail').value;
-  if(!name || !email) { alert("Vpišite ime in email!"); return; }
-
-  // Sestavi telo emaila z NATANČNIMI ključi za tvoj Script
-  const body = `DNEVNIK SPANJA\n\n` +
-    `Dan: 1\n` + // Tukaj lahko dodaš logiko za avtomatski dan
-    `Datum: ${new Date().toLocaleDateString('sl-SI')}\n` +
-    `Kdaj ste sli zvecer v posteljo?: ${document.getElementById('f1').value}\n` +
-    `Kdaj ste zjutraj vstali?: ${document.getElementById('f10').value}\n` +
-    `Cas zaspatja (min): ${document.getElementById('f2').value}\n` +
-    `Elektronika (min): ${document.getElementById('f3').value}\n` +
-    `Kava (ur): ${document.getElementById('f4').value}\n` +
-    `Alkohol: ${document.getElementById('f5').value}\n` +
-    `Hrana: ${document.getElementById('f6').value}\n` +
-    `Vprasanja za jutri: ${document.getElementById('f7').value}\n` +
-    `Prebujanja ponoci: ${document.getElementById('f8').value}\n` +
-    `Zaspati nazaj: ${document.getElementById('f9').value}\n` +
-    `Jutranje pocutje (1-5): ${document.getElementById('f11').value}\n` +
-    `Kaj vas je razveselilo: ${document.getElementById('f12').value}\n` +
-    `Namera za nocoj: ${document.getElementById('f13').value}`;
-
-  const mailtoUrl = `mailto:${ADMIN_EMAIL}?cc=${email}&subject=Dnevnik Spanja: ${name}&body=${encodeURIComponent(body)}`;
-  document.getElementById('emailLink').href = mailtoUrl;
-  document.getElementById('modal').classList.remove('hidden');
-}
-
-function closeModal() { document.getElementById('modal').classList.add('hidden'); }
+// ... ostale funkcije (setYN, sendData) ostanejo iste ...
 
 async function loadFromApi() {
-  const name = document.getElementById('uName').value;
-  const tb = document.getElementById('pregledBody');
-  if(!name) { tb.innerHTML = '<tr><td colspan="15">Vnesite ime zgoraj za ogled podatkov.</td></tr>'; return; }
-  
-  tb.innerHTML = '<tr><td colspan="15">Nalagam podatke...</td></tr>';
-  try {
-    const res = await fetch(API_URL + '?ime=' + encodeURIComponent(name));
-    const json = await res.json();
+    const name = document.getElementById('uName').value.trim();
+    const tb = document.getElementById('pregledBody');
+    if(!name) { 
+        tb.innerHTML = '<tr><td colspan="15">Najprej vpiši ime na vrhu za iskanje.</td></tr>'; 
+        return; 
+    }
     
-    // Mapiramo podatke na tvoja NATANČNA imena stolpcev
-    tb.innerHTML = (json.days || []).map(d => `
-      <tr>
-        <td>${d['Dan'] || ''}</td>
-        <td>${d['Datum'] || ''}</td>
-        <td>${d['Kdaj ste sli zvecer v posteljo?'] || ''}</td>
-        <td>${d['Kdaj ste zjutraj vstali?'] || ''}</td>
-        <td>${d['Cas zaspatja (min)'] || ''}</td>
-        <td>${d['Elektronika (min)'] || ''}</td>
-        <td>${d['Kava (ur)'] || ''}</td>
-        <td>${d['Alkohol'] || ''}</td>
-        <td>${d['Hrana'] || ''}</td>
-        <td>${d['Vprasanja za jutri'] || ''}</td>
-        <td>${d['Prebujanja ponoci'] || ''}</td>
-        <td>${d['Zaspati nazaj'] || ''}</td>
-        <td>${d['Jutranje pocutje (1-5)'] || ''}</td>
-        <td>${d['Kaj vas je razveselilo'] || ''}</td>
-        <td>${d['Namera za nocoj'] || ''}</td>
-      </tr>
-    `).join('');
-  } catch(e) { 
-    tb.innerHTML = '<tr><td colspan="15" style="color:red">Napaka pri branju. Preverite API URL in ali so v tabeli podatki.</td></tr>'; 
-  }
-}
-</script>
-</body>
-</html>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Lato',sans-serif;background:var(--cr);color:var(--ch);min-height:100vh}
+    tb.innerHTML = '<tr><td colspan="15">Iščem tvoje zapise v bazi...</td></tr>';
+    try {
+        // Tukaj koda uporabi zgoraj nastavljeni API_URL
+        const res = await fetch(API_URL + '?ime=' + encodeURIComponent(name));
+        const json = await res.json();
+        
+        if(!json.days || json.days.length === 0) {
+            tb.innerHTML = '<tr><td colspan="15">Ni najdenih podatkov za ime: ' + name + '</td></tr>';
+            return;
+        }
 
-.header{background:linear-gradient(135deg,var(--t),var(--t2));padding:22px 18px 16px;text-align:center;position:relative;overflow:hidden}
-.header-logo{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gl);opacity:.85;margin-bottom:5px;font-weight:300}
-.header h1{font-family:'Playfair Display',serif;font-size:clamp(20px,5vw,26px);color:#fff;font-weight:600;line-height:1.2;margin-bottom:4px}
-.header h1 span{color:var(--gl);font-style:italic}
-.moon{font-size:26px;margin-bottom:4px;display:block}
-
-.user-bar{background:var(--ww);border-bottom:1px solid var(--br);padding:10px 12px}
-.user-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px}
-.user-field{flex:1;min-width:120px}
-.user-field label{display:block;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--t);font-weight:700;margin-bottom:2px}
-
-.tabs{display:flex;background:var(--ww);border-bottom:1px solid var(--br);position:sticky;top:0;z-index:10}
-.tab{flex:1;padding:12px 4px;border:none;background:none;font-family:'Lato',sans-serif;font-size:12px;font-weight:700;color:var(--ts);cursor:pointer;border-bottom:3px solid transparent;transition:all .2s}
-.tab.active{color:var(--t);border-bottom-color:var(--t)}
-
-.progress-wrap{background:var(--ww);padding:10px 12px;border-bottom:1px solid var(--br)}
-.progress-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
-.progress-label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--t);font-weight:700}
-.progress-num{font-family:'Playfair Display',serif;font-size:17px;color:var(--t);font-weight:600}
-.bar-track{height:6px;background:var(--tp);border-radius:100px;overflow:hidden}
-.bar-fill{height:100%;background:linear-gradient(90deg,var(--t),var(--go));border-radius:100px;transition:width .6s}
-.day-dots{display:flex;gap:4px;margin-top:10px;flex-wrap:wrap;justify-content:center}
-.dot{width:28px;height:28px;border-radius:50%;border:1px solid var(--br);background:var(--cr);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--ts);cursor:pointer}
-.dot.done{background:var(--t);border-color:var(--t);color:#fff}
-.dot.active{background:var(--gl);border-color:var(--go);color:var(--ch);transform:scale(1.15)}
-
-.main{padding:12px 12px 80px}
-.day-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:15px}
-.nav-btn{width:42px;height:42px;border-radius:50%;border:1px solid var(--br);background:var(--ww);color:var(--t);font-size:20px;cursor:pointer}
-.day-title{font-family:'Playfair Display',serif;font-size:22px;font-weight:600;color:var(--t);text-align:center}
-.day-date{border:none;border-bottom:1px dashed var(--br);background:transparent;font-size:12px;color:var(--ts);text-align:center;width:130px;display:block;margin:2px auto}
-
-.section{background:var(--ww);border-radius:14px;border:1px solid var(--br);margin-bottom:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.05)}
-.section-header{background:linear-gradient(135deg,var(--t),var(--t2));padding:10px 16px;color:#fff}
-.section-header h2{font-family:'Playfair Display',serif;font-size:15px;margin:0}
-
-.data-table{width:100%;border-collapse:collapse}
-.data-table tr{border-bottom:1px solid var(--br)}
-.data-table td{padding:12px 14px;vertical-align:middle;font-size:13px}
-input[type=text],input[type=time],input[type=number],textarea{border:1px solid var(--br);border-radius:8px;padding:8px;font-family:inherit;font-size:13px;background:var(--cr);width:100%}
-
-.yn-row{display:flex;gap:6px}
-.yn-btn{flex:1;padding:8px;border-radius:8px;border:1px solid var(--br);background:var(--cr);font-weight:700;font-size:12px;cursor:pointer}
-.yn-btn.sel-yes{background:var(--t);color:#fff;border-color:var(--t)}
-.yn-btn.sel-no{background:#c0756a;color:#fff;border-color:#c0756a}
-
-.count-row{display:flex;align-items:center;gap:15px}
-.cnt-btn{width:34px;height:34px;border-radius:50%;border:1.5px solid var(--t);background:none;color:var(--t);font-size:20px;font-weight:700;cursor:pointer}
-.cnt-val{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--t);min-width:30px;text-align:center}
-
-.scale-row{display:flex;gap:6px;flex-wrap:wrap}
-.scale-dot{width:38px;height:38px;border-radius:50%;border:1px solid var(--br);background:var(--cr);display:flex;align-items:center;justify-content:center;font-weight:700;cursor:pointer;color:var(--ts)}
-
-.save-btn{width:100%;padding:16px;background:linear-gradient(135deg,var(--t),var(--t2));color:#fff;border:none;border-radius:12px;font-size:16px;font-weight:700;cursor:pointer;margin-top:10px}
-
-.table-wrap{overflow-x:auto;padding:12px;background:#fff}
-table{width:100%;border-collapse:collapse;min-width:1000px;font-size:12px}
-th{background:var(--t);color:#fff;padding:10px 6px;text-align:left;text-transform:uppercase;font-size:10px}
-td{padding:10px 6px;border-bottom:1px solid var(--br)}
-
-.overlay{position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:100;display:flex;align-items:center;justify-content:center;padding:20px}
-.modal{background:var(--ww);border-radius:18px;padding:25px;width:100%;max-width:450px;text-align:center}
-.email-btn{display:block;width:100%;padding:15px;background:var(--t);color:#fff;border-radius:10px;text-decoration:none;font-weight:700;margin:15px 0}
-
-.toast{position:fixed;bottom:25px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--ch);color:#fff;padding:12px 25px;border-radius:50px;transition:0.4s;z-index:200}
-.toast.show{transform:translateX(-50%) translateY(0)}
-.hidden{display:none!important}
-</style>
-</head>
-<body>
-
-<div class="header">
-  <span class="moon">🌙</span>
-  <div class="header-logo">Hypno-Transformations</div>
-  <h1>Moj Dnevnik <span>Spanja</span></h1>
-</div>
-
-<div class="user-bar">
-  <div class="user-row">
-    <div class="user-field"><label>Ime</label><input type="text" id="uName" oninput="onUserChange()"></div>
-    <div class="user-field"><label>Email</label><input type="text" id="uEmail" oninput="onUserChange()"></div>
-  </div>
-</div>
-
-<div class="tabs">
-  <button class="tab active" onclick="switchTab('vnos',this)">✏️ VNOS</button>
-  <button class="tab" onclick="switchTab('pregled',this)">📋 PREGLED</button>
-</div>
-
-<div id="tab-vnos">
-  <div class="progress-wrap">
-    <div class="progress-top"><span class="progress-label">NAPREDEK</span><span class="progress-num" id="progNum">0/21</span></div>
-    <div class="bar-track"><div class="bar-fill" id="progBar"></div></div>
-    <div class="day-dots" id="dayDots"></div>
-  </div>
-
-  <div class="main">
-    <div class="day-nav">
-      <button class="nav-btn" onclick="changeDay(-1)">‹</button>
-      <div><div class="day-title" id="dayTitle">Dan 1</div><input type="text" class="day-date" id="fDate" placeholder="Datum" oninput="autosave()"></div>
-      <button class="nav-btn" onclick="changeDay(1)">›</button>
-    </div>
-
-    <div class="section">
-      <div class="section-header"><h2>Podatki o spanju</h2></div>
-      <table class="data-table">
-        <tr><td>Postelja (ura)</td><td><input type="time" id="fBed" oninput="autosave()"></td></tr>
-        <tr><td>Zaspal (min)</td><td><input type="number" id="fFall" oninput="autosave()"></td></tr>
-        <tr><td>Elektronika (min)</td><td><input type="number" id="fElec" oninput="autosave()"></td></tr>
-        <tr><td>Kava (ur prej)</td><td><input type="number" id="fCoffee" oninput="autosave()"></td></tr>
-        <tr><td>Alkohol (ur prej)</td><td><input type="text" id="fAlc" oninput="autosave()"></td></tr>
-        <tr><td>Hrana (ur prej)</td><td><input type="text" id="fFood" oninput="autosave()"></td></tr>
-        <tr><td>Skrbi zapisane?</td><td>
-          <div class="yn-row">
-            <button class="yn-btn" onclick="setYN('fQ',this,'da','yes')">Da</button>
-            <button class="yn-btn" onclick="setYN('fQ',this,'ne','no')">Ne</button>
-          </div>
-          <input type="hidden" id="fQ">
-        </td></tr>
-        <tr><td>Prebujanja</td><td>
-          <div class="count-row">
-            <button class="cnt-btn" onclick="changeCount(-1)">−</button>
-            <span class="cnt-val" id="wakeDisp">0</span>
-            <button class="cnt-btn" onclick="changeCount(1)">+</button>
-            <input type="hidden" id="fWake" value="0">
-          </div>
-        </td></tr>
-        <tr><td>Zaspali nazaj?</td><td>
-          <div class="yn-row">
-            <button class="yn-btn" onclick="setYN('fBack',this,'da','yes')">Da</button>
-            <button class="yn-btn" onclick="setYN('fBack',this,'ne','no')">Ne</button>
-          </div>
-          <input type="hidden" id="fBack">
-        </td></tr>
-        <tr><td>Vstajanje (ura)</td><td><input type="time" id="fGetup" oninput="autosave()"></td></tr>
-        <tr><td>Počutje (1-5)</td><td>
-          <div class="scale-row">
-            <div class="scale-dot" onclick="setScale(1)" data-n="1">1</div>
-            <div class="scale-dot" onclick="setScale(2)" data-n="2">2</div>
-            <div class="scale-dot" onclick="setScale(3)" data-n="3">3</div>
-            <div class="scale-dot" onclick="setScale(4)" data-n="4">4</div>
-            <div class="scale-dot" onclick="setScale(5)" data-n="5">5</div>
-          </div>
-          <input type="hidden" id="fMorn">
-        </td></tr>
-      </table>
-    </div>
-
-    <div class="section"><div class="section-header"><h2>Razveselilo me je (Aha)</h2></div><div style="padding:12px"><textarea id="fAha" oninput="autosave()"></textarea></div></div>
-    <div class="section"><div class="section-header"><h2>Namera za nocoj</h2></div><div style="padding:12px"><textarea id="fTip" oninput="autosave()"></textarea></div></div>
-
-    <button class="save-btn" onclick="saveDay()">💾 Shrani dan <span id="saveDayNum">1</span></button>
-  </div>
-</div>
-
-<div id="tab-pregled" class="hidden">
-  <div class="table-wrap">
-    <table>
-      <thead><tr><th>Dan</th><th>Postelja</th><th>Zaspal</th><th>Elek.</th><th>Kava</th><th>Alkohol</th><th>Hrana</th><th>Skrbi</th><th>Preb.</th><th>Nazaj</th><th>Vstajanje</th><th>Aha</th><th>Namera</th></tr></thead>
-      <tbody id="pregledBody"></tbody>
-    </table>
-  </div>
-</div>
-
-<div class="overlay hidden" id="modal" onclick="closeModal()">
-  <div class="modal" onclick="event.stopPropagation()">
-    <h2>Podatki shranjeni!</h2>
-    <p>Ne pozabite poslati potrditve preko emaila.</p>
-    <a class="email-btn" id="emailBtn" href="#">📧 Pošlji Email</a>
-    <button class="save-btn" style="background:#5a5a5a" onclick="closeModal()">Zapri</button>
-  </div>
-</div>
-
-<div class="toast" id="toast"></div>
-
-<script>
-const ADMIN='info@hypno-transformations.com';
-// SEM PRILEPI SVOJ NOV URL IZ DEPLOYMENTA
-const API_URL='https://script.google.com/macros/s/AKfycbwqI4CAqpL1GDWy0wkMv2Px5xkE6IcJTR0IyeK7waCgr-BOiFwxC3MCsU_nBZ95O4yU/exec';
-
-let currentDay=1, allData={}, savedDays={};
-
-window.addEventListener('load',()=>{
-  const s=localStorage.getItem('spanec21');
-  if(s){ const d=JSON.parse(s); allData=d.data||{}; savedDays=d.saved||{}; }
-  const su=localStorage.getItem('spanec21user');
-  if(su){ const u=JSON.parse(su); document.getElementById('uName').value=u.name||''; document.getElementById('uEmail').value=u.email||''; }
-  buildDots(); loadDay(1); updateProgress();
-});
-
-function switchTab(name,btn){
-  document.getElementById('tab-vnos').classList.toggle('hidden',name!=='vnos');
-  document.getElementById('tab-pregled').classList.toggle('hidden',name!=='pregled');
-  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  if(name==='pregled') loadFromApi();
-}
-
-function onUserChange(){
-  localStorage.setItem('spanec21user', JSON.stringify({name:document.getElementById('uName').value, email:document.getElementById('uEmail').value}));
-}
-
-function buildDots(){
-  const w=document.getElementById('dayDots'); w.innerHTML='';
-  for(let i=1;i<=21;i++){
-    const d=document.createElement('div');
-    d.className='dot'+(savedDays[i]?' done':'')+(i===currentDay?' active':'');
-    d.textContent=i; d.onclick=()=>{ currentDay=i; buildDots(); loadDay(i); };
-    w.appendChild(d);
-  }
-}
-
-function loadDay(n){
-  currentDay=n; document.getElementById('dayTitle').textContent='Dan '+n; document.getElementById('saveDayNum').textContent=n;
-  const d=allData[n]||{};
-  document.getElementById('fDate').value=d.date||'';
-  document.getElementById('fBed').value=d.bedtime||'';
-  document.getElementById('fFall').value=d.fallasleep||'';
-  document.getElementById('fElec').value=d.electronics||'';
-  document.getElementById('fCoffee').value=d.coffee||'';
-  document.getElementById('fAlc').value=d.alcohol||'';
-  document.getElementById('fFood').value=d.food||'';
-  document.getElementById('fQ').value=d.questions||'';
-  document.getElementById('fWake').value=d.wakeups||0;
-  document.getElementById('wakeDisp').textContent=d.wakeups||0;
-  document.getElementById('fBack').value=d.backasleep||'';
-  document.getElementById('fGetup').value=d.getup||'';
-  document.getElementById('fAha').value=d.aha||'';
-  document.getElementById('fTip').value=d.tip||'';
-  document.getElementById('fMorn').value=d.morn||'';
-  updateScaleUI(d.morn);
-  updateYNUI();
-}
-
-function autosave(){
-  if(!allData[currentDay])allData[currentDay]={};
-  const d=allData[currentDay];
-  d.date=document.getElementById('fDate').value;
-  d.bedtime=document.getElementById('fBed').value;
-  d.fallasleep=document.getElementById('fFall').value;
-  d.electronics=document.getElementById('fElec').value;
-  d.coffee=document.getElementById('fCoffee').value;
-  d.alcohol=document.getElementById('fAlc').value;
-  d.food=document.getElementById('fFood').value;
-  d.questions=document.getElementById('fQ').value;
-  d.wakeups=parseInt(document.getElementById('fWake').value)||0;
-  d.backasleep=document.getElementById('fBack').value;
-  d.getup=document.getElementById('fGetup').value;
-  d.aha=document.getElementById('fAha').value;
-  d.tip=document.getElementById('fTip').value;
-  d.morn=document.getElementById('fMorn').value;
-  localStorage.setItem('spanec21', JSON.stringify({data:allData,saved:savedDays}));
-}
-
-function setYN(id,btn,val,cls){
-  document.getElementById(id).value=val;
-  btn.parentElement.querySelectorAll('.yn-btn').forEach(b=>b.className='yn-btn');
-  btn.classList.add('sel-'+cls);
-  autosave();
-}
-
-function updateYNUI(){
-  ['fQ','fBack'].forEach(id=>{
-    const v=document.getElementById(id).value;
-    const row=document.getElementById(id).previousElementSibling;
-    row.querySelectorAll('.yn-btn').forEach(b=>{
-      b.className='yn-btn';
-      if(v==='da' && b.textContent==='Da') b.classList.add('sel-yes');
-      if(v==='ne' && b.textContent==='Ne') b.classList.add('sel-no');
-    });
-  });
-}
-
-function changeCount(delta){
-  const e=document.getElementById('fWake'); e.value=Math.max(0,(parseInt(e.value)||0)+delta);
-  document.getElementById('wakeDisp').textContent=e.value; autosave();
-}
-
-function setScale(n){
-  document.getElementById('fMorn').value=n; updateScaleUI(n); autosave();
-}
-
-function updateScaleUI(n){
-  document.querySelectorAll('.scale-dot').forEach(d=>{
-    const dn=d.getAttribute('data-n');
-    d.style.background=(dn==n)?'#2d6e6e':''; d.style.color=(dn==n)?'#fff':'';
-  });
-}
-
-function changeDay(delta){ currentDay=Math.max(1,Math.min(21,currentDay+delta)); buildDots(); loadDay(currentDay); }
-
-function updateProgress(){
-  const n=Object.keys(savedDays).length;
-  document.getElementById('progNum').textContent=n+'/21';
-  document.getElementById('progBar').style.width=(n/21*100)+'%';
-}
-
-function saveDay(){
-  const name=document.getElementById('uName').value.trim();
-  const email=document.getElementById('uEmail').value.trim();
-  if(!name||!email){ showToast('Vnesite ime in email!'); return; }
-  savedDays[currentDay]=true; autosave(); buildDots(); updateProgress();
-  const d=allData[currentDay];
-  const body=`Dnevnik Dan ${currentDay}\nPostelja: ${d.bedtime}\nZaspal min: ${d.fallasleep}\nPrebujanja: ${d.wakeups}\nAha: ${d.aha}`;
-  document.getElementById('emailBtn').href='mailto:'+ADMIN+'?cc='+email+'&subject=Dnevnik Spanja Dan '+currentDay+'&body='+encodeURIComponent(body);
-  document.getElementById('modal').classList.remove('hidden');
-}
-
-function closeModal(){ document.getElementById('modal').classList.add('hidden'); }
-
-async function loadFromApi(){
-  const n=document.getElementById('uName').value.trim(); if(!n) return;
-  const tb=document.getElementById('pregledBody'); tb.innerHTML='<tr><td colspan="13" style="text-align:center">Nalagam...</td></tr>';
-  try {
-    const r=await fetch(API_URL+'?ime='+encodeURIComponent(n));
-    const j=await r.json();
-    tb.innerHTML=(j.days||[]).map(d=>`
-      <tr>
-        <td>${d.Dan||''}</td><td>${d.bedtime||''}</td><td>${d.fallasleep||''}</td>
-        <td>${d.electronics||''}</td><td>${d.coffee||''}</td><td>${d.alcohol||''}</td>
-        <td>${d.food||''}</td><td>${d.questions||''}</td><td>${d.wakeups||''}</td>
-        <td>${d.backasleep||''}</td><td>${d.getup||''}</td><td>${d.aha||''}</td><td>${d.tip||''}</td>
-      </tr>
-    `).join('');
-  } catch(e){ tb.innerHTML='<tr><td colspan="13">Napaka pri nalaganju.</td></tr>'; }
-}
-
-function showToast(m){
-  const t=document.getElementById('toast'); t.textContent=m; t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),2500);
+        // Izris tabele s tvojimi točnimi imeni stolpcev
+        tb.innerHTML = json.days.map(d => `
+            <tr>
+                <td>${d['Dan'] || ''}</td>
+                <td>${d['Datum'] || ''}</td>
+                <td>${d['Kdaj ste sli zvecer v posteljo?'] || ''}</td>
+                <td>${d['Kdaj ste zjutraj vstali?'] || ''}</td>
+                <td>${d['Cas zaspatja (min)'] || ''}</td>
+                <td>${d['Elektronika (min)'] || ''}</td>
+                <td>${d['Kava (ur)'] || ''}</td>
+                <td>${d['Alkohol'] || ''}</td>
+                <td>${d['Hrana'] || ''}</td>
+                <td>${d['Vprasanja za jutri'] || ''}</td>
+                <td>${d['Prebujanja ponoci'] || ''}</td>
+                <td>${d['Zaspati nazaj'] || ''}</td>
+                <td>${d['Jutranje pocutje (1-5)'] || ''}</td>
+                <td>${d['Kaj vas je razveselilo'] || ''}</td>
+                <td>${d['Namera za nocoj'] || ''}</td>
+            </tr>
+        `).join('');
+    } catch(e) { 
+        tb.innerHTML = '<tr><td colspan="15" style="color:red">Napaka pri povezavi. Preveri, če je skripta objavljena.</td></tr>'; 
+    }
 }
 </script>
 </body>
