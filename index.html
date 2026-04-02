@@ -188,7 +188,8 @@ function sendMail() {
         mo: document.getElementById('morning').value
     };
 
-    const mailBody = `PODATKI — DAN ${dan}\n\n` +
+    // POPRAVLJENA VRSTICA ZA PARSER:
+    const mailBody = `${ime} je uspešno shranil/a Dan ${dan} od 21.\n\nPODATKI — DAN ${dan}\n\n` +
         `🌜 ZVEČER\n` +
         `Kdaj ste šli zvečer v posteljo?: ${d.bt}\n` +
         `Čas, da ste zaspali (v minutah): ${d.fa} min\n` +
@@ -204,7 +205,8 @@ function sendMail() {
         `Kdaj ste zjutraj vstali?: ${d.gu}\n` +
         `Vaše jutranje počutje (1-5): ${d.mo}`;
 
-    const subject = `Spanec Dan ${dan}/21 — ${ime}`;
+    // POPRAVLJEN SUBJECT Z EMOJIJEM:
+    const subject = `🌙 Spanec Dan ${dan}/21 — ${ime}`;
     window.location.href = `mailto:info@hypno-transformations.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(mailBody)}`;
 }
 </script>
