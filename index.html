@@ -14,12 +14,12 @@
         body { font-family: 'Segoe UI', sans-serif; background: var(--bg); margin: 0; padding: 10px; }
         .container { max-width: 500px; margin: 0 auto; background: white; padding: 20px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
         
-        /* LOGO IN NASLOV */
+        /* LOGO, NASLOV IN PODNASLOV */
         .logo-section { text-align: center; margin-bottom: 25px; }
-        .logo-section a { text-decoration: none; color: inherit; display: block; }
+        .logo-section a { text-decoration: none; color: inherit; display: inline-block; }
         .logo-section img { max-width: 100px; height: auto; display: block; margin: 0 auto 10px; }
         .logo-text { color: var(--teal); font-size: 24px; font-weight: bold; margin: 0; }
-        .sub-link { display: block; color: #666; font-size: 14px; margin-top: 5px; text-decoration: underline; }
+        .sub-link { display: block; color: #2d6e6e; font-size: 14px; margin-top: 5px; text-decoration: underline; font-weight: 500; }
 
         .tabs { display: flex; margin-bottom: 20px; background: #eee; border-radius: 10px; padding: 4px; }
         .tab { flex: 1; text-align: center; padding: 12px; cursor: pointer; font-weight: bold; color: #666; border-radius: 8px; }
@@ -43,7 +43,7 @@
 
         .chart-card { background: #fff; border: 1px solid #ddd; border-radius: 12px; padding: 10px; margin-top: 10px; height: 350px; }
 
-        /* GUMB NAMESTITEV - VRNJEN NA PREJŠNJO VERZIJO */
+        /* GUMB NAMESTITEV - FIKSEN V VSEBINI */
         .pwa-hint { margin-top: 30px; text-align: center; font-size: 0.8em; color: #888; border-top: 1px solid #eee; padding-top: 15px; }
         .pwa-btn { display: inline-block; padding: 8px 15px; background: #eee; border-radius: 20px; font-weight: bold; cursor: pointer; margin-top: 10px; color: #555; }
     </style>
@@ -94,7 +94,7 @@
 
         <div class="pwa-hint">
             Želite hitrejši dostop? <br>
-            <div class="pwa-btn" onclick="alert('Android: Kliknite na tri pike zgoraj in izberite Dodaj na začetni zaslon.\niPhone: Kliknite gumb Deli (kvadratek s puščico) in izberite Dodaj na začetni zaslon.')">Dodaj na namizje telefona</div>
+            <div class="pwa-btn" onclick="alert('Android: Tri pike > Dodaj na začetni zaslon.\niPhone: Deli > Dodaj na začetni zaslon.')">Dodaj na namizje telefona</div>
         </div>
     </div>
 
@@ -109,8 +109,8 @@
             <option value="wakeups">Število prebujanj ponoči</option>
             <option value="questions">Zapisana vprašanja/skrbi (DA/NE)</option>
             <option value="backasleep">Uspeli zaspati nazaj (DA/NE)</option>
-            <option value="bedtime">Kdaj ste šli zvečer v posteljo?</option>
-            <option value="getup">Kdaj ste zjutraj vstali?</option>
+            <option value="bedtime">Ura odhoda v posteljo</option>
+            <option value="getup">Ura vstajanja</option>
         </select>
         <div class="chart-card"><canvas id="progressChart"></canvas></div>
     </div>
