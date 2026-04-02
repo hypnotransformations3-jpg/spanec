@@ -43,7 +43,7 @@
 
         .chart-card { background: #fff; border: 1px solid #ddd; border-radius: 12px; padding: 10px; margin-top: 10px; height: 350px; }
 
-        /* GUMB NAMESTITEV - FIKSEN V VSEBINI */
+        /* GUMB NAMESTITEV */
         .pwa-hint { margin-top: 30px; text-align: center; font-size: 0.8em; color: #888; border-top: 1px solid #eee; padding-top: 15px; }
         .pwa-btn { display: inline-block; padding: 8px 15px; background: #eee; border-radius: 20px; font-weight: bold; cursor: pointer; margin-top: 10px; color: #555; }
     </style>
@@ -109,8 +109,6 @@
             <option value="wakeups">Število prebujanj ponoči</option>
             <option value="questions">Zapisana vprašanja/skrbi (DA/NE)</option>
             <option value="backasleep">Uspeli zaspati nazaj (DA/NE)</option>
-            <option value="bedtime">Ura odhoda v posteljo</option>
-            <option value="getup">Ura vstajanja</option>
         </select>
         <div class="chart-card"><canvas id="progressChart"></canvas></div>
     </div>
@@ -158,13 +156,8 @@ function drawChart() {
     const sorted = [...SERVER_DATA].sort((a,b) => a.dan - b.dan);
     const labels = sorted.map(d => "D" + d.dan);
     const isBinary = (param === 'questions' || param === 'backasleep');
-    const isTime = (param === 'bedtime' || param === 'getup');
 
-    const values = sorted.map(d => {
-        if (isBinary) return (d[param] === 'da' ? 1 : 0);
-        if (isTime) return timeToDecimal(d[param]);
-        return parseFloat(d[param]) || 0;
-    });
+    const values = sorted.map(d => isBinary ? (d[param] === 'da' ? 1 : 0) : (parseFloat(d[param]) || 0));
 
     const ctx = document.getElementById('progressChart').getContext('2d');
     if (chartInstance) chartInstance.destroy();
@@ -177,15 +170,7 @@ function drawChart() {
         options: {
             responsive: true, maintainAspectRatio: false,
             scales: {
-                y: { ticks: { callback: v => {
-                    if (isBinary) return (v === 1 ? 'DA' : (v === 0 ? 'NE' : ''));
-                    if (isTime) {
-                        let h = Math.floor(v);
-                        let m = Math.round((v - h) * 60);
-                        return h + ":" + (m < 10 ? '0' + m : m);
-                    }
-                    return v;
-                } } }
+                y: { ticks: { callback: v => isBinary ? (v === 1 ? 'DA' : (v === 0 ? 'NE' : '')) : v } }
             },
             plugins: { legend: { display: false } }
         }
@@ -207,7 +192,40 @@ window.onload = async () => {
 function sendMail() {
     const ime = document.getElementById('uName').value;
     const dan = document.getElementById('selDay').value;
-    window.location.href = `mailto:info@hypno-transformations.com?subject=Spanec D${dan} - ${ime}&body=Poročilo za dan ${dan}`;
+    
+    // Zbiranje podatkov iz obrazca
+    const d = {
+        bt: document.getElementById('bedtime').value,
+        fa: document.getElementById('fallasleep').value,
+        el: document.getElementById('electronics').value,
+        cf: document.getElementById('coffee').value,
+        al: document.getElementById('alcohol').value,
+        fd: document.getElementById('food').value,
+        qs: document.getElementById('questions').value,
+        wu: document.getElementById('wakeups').value,
+        ba: document.getElementById('backasleep').value,
+        gu: document.getElementById('getup').value,
+        mo: document.getElementById('morning').value
+    };
+
+    const mailBody = `PODATKI — DAN ${dan}\n\n` +
+        `🌜 ZVEČER\n` +
+        `Kdaj ste šli zvečer v posteljo?: ${d.bt}\n` +
+        `Čas, da ste zaspali (ocena v minutah): ${d.fa} min\n` +
+        `Ugasnjena elektronika (koliko minut pred spanjem): ${d.el} min\n` +
+        `Zadnja kava (koliko ur pred spanjem): ${d.cf} ur\n` +
+        `Zadnji alkohol (koliko ur pred spanjem): ${d.al} ur\n` +
+        `Zadnji obrok / hrana (koliko ur pred spanjem): ${d.fd} ur\n` +
+        `Zapisana vprašanja/skrbi za jutri?: ${d.qs}\n\n` +
+        `😴 PONOČI\n` +
+        `Število prebujanj ponoči: ${d.wu}\n` +
+        `Ste uspeli zaspati nazaj?: ${d.ba}\n\n` +
+        `🌞 ZJUTRAJ\n` +
+        `Kdaj ste zjutraj vstali?: ${d.gu}\n` +
+        `Vaše jutranje počutje (1-5): ${d.mo}`;
+
+    const subject = `Spanec Dan ${dan}/21 — ${ime}`;
+    window.location.href = `mailto:info@hypno-transformations.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(mailBody)}`;
 }
 </script>
 </body>
