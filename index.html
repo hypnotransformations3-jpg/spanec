@@ -10,7 +10,221 @@
   --t:#2d6e6e;--t2:#3d8b8b;--tl:#5aacac;--tp:#d0eaea;
   --go:#c8a96e;--gl:#e8cfa0;
   --cr:#f9f4ee;--ww:#fdfaf6;--ch:#2c2c2c;--ts:#5a5a5a;--br:#e0d8ce;
+}<!DOCTYPE html>
+<html lang="sl-SI">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Moj Dnevnik Spanja · Hypno-Transformations</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --t:#2d6e6e; --t2:#3d8b8b; --gl:#e8cfa0; --cr:#f9f4ee; --ww:#fdfaf6; --br:#e0d8ce; --ch:#2c2c2c;
 }
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Lato',sans-serif;background:var(--cr);color:var(--ch);line-height:1.5}
+
+/* Header & Tabs */
+.header{background:linear-gradient(135deg,var(--t),var(--t2));padding:20px;text-align:center;color:#fff}
+.header h1{font-family:'Playfair Display',serif;font-size:22px}
+.header h1 span{color:var(--gl)}
+
+.tabs{display:flex;background:var(--ww);border-bottom:1px solid var(--br);sticky:top;z-index:10}
+.tab{flex:1;padding:15px;border:none;background:none;font-weight:700;color:#5a5a5a;cursor:pointer}
+.tab.active{color:var(--t);border-bottom:3px solid var(--t)}
+
+/* User info */
+.user-bar{background:var(--ww);padding:15px;border-bottom:1px solid var(--br);display:flex;gap:10px}
+.user-field{flex:1}
+.user-field label{display:block;font-size:10px;font-weight:700;color:var(--t);text-transform:uppercase;margin-bottom:3px}
+input, textarea{width:100%;padding:10px;border:1px solid var(--br);border-radius:8px;background:var(--cr);font-family:inherit}
+
+/* Forms */
+.main{padding:15px;padding-bottom:100px}
+.section{background:var(--ww);border:1px solid var(--br);border-radius:15px;margin-bottom:15px;overflow:hidden}
+.section-header{background:var(--t);color:#fff;padding:10px 15px;font-family:'Playfair Display',serif;font-size:14px}
+.data-table{width:100%;border-collapse:collapse}
+.data-table td{padding:12px 15px;border-bottom:1px solid var(--br);font-size:13px}
+.data-table td:first-child{width:60%}
+
+/* Buttons */
+.yn-row{display:flex;gap:5px}
+.yn-btn{flex:1;padding:8px;border:1px solid var(--br);border-radius:5px;cursor:pointer;font-weight:700;background:#eee}
+.yn-btn.active-da{background:var(--t);color:#fff}
+.yn-btn.active-ne{background:#c0756a;color:#fff}
+.save-btn{width:100%;padding:18px;background:var(--t);color:#fff;border:none;border-radius:12px;font-weight:700;font-size:16px;cursor:pointer}
+
+/* Table Preview */
+.table-wrap{overflow-x:auto;padding:10px;background:#fff}
+table{width:100%;border-collapse:collapse;min-width:1500px;font-size:11px}
+th{background:var(--t);color:#fff;padding:10px;text-align:left}
+td{padding:8px;border-bottom:1px solid var(--br)}
+
+.modal{position:fixed;inset:0;background:rgba(0,0,0,0.7);display:flex;align-items:center;justify-content:center;padding:20px;z-index:100}
+.modal-content{background:#fff;padding:25px;border-radius:20px;text-align:center;max-width:400px;width:100%}
+.hidden{display:none}
+</style>
+</head>
+<body>
+
+<div class="header"><h1>Moj Dnevnik <span>Spanja</span></h1></div>
+
+<div class="user-bar">
+  <div class="user-field"><label>Ime</label><input type="text" id="uName"></div>
+  <div class="user-field"><label>Email</label><input type="text" id="uEmail"></div>
+</div>
+
+<div class="tabs">
+  <button class="tab active" onclick="switchTab('vnos',this)">VNOS</button>
+  <button class="tab" onclick="switchTab('pregled',this)">PREGLED</button>
+</div>
+
+<div id="tab-vnos" class="main">
+  <div class="section">
+    <div class="section-header">Večerni in jutranji podatki</div>
+    <table class="data-table">
+      <tr><td>Kdaj ste šli zvečer v posteljo?</td><td><input type="time" id="f1"></td></tr>
+      <tr><td>Čas, da ste zaspali (min)</td><td><input type="number" id="f2"></td></tr>
+      <tr><td>Ugasnjena elektronika (min prej)</td><td><input type="number" id="f3"></td></tr>
+      <tr><td>Zadnja kava (ur prej)</td><td><input type="number" id="f4"></td></tr>
+      <tr><td>Zadnji alkohol (ur prej)</td><td><input type="text" id="f5"></td></tr>
+      <tr><td>Zadnji obrok / hrana (ur prej)</td><td><input type="text" id="f6"></td></tr>
+      <tr><td>Zapisana vprašanja/skrbi za jutri?</td><td>
+        <div class="yn-row">
+          <button class="yn-btn" id="btn7da" onclick="setYN('f7','da')">Da</button>
+          <button class="yn-btn" id="btn7ne" onclick="setYN('f7','ne')">Ne</button>
+        </div>
+        <input type="hidden" id="f7">
+      </td></tr>
+      <tr><td>Število prebujanj ponoči</td><td><input type="number" id="f8" value="0"></td></tr>
+      <tr><td>Ste uspeli zaspati nazaj?</td><td>
+        <div class="yn-row">
+          <button class="yn-btn" id="btn9da" onclick="setYN('f9','da')">Da</button>
+          <button class="yn-btn" id="btn9ne" onclick="setYN('f9','ne')">Ne</button>
+        </div>
+        <input type="hidden" id="f9">
+      </td></tr>
+      <tr><td>Kdaj ste zjutraj vstali?</td><td><input type="time" id="f10"></td></tr>
+      <tr><td>Počutje (1-5)</td><td><input type="number" id="f11" min="1" max="5"></td></tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <div class="section-header">Refleksija</div>
+    <div style="padding:15px">
+      <label style="font-size:12px">Kaj vas je danes razveselilo?</label>
+      <textarea id="f12" rows="2"></textarea>
+      <label style="font-size:12px; margin-top:10px; display:block">Namera za nocoj</label>
+      <textarea id="f13" rows="2"></textarea>
+    </div>
+  </div>
+
+  <button class="save-btn" onclick="sendData()">💾 SHRAI IN POŠLJI</button>
+</div>
+
+<div id="tab-pregled" class="hidden">
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Dan</th><th>Postelja</th><th>Zaspal</th><th>Elek.</th><th>Kava</th><th>Alkohol</th><th>Hrana</th><th>Skrbi</th><th>Preb.</th><th>Nazaj</th><th>Vstajanje</th><th>Počutje</th><th>Aha moment</th><th>Namera</th>
+        </tr>
+      </thead>
+      <tbody id="pregledBody"></tbody>
+    </table>
+  </div>
+</div>
+
+<div id="modal" class="modal hidden">
+  <div class="modal-content">
+    <h2>Vnos pripravljen!</h2>
+    <p>Kliknite spodnji gumb, da odprete email aplikacijo in potrdite pošiljanje.</p>
+    <a id="emailLink" class="save-btn" style="display:block; text-decoration:none; margin-top:20px">ODPRI EMAIL</a>
+    <button onclick="closeModal()" style="margin-top:15px; background:none; border:none; color:grey; cursor:pointer">Zapri</button>
+  </div>
+</div>
+
+<script>
+// TUKAJ PRILEPI SVOJ URL IZ DEPLOYMENTA
+const API_URL = 'https://script.google.com/macros/s/AKfycbws4fF9tMmrEQN6aRxyVaMsscHMQqgsc2qo6h_hHu_NfL4WDbBDYfrZ6wKrlcT8Sop4/exec';
+const ADMIN_EMAIL = 'info@hypno-transformations.com';
+
+function switchTab(name, btn) {
+  document.getElementById('tab-vnos').classList.toggle('hidden', name !== 'vnos');
+  document.getElementById('tab-pregled').classList.toggle('hidden', name !== 'pregled');
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  if(name === 'pregled') loadFromApi();
+}
+
+function setYN(field, val) {
+  document.getElementById(field).value = val;
+  const is7 = (field === 'f7');
+  document.getElementById(is7 ? 'btn7da' : 'btn9da').className = 'yn-btn' + (val === 'da' ? ' active-da' : '');
+  document.getElementById(is7 ? 'btn7ne' : 'btn9ne').className = 'yn-btn' + (val === 'ne' ? ' active-ne' : '');
+}
+
+function sendData() {
+  const name = document.getElementById('uName').value;
+  const email = document.getElementById('uEmail').value;
+  if(!name || !email) { alert("Vpišite ime in email!"); return; }
+
+  // Sestavi telo emaila TOČNO tako, kot zahteva tvoj emailParser (natančna vprašanja)
+  const body = `DNEVNIK SPANJA\n\n` +
+    `Kdaj ste šli zvečer v posteljo?: ${document.getElementById('f1').value}\n` +
+    `Čas, da ste zaspali (ocena v minutah): ${document.getElementById('f2').value} min\n` +
+    `Ugasnjena elektronika (min pred spanjem): ${document.getElementById('f3').value} min\n` +
+    `Zadnja kava (koliko ur pred spanjem): ${document.getElementById('f4').value} ur\n` +
+    `Zadnji alkohol (koliko ur pred spanjem): ${document.getElementById('f5').value}\n` +
+    `Zadnji obrok / hrana (koliko ur pred spanjem): ${document.getElementById('f6').value}\n` +
+    `Zapisana vprašanja/skrbi za jutri?: ${document.getElementById('f7').value}\n` +
+    `Število prebujanj ponoči: ${document.getElementById('f8').value}\n` +
+    `Ste uspeli zaspati nazaj?: ${document.getElementById('f9').value}\n` +
+    `Kdaj ste zjutraj vstali?: ${document.getElementById('f10').value}\n` +
+    `Vaše jutranje počutje (1: slabo – 5: super): ${document.getElementById('f11').value}\n` +
+    `Kaj vas je danes razveselilo?: ${document.getElementById('f12').value}\n` +
+    `Zapišite si svojo namero za nocoj: ${document.getElementById('f13').value}`;
+
+  const mailtoUrl = `mailto:${ADMIN_EMAIL}?cc=${email}&subject=Dnevnik Spanja: ${name}&body=${encodeURIComponent(body)}`;
+  document.getElementById('emailLink').href = mailtoUrl;
+  document.getElementById('modal').classList.remove('hidden');
+}
+
+function closeModal() { document.getElementById('modal').classList.add('hidden'); }
+
+async function loadFromApi() {
+  const name = document.getElementById('uName').value;
+  const tb = document.getElementById('pregledBody');
+  if(!name) { tb.innerHTML = '<tr><td colspan="14">Vnesite ime zgoraj za ogled podatkov.</td></tr>'; return; }
+  
+  tb.innerHTML = '<tr><td colspan="14">Nalagam podatke...</td></tr>';
+  try {
+    const res = await fetch(API_URL + '?ime=' + encodeURIComponent(name));
+    const json = await res.json();
+    
+    tb.innerHTML = (json.days || []).map(d => `
+      <tr>
+        <td>${d['Dan'] || ''}</td>
+        <td>${d['Kdaj ste šli zvečer v posteljo?'] || ''}</td>
+        <td>${d['Čas, da ste zaspali (ocena v minutah)'] || ''}</td>
+        <td>${d['Ugasnjena elektronika (min pred spanjem)'] || ''}</td>
+        <td>${d['Zadnja kava (koliko ur pred spanjem)'] || ''}</td>
+        <td>${d['Zadnji alkohol (koliko ur pred spanjem)'] || ''}</td>
+        <td>${d['Zadnji obrok / hrana (koliko ur pred spanjem)'] || ''}</td>
+        <td>${d['Zapisana vprašanja/skrbi za jutri?'] || ''}</td>
+        <td>${d['Število prebujanj ponoči'] || ''}</td>
+        <td>${d['Ste uspeli zaspati nazaj?'] || ''}</td>
+        <td>${d['Kdaj ste zjutraj vstali?'] || ''}</td>
+        <td>${d['Vaše jutranje počutje (1: slabo – 5: super)'] || ''}</td>
+        <td>${d['Kaj vas je danes razveselilo?'] || ''}</td>
+        <td>${d['Zapišite si svojo namero za nocoj'] || ''}</td>
+      </tr>
+    `).join('');
+  } catch(e) { tb.innerHTML = '<tr><td colspan="14">Napaka pri branju. Preverite API URL.</td></tr>'; }
+}
+</script>
+</body>
+</html>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Lato',sans-serif;background:var(--cr);color:var(--ch);min-height:100vh}
 
