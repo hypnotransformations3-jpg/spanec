@@ -630,67 +630,47 @@ async function loadFromApi() {
 }
 
 function buildPregled(){
-  const tbody=document.getElementById('pregledBody');
-  tbody.innerHTML='';
-  const days = (apiData && apiData.days && apiData.days.length > 0) ? apiData.days : [];
-  if (days.length === 0) {
-    tbody.innerHTML='<tr><td colspan="8" style="text-align:center;padding:20px;color:var(--ts)">Ni podatkov. Najprej vnesite podatke in pošljite email.</td></tr>';
-    return;
-  }
-  // Ustvari map dan -> podatki
-  const dayMap = {};
-  days.forEach(function(d) { dayMap[d['Dan']] = d; });
-  for(let i=1;i<=21;i++){
-    const d=dayMap[i]||{};
-    const has=Object.keys(d).length>0;
-    const tr=document.createElement('tr');
-    const e=v=>'<td>'+(v!=null&&v!==''?v:'<span class="td-empty">·</span>')+'</td>';
-    const morn=d['Jutranje pocutje (1-5)'];
-    tr.innerHTML='<td class="td-day">Dan '+i+(d['Datum']?'<br><small style="font-size:9px;color:var(--ts)">'+d['Datum']+'</small>':'')+'</td>'
-      +e(d['Kdaj ste sli zvecer v posteljo?'])
-      +e(d['Kdaj ste zjutraj vstali?'])
-      +e(d['Cas zaspatja (min)']?(d['Cas zaspatja (min)']+'min'):'')
-      +e(d['Prebujanja ponoci']!=null?String(d['Prebujanja ponoci']):'')
-      +'<td>'+(morn?'⭐'.repeat(parseInt(morn)):'<span class="td-empty">·</span>')+'</td>'
-      +e(d['Vprasanja za jutri'])
-      +'<td style="max-width:120px;font-size:11px">'+(d['Kaj vas je razveselilo']||'<span class="td-empty">·</span>')+'</td>';
-    tbody.appendChild(tr);
-  }
-}
-
-function buildVpogledi(){
-  const stats = apiData && apiData.stats ? apiData.stats : null;
-  const days = apiData && apiData.days ? apiData.days : [];
+  const tbody = document.getElementById('pregledBody');
+  tbody.innerHTML = '';
+  const days = (apiData && apiData.days) ? apiData.days : [];
   
-  if (!stats || days.length === 0) {
-    document.getElementById('insightGrid').innerHTML='<div style="padding:20px;color:var(--ts);font-size:13px;text-align:center">Ni podatkov za prikaz vpogledov.</div>';
+  if (days.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:20px;color:var(--ts)">Ni podatkov. Najprej vnesite podatke v zavihku Vnos.</td></tr>';
     return;
   }
 
-  document.getElementById('insightGrid').innerHTML=[
-    {i:'📅',v:stats.dniSkupaj,l:'Dni shranjenih'},
-    {i:'⭐',v:stats.avgPocutje,l:'Povp. počutje (1-5)'},
-    {i:'⏳',v:stats.avgZaspatje+'min',l:'Povp. zaspatje'},
-    {i:'🌜',v:stats.skupajPrebujanj,l:'Skupaj prebujanj'},
-    {i:'☕',v:stats.avgKava,l:'Povp. kava (ur)'},
-    {i:'📵',v:stats.avgElektronika+'min',l:'Povp. elektronika'},
-    {i:'📝',v:stats.vprasanjaPct+'%',l:'Vprašanja za jutri'},
-    {i:'💤',v:stats.zaspatNazajPct+'%',l:'Zaspati nazaj'},
-    {i:'🌿',v:Math.round(stats.dniSkupaj/21*100)+'%',l:'Napredek programa'},
-  ].map(c=>'<div class="insight-card"><div class="insight-icon">'+c.i+'</div><div class="insight-val">'+c.v+'</div><div class="insight-label">'+c.l+'</div></div>').join('');
-
-  // Trend počutja
-  if(days.length>0){
-    document.getElementById('trendBox').style.display='block';
-    const dayMap={};
-    days.forEach(function(d){dayMap[d['Dan']]=d;});
-    document.getElementById('trendBars').innerHTML=Array.from({length:21},(_,i)=>i+1).map(n=>{
-      const d=dayMap[n];
-      const v=d?parseInt(d['Jutranje pocutje (1-5)'])||0:0;
-      return '<div class="bar-col"><div class="bar" style="height:'+(v?v*9:2)+'px;background:'+(v?SC[v]:'var(--br)')+'"></div><div class="bar-n">'+n+'</div></div>';
-    }).join('');
-  }
+  tbody.innerHTML = days.map(d => `
+    <tr>
+      <td class="td-day">Dan ${d['Dan'] || '—'}</td>
+      <td>${d['Kdaj ste sli zvecer v posteljo?'] || '—'}</td>
+      <td>${d['Kdaj ste zjutraj vstali?'] || '—'}</td>
+      <td>${d['Cas zaspatja (min)'] || '0'} min</td>
+      <td>${d['Prebujanja ponoci'] || '0'}×</td>
+      <td style="color:${SC[parseInt(d['Jutranje pocutje (1-5)']) || 0] || 'var(--ts)'}"><b>${d['Jutranje pocutje (1-5)'] || '—'}</b></td>
+      <td>${d['Vprasanja za jutri'] || '—'}</td>
+      <td style="font-size:10px">${d['Kaj vas je razveselilo'] || '—'}</td>
+    </tr>
+  `).join('');
 }
-</script>
-</body>
-</html>
+
+function buildVpogledi() {
+  const grid = document.getElementById('insightGrid');
+  const s = apiData.stats;
+  if(!s) return;
+
+  const cards = [
+    {lbl:'Povprečno počutje', val: s.avgPocutje + '/5', icon:'⭐'},
+    {lbl:'Povprečno zaspatje', val: s.avgZaspatje + ' min', icon:'⏳'},
+    {lbl:'Skupaj prebujanj', val: s.skupajPrebujanj + '×', icon:'🌜'},
+    {lbl:'Povprečna kava', val: s.avgKava + ' ur', icon:'☕'}
+  ];
+
+  grid.innerHTML = cards.map(c => `
+    <div class="insight-card">
+      <div class="insight-icon">${c.icon}</div>
+      <div class="insight-val">${c.val}</div>
+      <div class="insight-label">${c.lbl}</div>
+    </div>
+  `).join('');
+}
+</script></body></html>
