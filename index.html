@@ -2,187 +2,171 @@
 <html lang="sl-SI">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-    <title>Moj Dnevnik Spanja</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dnevnik Spanja</title>
     <style>
-        :root { --t:#2d6e6e; --t2:#3d8b8b; --gl:#e8cfa0; --cr:#f9f4ee; --ww:#fdfaf6; --br:#e0d8ce; }
-        *{margin:0;padding:0;box-sizing:border-box}
-        body{font-family:'Lato',sans-serif;background:var(--cr);color:#2c2c2c}
-        .header{background:linear-gradient(135deg,var(--t),var(--t2));padding:20px;text-align:center;color:#fff}
-        .header h1{font-family:'Playfair Display',serif;font-size:22px}
-        .tabs{display:flex;background:var(--ww);border-bottom:1px solid var(--br);position:sticky;top:0;z-index:10}
-        .tab{flex:1;padding:15px;border:none;background:none;font-weight:700;color:#5a5a5a;cursor:pointer}
-        .tab.active{color:var(--t);border-bottom:3px solid var(--t)}
-        .user-bar{background:var(--ww);padding:15px;border-bottom:1px solid var(--br);display:flex;gap:10px}
-        .user-field{flex:1}
-        .user-field label{display:block;font-size:10px;font-weight:700;color:var(--t);text-transform:uppercase;margin-bottom:3px}
-        input, textarea{width:100%;padding:10px;border:1px solid var(--br);border-radius:8px;background:var(--cr);font-family:inherit}
-        .main{padding:15px;padding-bottom:100px}
-        .section{background:var(--ww);border:1px solid var(--br);border-radius:15px;margin-bottom:15px;overflow:hidden}
-        .section-header{background:var(--t);color:#fff;padding:10px 15px;font-size:14px}
-        .data-table{width:100%;border-collapse:collapse}
-        .data-table td{padding:12px 15px;border-bottom:1px solid var(--br);font-size:13px}
-        .yn-row{display:flex;gap:5px}
-        .yn-btn{flex:1;padding:8px;border:1px solid var(--br);border-radius:5px;cursor:pointer;font-weight:700;background:#eee}
-        .save-btn{width:100%;padding:18px;background:var(--t);color:#fff;border:none;border-radius:12px;font-weight:700;font-size:16px;cursor:pointer}
-        .table-wrap{overflow-x:auto;padding:10px;background:#fff}
-        table{width:100%;border-collapse:collapse;min-width:1600px;font-size:11px}
-        th{background:var(--t);color:#fff;padding:10px;text-align:left}
-        td{padding:8px;border-bottom:1px solid var(--br)}
-        .modal{position:fixed;inset:0;background:rgba(0,0,0,0.7);display:flex;align-items:center;justify-content:center;padding:20px;z-index:100}
-        .modal-content{background:#fff;padding:25px;border-radius:20px;text-align:center;max-width:400px;width:100%}
-        .hidden{display:none}
-        .active-da{background:var(--t) !important; color:#fff !important}
-        .active-ne{background:#c0756a !important; color:#fff !important}
+        body { font-family: sans-serif; padding: 20px; background: #f4f7f7; color: #333; }
+        .box { background: white; padding: 20px; border-radius: 10px; border: 1px solid #ccc; max-width: 600px; margin: auto; }
+        h2 { color: #2d6e6e; border-bottom: 2px solid #2d6e6e; padding-bottom: 10px; }
+        .field { margin-bottom: 15px; }
+        label { display: block; font-weight: bold; font-size: 0.9em; margin-bottom: 5px; }
+        input, textarea, select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box; }
+        .btn { background: #2d6e6e; color: white; padding: 15px; border: none; width: 100%; border-radius: 5px; font-weight: bold; cursor: pointer; font-size: 16px; }
+        .tabs { display: flex; margin-bottom: 20px; justify-content: center; }
+        .tab { padding: 10px 20px; cursor: pointer; border-bottom: 3px solid transparent; font-weight: bold; }
+        .tab.active { border-bottom: 3px solid #2d6e6e; color: #2d6e6e; }
+        .hidden { display: none; }
+        table { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background: #2d6e6e; color: white; }
     </style>
 </head>
 <body>
 
-<div class="header"><h1>Moj Dnevnik <span>Spanja</span></h1></div>
-
-<div class="user-bar">
-    <div class="user-field"><label>Ime (za iskanje v bazi)</label><input type="text" id="uName"></div>
-    <div class="user-field"><label>Email</label><input type="text" id="uEmail"></div>
-</div>
-
 <div class="tabs">
-    <button class="tab active" onclick="switchTab('vnos',this)">VNOS</button>
-    <button class="tab" onclick="switchTab('pregled',this)">PREGLED</button>
+    <div id="t1" class="tab active" onclick="prikazi('vnos')">VNOS PODATKOV</div>
+    <div id="t2" class="tab" onclick="prikazi('pregled')">DNEVI NAPREDKA</div>
 </div>
 
-<div id="tab-vnos" class="main">
-    <div class="section">
-        <div class="section-header">Današnji vnos</div>
-        <table class="data-table">
-            <tr><td>Kdaj ste sli zvecer v posteljo?</td><td><input type="time" id="f1"></td></tr>
-            <tr><td>Kdaj ste zjutraj vstali?</td><td><input type="time" id="f2"></td></tr>
-            <tr><td>Cas zaspatja (min)</td><td><input type="number" id="f3"></td></tr>
-            <tr><td>Elektronika (min)</td><td><input type="number" id="f4"></td></tr>
-            <tr><td>Kava (ur)</td><td><input type="number" id="f5"></td></tr>
-            <tr><td>Alkohol</td><td><input type="text" id="f6"></td></tr>
-            <tr><td>Hrana</td><td><input type="text" id="f7"></td></tr>
-            <tr><td>Vprasanja za jutri</td><td>
-                <div class="yn-row">
-                    <button class="yn-btn" id="btn8da" onclick="setYN('f8','da')">Da</button>
-                    <button class="yn-btn" id="btn8ne" onclick="setYN('f8','ne')">Ne</button>
-                </div>
-                <input type="hidden" id="f8">
-            </td></tr>
-            <tr><td>Prebujanja ponoci</td><td><input type="number" id="f9" value="0"></td></tr>
-            <tr><td>Zaspati nazaj</td><td>
-                <div class="yn-row">
-                    <button class="yn-btn" id="btn10da" onclick="setYN('f10','da')">Da</button>
-                    <button class="yn-btn" id="btn10ne" onclick="setYN('f10','ne')">Ne</button>
-                </div>
-                <input type="hidden" id="f10">
-            </td></tr>
-            <tr><td>Jutranje pocutje (1-5)</td><td><input type="number" id="f11" min="1" max="5"></td></tr>
-        </table>
+<div id="vnos" class="box">
+    <h2>Vnos za: <span id="izpisIme">...</span></h2>
+    
+    <input type="hidden" id="uName">
+    <input type="hidden" id="uEmail">
+
+    <div class="field">
+        <label>Kdaj ste sli zvecer v posteljo?</label>
+        <input type="time" id="f1">
     </div>
-    <div class="section" style="padding:15px">
-        <label>Kaj vas je razveselilo</label><textarea id="f12"></textarea>
-        <label style="display:block; margin-top:10px">Namera za nocoj</label><textarea id="f13"></textarea>
+    <div class="field">
+        <label>Kdaj ste zjutraj vstali?</label>
+        <input type="time" id="f2">
     </div>
-    <button class="save-btn" onclick="sendData()">💾 SHRAI IN POŠLJI</button>
+    <div class="field">
+        <label>Cas zaspatja (min)</label>
+        <input type="number" id="f3">
+    </div>
+    <div class="field">
+        <label>Elektronika (min)</label>
+        <input type="number" id="f4">
+    </div>
+    <div class="field">
+        <label>Kava (ur)</label>
+        <input type="number" id="f5">
+    </div>
+    <div class="field">
+        <label>Alkohol</label>
+        <input type="text" id="f6">
+    </div>
+    <div class="field">
+        <label>Hrana</label>
+        <input type="text" id="f7">
+    </div>
+    <div class="field">
+        <label>Vprasanja za jutri (Da/Ne)</label>
+        <select id="f8"><option value="Ne">Ne</option><option value="Da">Da</option></select>
+    </div>
+    <div class="field">
+        <label>Prebujanja ponoci (število)</label>
+        <input type="number" id="f9" value="0">
+    </div>
+    <div class="field">
+        <label>Zaspati nazaj (Da/Ne)</label>
+        <select id="f10"><option value="Da">Da</option><option value="Ne">Ne</option></select>
+    </div>
+    <div class="field">
+        <label>Jutranje pocutje (1-5)</label>
+        <input type="number" id="f11" min="1" max="5">
+    </div>
+    <div class="field">
+        <label>Kaj vas je razveselilo</label>
+        <textarea id="f12"></textarea>
+    </div>
+    <div class="field">
+        <label>Namera za nocoj</label>
+        <textarea id="f13"></textarea>
+    </div>
+
+    <button class="btn" onclick="posljiMail()">ODPRI EMAIL IN SHRANITE</button>
 </div>
 
-<div id="tab-pregled" class="hidden">
-    <div class="table-wrap">
-        <table>
-            <thead>
-                <tr>
-                    <th>Dan</th><th>Datum</th><th>Postelja</th><th>Vstajanje</th><th>Zaspatja</th><th>Elek.</th><th>Kava</th><th>Alkohol</th><th>Hrana</th><th>Vprasanja</th><th>Prebujanja</th><th>Nazaj</th><th>Pocutje</th><th>Razveselilo</th><th>Namera</th>
-                </tr>
-            </thead>
-            <tbody id="pregledBody"></tbody>
-        </table>
-    </div>
-</div>
-
-<div id="modal" class="modal hidden">
-    <div class="modal-content">
-        <h2>Vnos pripravljen!</h2>
-        <p>Preveri podatke v emailu in klikni POŠLJI.</p>
-        <a id="emailLink" class="save-btn" style="display:block; text-decoration:none; margin-top:20px">ODPRI EMAIL</a>
-        <button onclick="closeModal()" style="margin-top:15px; background:none; border:none; color:grey; cursor:pointer">Zapri</button>
-    </div>
+<div id="pregled" class="box hidden" style="max-width: 900px;">
+    <h2>Zgodovina napredka</h2>
+    <div id="tabelaPodatkov">Nalagam podatke...</div>
 </div>
 
 <script>
 const API_URL = 'https://script.google.com/macros/s/AKfycbwqI4CAqpL1GDWy0wkMv2Px5xkE6IcJTR0IyeK7waCgr-BOiFwxC3MCsU_nBZ95O4yU/exec';
-const ADMIN_EMAIL = 'info@hypno-transformations.com';
+const MOJ_MAIL = 'info@hypno-transformations.com';
 
-// TUKAJ JE TA NOVA KODA, KI JO DODAŠ:
+// 1. FUNKCIJA: Prebere ime iz URL in ga nastavi
 window.onload = function() {
-    const params = new URLSearchParams(window.location.search);
+    const urlParams = new URLSearchParams(window.location.search);
+    const ime = urlParams.get('ime') || "";
+    const email = urlParams.get('email') || "";
     
-    // Če v povezavi piše ?ime=Matej3, bo to vpisalo v polje Ime
-    if (params.has('ime')) {
-        const vpisanoIme = params.get('ime');
-        document.getElementById('uName').value = vpisanoIme;
-        
-        // Takoj ko se stran naloži, naj poskusi poiskati podatke za to ime
-        loadFromApi(); 
+    if(ime) {
+        document.getElementById('uName').value = ime;
+        document.getElementById('izpisIme').innerText = ime;
     }
-    
-    // Če v povezavi piše ?email=..., bo to vpisalo v polje Email
-    if (params.has('email')) {
-        document.getElementById('uEmail').value = params.get('email');
+    if(email) {
+        document.getElementById('uEmail').value = email;
     }
 };
-    
-function switchTab(name, btn) {
-    document.getElementById('tab-vnos').classList.toggle('hidden', name !== 'vnos');
-    document.getElementById('tab-pregled').classList.toggle('hidden', name !== 'pregled');
-    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-    btn.classList.add('active');
-    if(name === 'pregled') loadFromApi();
+
+function prikazi(id) {
+    document.getElementById('vnos').classList.toggle('hidden', id !== 'vnos');
+    document.getElementById('pregled').classList.toggle('hidden', id !== 'pregled');
+    document.getElementById('t1').classList.toggle('active', id === 'vnos');
+    document.getElementById('t2').classList.toggle('active', id === 'pregled');
+    if(id === 'pregled') naloziZgodovino();
 }
 
-// ... ostale funkcije (setYN, sendData) ostanejo iste ...
-
-async function loadFromApi() {
-    const name = document.getElementById('uName').value.trim();
-    const tb = document.getElementById('pregledBody');
-    if(!name) { 
-        tb.innerHTML = '<tr><td colspan="15">Najprej vpiši ime na vrhu za iskanje.</td></tr>'; 
-        return; 
-    }
+function posljiMail() {
+    const ime = document.getElementById('uName').value;
+    const email = document.getElementById('uEmail').value;
     
-    tb.innerHTML = '<tr><td colspan="15">Iščem tvoje zapise v bazi...</td></tr>';
+    const body = `DNEVNIK SPANJA\n\n` +
+        `Kdaj ste sli zvecer v posteljo?: ${document.getElementById('f1').value}\n` +
+        `Kdaj ste zjutraj vstali?: ${document.getElementById('f2').value}\n` +
+        `Cas zaspatja (min): ${document.getElementById('f3').value}\n` +
+        `Elektronika (min): ${document.getElementById('f4').value}\n` +
+        `Kava (ur): ${document.getElementById('f5').value}\n` +
+        `Alkohol: ${document.getElementById('f6').value}\n` +
+        `Hrana: ${document.getElementById('f7').value}\n` +
+        `Vprasanja za jutri: ${document.getElementById('f8').value}\n` +
+        `Prebujanja ponoci: ${document.getElementById('f9').value}\n` +
+        `Zaspati nazaj: ${document.getElementById('f10').value}\n` +
+        `Jutranje pocutje (1-5): ${document.getElementById('f11').value}\n` +
+        `Kaj vas je razveselilo: ${document.getElementById('f12').value}\n` +
+        `Namera za nocoj: ${document.getElementById('f13').value}`;
+
+    window.location.href = `mailto:${MOJ_MAIL}?cc=${email}&subject=Dnevnik: ${ime}&body=${encodeURIComponent(body)}`;
+}
+
+async function naloziZgodovino() {
+    const ime = document.getElementById('uName').value;
+    if(!ime) { document.getElementById('tabelaPodatkov').innerText = "Manjka ime."; return; }
+    
     try {
-        // Tukaj koda uporabi zgoraj nastavljeni API_URL
-        const res = await fetch(API_URL + '?ime=' + encodeURIComponent(name));
+        const res = await fetch(API_URL + "?ime=" + encodeURIComponent(ime));
         const json = await res.json();
         
-        if(!json.days || json.days.length === 0) {
-            tb.innerHTML = '<tr><td colspan="15">Ni najdenih podatkov za ime: ' + name + '</td></tr>';
-            return;
-        }
-
-        // Izris tabele s tvojimi točnimi imeni stolpcev
-        tb.innerHTML = json.days.map(d => `
-            <tr>
+        let html = "<table><tr><th>Dan</th><th>Datum</th><th>Postelja</th><th>Vstajanje</th><th>Zaspatja</th><th>Pocutje</th></tr>";
+        json.days.forEach(d => {
+            html += `<tr>
                 <td>${d['Dan'] || ''}</td>
                 <td>${d['Datum'] || ''}</td>
                 <td>${d['Kdaj ste sli zvecer v posteljo?'] || ''}</td>
                 <td>${d['Kdaj ste zjutraj vstali?'] || ''}</td>
                 <td>${d['Cas zaspatja (min)'] || ''}</td>
-                <td>${d['Elektronika (min)'] || ''}</td>
-                <td>${d['Kava (ur)'] || ''}</td>
-                <td>${d['Alkohol'] || ''}</td>
-                <td>${d['Hrana'] || ''}</td>
-                <td>${d['Vprasanja za jutri'] || ''}</td>
-                <td>${d['Prebujanja ponoci'] || ''}</td>
-                <td>${d['Zaspati nazaj'] || ''}</td>
                 <td>${d['Jutranje pocutje (1-5)'] || ''}</td>
-                <td>${d['Kaj vas je razveselilo'] || ''}</td>
-                <td>${d['Namera za nocoj'] || ''}</td>
-            </tr>
-        `).join('');
-    } catch(e) { 
-        tb.innerHTML = '<tr><td colspan="15" style="color:red">Napaka pri povezavi. Preveri, če je skripta objavljena.</td></tr>'; 
+            </tr>`;
+        });
+        html += "</table>";
+        document.getElementById('tabelaPodatkov').innerHTML = html;
+    } catch(e) {
+        document.getElementById('tabelaPodatkov').innerText = "Napaka pri nalaganju.";
     }
 }
 </script>
