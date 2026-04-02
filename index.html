@@ -2,83 +2,148 @@
 <html lang="sl-SI">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Moj Dnevnik Spanja in Počitka</title>
+    <title>Moj Dnevnik Spanja</title>
     <style>
-        :root { --t: #2d6e6e; --g: #e8cfa0; }
-        body { font-family: 'Segoe UI', sans-serif; margin: 0; background: #f0f4f4; color: #333; }
-        .header { background: #2d6e6e; color: white; text-align: center; padding: 30px 10px; }
-        .header img { height: 100px; margin-bottom: 10px; border-radius: 10px; }
-        .nav-tabs { display: flex; background: white; border-bottom: 2px solid #ddd; position: sticky; top: 0; z-index: 100; }
-        .tab { flex: 1; text-align: center; padding: 15px; cursor: pointer; font-weight: bold; color: #666; transition: 0.3s; }
-        .tab.active { border-bottom: 4px solid var(--t); color: var(--t); background: #f9f9f9; }
-        .container { max-width: 900px; margin: 20px auto; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); }
-        .user-bar { display: flex; gap: 15px; margin-bottom: 20px; flex-wrap: wrap; }
-        .user-bar div { flex: 1; min-width: 250px; }
-        label { display: block; font-weight: bold; margin-bottom: 5px; font-size: 0.9em; color: var(--t); }
-        input, select, textarea { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; font-size: 16px; }
-        
-        /* Drsniki za dneve */
-        .day-picker { display: flex; overflow-x: auto; gap: 8px; padding: 10px 0; margin-bottom: 20px; }
-        .day-btn { min-width: 40px; height: 40px; border: 2px solid var(--t); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-weight: bold; color: var(--t); }
-        .day-btn.active { background: var(--t); color: white; }
-
-        .section-h { background: var(--t); color: white; padding: 10px 15px; border-radius: 5px; margin: 25px 0 15px 0; font-size: 1.1em; }
-        .q-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #eee; }
-        .q-row label { flex: 1; margin: 0; }
-        .q-row input, .q-row select { width: 120px; }
-
-        .main-btn { background: var(--t); color: white; padding: 20px; border: none; width: 100%; border-radius: 8px; font-weight: bold; font-size: 18px; cursor: pointer; margin-top: 30px; box-shadow: 0 4px 10px rgba(45, 110, 110, 0.3); }
-        
-        /* Tabela napredka */
-        .scroll-x { overflow-x: auto; margin-top: 15px; border-radius: 8px; border: 1px solid #ddd; }
-        table { width: 100%; border-collapse: collapse; min-width: 800px; font-size: 14px; }
-        th { background: #f4f7f7; color: var(--t); padding: 12px; text-align: left; border-bottom: 2px solid var(--t); }
-        td { padding: 12px; border-bottom: 1px solid #eee; }
-        tr:hover { background: #f9fdfd; }
-        .hidden { display: none; }
+        :root { --teal: #2d6e6e; --bg: #f4f7f7; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); margin: 0; }
+        .container { max-width: 800px; margin: 20px auto; background: white; padding: 20px; border-radius: 8px; }
+        .section-h { background: var(--teal); color: white; padding: 10px; margin-top: 20px; font-weight: bold; }
+        .row { display: flex; align-items: center; padding: 10px; border-bottom: 1px solid #eee; }
+        .label { flex: 1; font-size: 0.9em; }
+        .in-box { display: flex; align-items: center; gap: 5px; width: 160px; }
+        input, select, textarea { padding: 8px; border: 1px solid #ccc; border-radius: 4px; width: 100%; }
+        .unit { font-size: 0.85em; color: #666; min-width: 30px; }
     </style>
 </head>
 <body>
 
-<div class="header">
-    <img src="https://raw.githubusercontent.com/hypnotransformations3-jpg/spanec/main/Logo_novi.jpg" alt="Logo">
-    <h1>Moj Dnevnik Spanja in Počitka</h1>
-</div>
-
-<div class="nav-tabs">
-    <div id="tab1" class="tab active" onclick="showSection('vnos')">VNOS PODATKOV</div>
-    <div id="tab2" class="tab" onclick="showSection('pregled')">DNEVI NAPREDKA</div>
-</div>
-
 <div class="container">
-    <div class="user-bar">
-        <div><label>Uporabniško ime:</label><input type="text" id="uName" readonly style="background:#eee"></div>
-        <div><label>Vaš Email:</label><input type="email" id="uEmail"></div>
+    <div style="display:flex; gap:10px; margin-bottom:10px;">
+        <input type="text" id="uName" readonly placeholder="Ime">
+        <input type="email" id="uEmail" placeholder="Email">
     </div>
 
-    <div id="s-vnos">
-        <label>Izberite dan programa:</label>
-        <div class="day-picker" id="dayPicker"></div>
-        <input type="hidden" id="curDay" value="1">
+    <div id="dayNav" style="display:flex; gap:5px; margin-bottom:15px;"></div>
+    <input type="hidden" id="selDay" value="1">
 
-        <div class="section-h">📝 Podatki o spanju</div>
-        <div class="q-row"><label>Kdaj ste šli v posteljo?</label><input type="time" id="f1"></div>
-        <div class="q-row"><label>Kdaj ste zjutraj vstali?</label><input type="time" id="f2"></div>
-        <div class="q-row"><label>Čas zaspatja (min)</label><input type="number" id="f3" placeholder="min"></div>
-        <div class="q-row"><label>Elektronika (min)</label><input type="number" id="f4" placeholder="min"></div>
-        <div class="q-row"><label>Kava (ur pred spanjem)</label><input type="number" id="f5"></div>
-        <div class="q-row"><label>Vprašanja za jutri?</label><select id="f8"><option value="Ne">Ne</option><option value="Da">Da</option></select></div>
-        <div class="q-row"><label>Prebujanja ponoči</label><input type="number" id="f9" value="0"></div>
-        <div class="q-row"><label>Jutranje počutje (1-5)</label><input type="number" id="f11" min="1" max="5"></div>
+    <div class="section-h">🌜 VEČER</div>
+    <div class="row">
+        <div class="label">Kdaj ste šli zvečer v posteljo?</div>
+        <div class="in-box"><input type="time" id="bedtime"></div>
+    </div>
+    <div class="row">
+        <div class="label">Čas, da ste zaspali (ocena v minutah)</div>
+        <div class="in-box"><input type="number" id="fallasleep"><span class="unit">min</span></div>
+    </div>
+    <div class="row">
+        <div class="label">Ugasnjena elektronika (min pred spanjem)</div>
+        <div class="in-box"><input type="number" id="electronics"><span class="unit">min</span></div>
+    </div>
+    <div class="row">
+        <div class="label">Zadnja kava (koliko ur pred spanjem)</div>
+        <div class="in-box"><input type="number" id="coffee"><span class="unit">ur</span></div>
+    </div>
+    <div class="row">
+        <div class="label">Zadnji alkohol (koliko ur pred spanjem)</div>
+        <div class="in-box"><input type="number" id="alcohol"><span class="unit">ur</span></div>
+    </div>
+    <div class="row">
+        <div class="label">Zadnji obrok / hrana (koliko ur pred spanjem)</div>
+        <div class="in-box"><input type="number" id="food"><span class="unit">ur</span></div>
+    </div>
+    <div class="row">
+        <div class="label">Zapisana vprašanja/skrbi za jutri?</div>
+        <div class="in-box"><select id="questions"><option value="ne">ne</option><option value="da">da</option></select></div>
+    </div>
 
-        <div class="section-h">💡 Opombe in namera</div>
+    <div class="section-h">😴 PONOČI</div>
+    <div class="row">
+        <div class="label">Število prebujanj ponoči</div>
+        <div class="in-box"><input type="number" id="wakeups"><span class="unit">×</span></div>
+    </div>
+    <div class="row">
+        <div class="label">Ste uspeli zaspati nazaj?</div>
+        <div class="in-box"><select id="backasleep"><option value="—">—</option><option value="da">da</option><option value="ne">ne</option></select></div>
+    </div>
+
+    <div class="section-h">🌞 ZJUTRAJ</div>
+    <div class="row">
+        <div class="label">Kdaj ste zjutraj vstali?</div>
+        <div class="in-box"><input type="time" id="getup"></div>
+    </div>
+    <div class="row">
+        <div class="label">Vaše jutranje počutje (1: slabo – 5: super)</div>
+        <div class="in-box"><input type="text" id="morning" placeholder="npr. 3/5"></div>
+    </div>
+
+    <div class="section-h">📝 REFLEKSIJA</div>
+    <div style="padding:10px;">
         <label>Kaj vas je danes razveselilo?</label>
-        <textarea id="f12" rows="3"></textarea>
-        <label style="margin-top:10px">Namera za nocojšno spanje:</label>
-        <textarea id="f13" rows="3"></textarea>
-
-        <button class="main-btn" onclick="submitData()">POŠLJI EMAIL IN SHRANITE</button>
+        <textarea id="aha" rows="2"></textarea>
+        <label style="display:block; margin-top:10px;">Zapišite si svojo namero za nocoj</label>
+        <textarea id="tip" rows="2"></textarea>
     </div>
 
-    <div id="
+    <button onclick="sendMail()" class="btn-main" style="width:100%; padding:15px; background:var(--teal); color:white; border:none; margin-top:20px; cursor:pointer;">POŠLJI POROČILO</button>
+</div>
+
+<script>
+const API_URL = 'https://script.google.com/macros/s/AKfycbxqmcGntdo1IZQaOYmb9Wsk4fUCMvy_xi5xirxDe2teZRXqxCg4YB-bh2dp8JT3AThQ/exec';
+let SERVER_DATA = [];
+
+const nav = document.getElementById('dayNav');
+for(let i=1; i<=21; i++) {
+    let b = document.createElement('button');
+    b.innerText = i; b.onclick = () => selectDay(i);
+    nav.appendChild(b);
+}
+
+function selectDay(n) {
+    document.getElementById('selDay').value = n;
+    const entry = SERVER_DATA.find(x => x.dan == n);
+    const fields = ['bedtime','getup','fallasleep','electronics','coffee','alcohol','food','questions','wakeups','backasleep','morning','aha','tip'];
+    
+    fields.forEach(f => {
+        document.getElementById(f).value = entry ? (entry[f] || "") : "";
+    });
+}
+
+window.onload = async () => {
+    const p = new URLSearchParams(window.location.search);
+    const ime = p.get('ime') || "";
+    document.getElementById('uName').value = ime;
+    document.getElementById('uEmail').value = p.get('email') || "";
+    
+    if(ime) {
+        const r = await fetch(API_URL + "?ime=" + encodeURIComponent(ime));
+        const j = await r.json();
+        SERVER_DATA = j.days || [];
+        selectDay(parseInt(p.get('dan')) || 1);
+    }
+};
+
+function sendMail() {
+    const ime = document.getElementById('uName').value;
+    const dan = document.getElementById('selDay').value;
+    const email = document.getElementById('uEmail').value;
+    
+    let msg = `${ime} je uspešno shranil podatke za DAN ${dan}\n\n`;
+    msg += `Kdaj ste šli zvečer v posteljo?: ${document.getElementById('bedtime').value}\n`;
+    msg += `Čas, da ste zaspali (ocena v minutah): ${document.getElementById('fallasleep').value}\n`;
+    msg += `Ugasnjena elektronika (min pred spanjem): ${document.getElementById('electronics').value}\n`;
+    msg += `Zadnja kava (koliko ur pred spanjem): ${document.getElementById('coffee').value}\n`;
+    msg += `Zadnji alkohol (koliko ur pred spanjem): ${document.getElementById('alcohol').value}\n`;
+    msg += `Zadnji obrok / hrana (koliko ur pred spanjem): ${document.getElementById('food').value}\n`;
+    msg += `Zapisana vprašanja/skrbi za jutri?: ${document.getElementById('questions').value}\n`;
+    msg += `Število prebujanj ponoči: ${document.getElementById('wakeups').value}\n`;
+    msg += `Ste uspeli zaspati nazaj?: ${document.getElementById('backasleep').value}\n`;
+    msg += `Kdaj ste zjutraj vstali?: ${document.getElementById('getup').value}\n`;
+    msg += `Vaše jutranje počutje (1: slabo – 5: super): ${document.getElementById('morning').value}\n\n`;
+    msg += `Kaj vas je danes razveselilo?: ${document.getElementById('aha').value}\n`;
+    msg += `Zapišite si svojo namero za nocoj: ${document.getElementById('tip').value}`;
+
+    window.location.href = `mailto:info@hypno-transformations.com?subject=Dnevnik Spanja Dan ${dan}: ${ime}&body=${encodeURIComponent(msg)}`;
+}
+</script>
+</body>
+</html>
