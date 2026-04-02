@@ -14,10 +14,12 @@
         body { font-family: 'Segoe UI', sans-serif; background: var(--bg); margin: 0; padding: 10px; }
         .container { max-width: 500px; margin: 0 auto; background: white; padding: 20px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
         
-        /* LOGO IN NAPIS */
-        .logo-container { text-align: center; margin-bottom: 25px; text-decoration: none; display: block; }
-        .logo-container img { max-width: 80px; height: auto; display: block; margin: 0 auto 10px; border-radius: 10px; }
+        /* LOGO IN NASLOV */
+        .logo-section { text-align: center; margin-bottom: 25px; }
+        .logo-section a { text-decoration: none; color: inherit; display: block; }
+        .logo-section img { max-width: 100px; height: auto; display: block; margin: 0 auto 10px; }
         .logo-text { color: var(--teal); font-size: 24px; font-weight: bold; margin: 0; }
+        .sub-link { display: block; color: #666; font-size: 14px; margin-top: 5px; text-decoration: underline; }
 
         .tabs { display: flex; margin-bottom: 20px; background: #eee; border-radius: 10px; padding: 4px; }
         .tab { flex: 1; text-align: center; padding: 12px; cursor: pointer; font-weight: bold; color: #666; border-radius: 8px; }
@@ -37,23 +39,25 @@
         .label { font-size: 0.95em; margin-bottom: 8px; font-weight: 500; color: #333; line-height: 1.3; }
         
         input, select, textarea { padding: 14px; border: 1px solid #ccc; border-radius: 10px; width: 100%; font-size: 16px; box-sizing: border-box; }
-        
         .btn-main { width: 100%; padding: 18px; background: var(--teal); color: white; border: none; border-radius: 10px; margin-top: 25px; cursor: pointer; font-weight: bold; font-size: 17px; }
 
         .chart-card { background: #fff; border: 1px solid #ddd; border-radius: 12px; padding: 10px; margin-top: 10px; height: 350px; }
-        
-        /* Navodila za namizje */
-        .install-bar { position: fixed; bottom: 15px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 400px; background: #333; color: white; padding: 12px 20px; border-radius: 50px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 10px 25px rgba(0,0,0,0.3); z-index: 999; }
-        .install-btn { background: var(--teal); color: white; border: none; padding: 8px 15px; border-radius: 20px; font-weight: bold; cursor: pointer; }
+
+        /* GUMB NAMESTITEV - VRNJEN NA PREJŠNJO VERZIJO */
+        .pwa-hint { margin-top: 30px; text-align: center; font-size: 0.8em; color: #888; border-top: 1px solid #eee; padding-top: 15px; }
+        .pwa-btn { display: inline-block; padding: 8px 15px; background: #eee; border-radius: 20px; font-weight: bold; cursor: pointer; margin-top: 10px; color: #555; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <a href="https://www.hypno-transformations.com/spanje" class="logo-container">
-        <img src="Logo_novi.png" alt="Hypno Logo">
-        <div class="logo-text">Moj napredek spanja</div>
-    </a>
+    <div class="logo-section">
+        <a href="https://www.hypno-transformations.com/spanje">
+            <img src="Logo_novi.png" alt="Hypno-Transformations Logo">
+            <div class="logo-text">Moj napredek spanja</div>
+            <span class="sub-link">www.hypno-transformations.com/spanje</span>
+        </a>
+    </div>
 
     <div class="tabs">
         <div class="tab active" onclick="openTab('vnos')">VNOS</div>
@@ -87,6 +91,11 @@
         <div class="row"><div class="label">Vaše jutranje počutje (1: slabo – 5: super)</div><select id="morning"><option value="">Izberi...</option><option value="1">1 - slabo</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5 - super</option></select></div>
         
         <button onclick="sendMail()" class="btn-main">POŠLJI POROČILO</button>
+
+        <div class="pwa-hint">
+            Želite hitrejši dostop? <br>
+            <div class="pwa-btn" onclick="alert('Android: Kliknite na tri pike zgoraj in izberite Dodaj na začetni zaslon.\niPhone: Kliknite gumb Deli (kvadratek s puščico) in izberite Dodaj na začetni zaslon.')">Dodaj na namizje telefona</div>
+        </div>
     </div>
 
     <div id="analiza" class="tab-content">
@@ -100,14 +109,11 @@
             <option value="wakeups">Število prebujanj ponoči</option>
             <option value="questions">Zapisana vprašanja/skrbi (DA/NE)</option>
             <option value="backasleep">Uspeli zaspati nazaj (DA/NE)</option>
+            <option value="bedtime">Kdaj ste šli zvečer v posteljo?</option>
+            <option value="getup">Kdaj ste zjutraj vstali?</option>
         </select>
         <div class="chart-card"><canvas id="progressChart"></canvas></div>
     </div>
-</div>
-
-<div class="install-bar" id="installBar">
-    <span>Namesti na namizje</span>
-    <button class="install-btn" onclick="alert('iPhone: Deli > Dodaj na začetni zaslon\nAndroid: Tri pike > Namesti')">NAVODILA</button>
 </div>
 
 <script>
@@ -120,7 +126,7 @@ function openTab(id) {
     document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
     document.getElementById(id).classList.add('active');
     event.currentTarget.classList.add('active');
-    if(id === 'analiza') setTimeout(drawChart, 100);
+    if(id === 'analiza') setTimeout(drawChart, 150);
 }
 
 const nav = document.getElementById('dayNav');
@@ -140,13 +146,25 @@ function selectDay(n) {
     flds.forEach(f => { document.getElementById(f).value = entry ? (entry[f] || "") : (f==='questions'?'ne':(f==='backasleep'?'—':"")); });
 }
 
+function timeToDecimal(t) {
+    if(!t) return 0;
+    const [h, m] = t.split(':');
+    return parseInt(h) + (parseInt(m)/60);
+}
+
 function drawChart() {
     if (SERVER_DATA.length === 0) return;
     const param = document.getElementById('chartParam').value;
     const sorted = [...SERVER_DATA].sort((a,b) => a.dan - b.dan);
     const labels = sorted.map(d => "D" + d.dan);
     const isBinary = (param === 'questions' || param === 'backasleep');
-    const values = sorted.map(d => isBinary ? (d[param] === 'da' ? 1 : 0) : (parseFloat(d[param]) || 0));
+    const isTime = (param === 'bedtime' || param === 'getup');
+
+    const values = sorted.map(d => {
+        if (isBinary) return (d[param] === 'da' ? 1 : 0);
+        if (isTime) return timeToDecimal(d[param]);
+        return parseFloat(d[param]) || 0;
+    });
 
     const ctx = document.getElementById('progressChart').getContext('2d');
     if (chartInstance) chartInstance.destroy();
@@ -159,7 +177,15 @@ function drawChart() {
         options: {
             responsive: true, maintainAspectRatio: false,
             scales: {
-                y: { ticks: { callback: v => isBinary ? (v === 1 ? 'DA' : (v === 0 ? 'NE' : '')) : v } }
+                y: { ticks: { callback: v => {
+                    if (isBinary) return (v === 1 ? 'DA' : (v === 0 ? 'NE' : ''));
+                    if (isTime) {
+                        let h = Math.floor(v);
+                        let m = Math.round((v - h) * 60);
+                        return h + ":" + (m < 10 ? '0' + m : m);
+                    }
+                    return v;
+                } } }
             },
             plugins: { legend: { display: false } }
         }
