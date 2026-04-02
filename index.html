@@ -3,62 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Sleep Program — Dashboard</title>
+    <title>Moj napredek spanja — Dashboard</title>
     
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-status-bar-style" content="black-translucent">
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root { --teal: #2d6e6e; --bg: #f4f7f7; --accent: #e0f2f2; }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); margin: 0; padding: 10px; -webkit-tap-highlight-color: transparent; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); margin: 0; padding: 10px; }
         .container { max-width: 500px; margin: 0 auto; background: white; padding: 20px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
         
-        .logo-container { text-align: center; margin-bottom: 20px; }
-        .logo-container img { max-width: 220px; height: auto; display: block; margin: 0 auto; }
+        /* LOGO IN NAPIS */
+        .logo-container { text-align: center; margin-bottom: 25px; text-decoration: none; display: block; }
+        .logo-container img { max-width: 80px; height: auto; display: block; margin: 0 auto 10px; border-radius: 10px; }
+        .logo-text { color: var(--teal); font-size: 24px; font-weight: bold; margin: 0; }
 
-        /* Zavihki */
         .tabs { display: flex; margin-bottom: 20px; background: #eee; border-radius: 10px; padding: 4px; }
-        .tab { flex: 1; text-align: center; padding: 10px; cursor: pointer; font-weight: bold; color: #666; border-radius: 8px; transition: 0.3s; }
-        .tab.active { color: white; background: var(--teal); box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        .tab { flex: 1; text-align: center; padding: 12px; cursor: pointer; font-weight: bold; color: #666; border-radius: 8px; }
+        .tab.active { color: white; background: var(--teal); }
         .tab-content { display: none; }
         .tab-content.active { display: block; }
 
         .user-info { display: flex; gap: 8px; margin-bottom: 15px; }
-        .user-info input { background: #f0f0f0; border: 1px solid #ddd; padding: 10px; border-radius: 8px; flex: 1; font-size: 14px; color: #555; }
+        .user-info input { background: #f0f0f0; border: 1px solid #ddd; padding: 10px; border-radius: 8px; flex: 1; font-size: 14px; }
 
         #dayNav { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-bottom: 20px; }
-        #dayNav button { padding: 12px 2px; cursor: pointer; border: 1px solid #ddd; border-radius: 8px; background: white; font-weight: bold; font-size: 14px; }
-        #dayNav button.active { background: var(--teal); color: white; border-color: var(--teal); }
+        #dayNav button { padding: 12px 2px; cursor: pointer; border: 1px solid #ddd; border-radius: 8px; background: white; font-weight: bold; }
+        #dayNav button.active { background: var(--teal); color: white; }
 
-        .section-h { background: var(--teal); color: white; padding: 10px; margin-top: 20px; font-weight: bold; border-radius: 6px; font-size: 0.85em; text-transform: uppercase; letter-spacing: 1px; }
+        .section-h { background: var(--teal); color: white; padding: 10px; margin-top: 20px; font-weight: bold; border-radius: 6px; font-size: 0.85em; text-transform: uppercase; }
         .row { display: flex; flex-direction: column; padding: 15px 0; border-bottom: 1px solid #f0f0f0; }
         .label { font-size: 0.95em; margin-bottom: 8px; font-weight: 500; color: #333; line-height: 1.3; }
         
-        input, select, textarea { padding: 14px; border: 1px solid #ccc; border-radius: 10px; width: 100%; font-size: 16px; box-sizing: border-box; background: #fff; }
+        input, select, textarea { padding: 14px; border: 1px solid #ccc; border-radius: 10px; width: 100%; font-size: 16px; box-sizing: border-box; }
         
-        .btn-main { width: 100%; padding: 18px; background: var(--teal); color: white; border: none; border-radius: 10px; margin-top: 25px; cursor: pointer; font-weight: bold; font-size: 17px; box-shadow: 0 4px 10px rgba(45, 110, 110, 0.3); }
+        .btn-main { width: 100%; padding: 18px; background: var(--teal); color: white; border: none; border-radius: 10px; margin-top: 25px; cursor: pointer; font-weight: bold; font-size: 17px; }
 
-        /* Analitika */
-        .chart-card { background: #fff; border: 1px solid #ddd; border-radius: 12px; padding: 10px; margin-top: 10px; }
-        .stats-summary { background: var(--accent); padding: 15px; border-radius: 10px; margin-bottom: 15px; font-size: 0.9em; line-height: 1.4; color: #245a5a; }
-
+        .chart-card { background: #fff; border: 1px solid #ddd; border-radius: 12px; padding: 10px; margin-top: 10px; height: 350px; }
+        
         /* Navodila za namizje */
-        .pwa-hint { margin-top: 30px; text-align: center; font-size: 0.8em; color: #888; border-top: 1px solid #eee; padding-top: 15px; }
-        .pwa-btn { display: inline-block; padding: 8px 15px; background: #eee; border-radius: 20px; font-weight: bold; cursor: pointer; margin-top: 10px; color: #555; }
+        .install-bar { position: fixed; bottom: 15px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 400px; background: #333; color: white; padding: 12px 20px; border-radius: 50px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 10px 25px rgba(0,0,0,0.3); z-index: 999; }
+        .install-btn { background: var(--teal); color: white; border: none; padding: 8px 15px; border-radius: 20px; font-weight: bold; cursor: pointer; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="logo-container">
-        <img src="https://info.hypno-transformations.com/wp-content/uploads/2024/01/logo-header.png" alt="Hypno-Transformations Logo">
-    </div>
+    <a href="https://www.hypno-transformations.com/spanje" class="logo-container">
+        <img src="Logo_novi.png" alt="Hypno Logo">
+        <div class="logo-text">Moj napredek spanja</div>
+    </a>
 
     <div class="tabs">
-        <div class="tab active" onclick="openTab('vnos')">Vnos</div>
-        <div class="tab" onclick="openTab('analiza')">Analiza</div>
+        <div class="tab active" onclick="openTab('vnos')">VNOS</div>
+        <div class="tab" onclick="openTab('analiza')">PREGLED</div>
     </div>
 
     <div class="user-info">
@@ -71,51 +70,44 @@
         <input type="hidden" id="selDay" value="1">
 
         <div class="section-h">🌜 Večer</div>
-        <div class="row"><div class="label">Kdaj ste šli v posteljo?</div><input type="time" id="bedtime"></div>
-        <div class="row"><div class="label">Čas do spanca (min)</div><input type="number" id="fallasleep" placeholder="min"></div>
-        <div class="row"><div class="label">Elektronika (min pred spanjem)</div><input type="number" id="electronics"></div>
-        <div class="row"><div class="label">Zadnja kava (ur pred spanjem)</div><input type="number" id="coffee"></div>
-        <div class="row"><div class="label">Zadnji alkohol (ur pred spanjem)</div><input type="number" id="alcohol"></div>
-        <div class="row"><div class="label">Zadnji obrok (ur pred spanjem)</div><input type="number" id="food"></div>
-        <div class="row"><div class="label">Zapisana vprašanja/skrbi?</div><select id="questions"><option value="ne">ne</option><option value="da">da</option></select></div>
+        <div class="row"><div class="label">Kdaj ste šli zvečer v posteljo?</div><input type="time" id="bedtime"></div>
+        <div class="row"><div class="label">Čas, da ste zaspali (ocena v minutah)</div><input type="number" id="fallasleep"></div>
+        <div class="row"><div class="label">Ugasnjena elektronika (koliko minut pred spanjem)</div><input type="number" id="electronics"></div>
+        <div class="row"><div class="label">Zadnja kava (koliko ur pred spanjem)</div><input type="number" id="coffee"></div>
+        <div class="row"><div class="label">Zadnji alkohol (koliko ur pred spanjem)</div><input type="number" id="alcohol"></div>
+        <div class="row"><div class="label">Zadnji obrok / hrana (koliko ur pred spanjem)</div><input type="number" id="food"></div>
+        <div class="row"><div class="label">Zapisana vprašanja/skrbi za jutri?</div><select id="questions"><option value="ne">ne</option><option value="da">da</option></select></div>
 
         <div class="section-h">😴 Ponoči</div>
-        <div class="row"><div class="label">Število prebujanj</div><input type="number" id="wakeups"></div>
-        <div class="row"><div class="label">Zaspali nazaj?</div><select id="backasleep"><option value="—">—</option><option value="da">da</option><option value="ne">ne</option></select></div>
+        <div class="row"><div class="label">Število prebujanj ponoči</div><input type="number" id="wakeups"></div>
+        <div class="row"><div class="label">Ste uspeli zaspati nazaj?</div><select id="backasleep"><option value="—">—</option><option value="da">da</option><option value="ne">ne</option></select></div>
 
         <div class="section-h">🌞 Zjutraj</div>
-        <div class="row"><div class="label">Kdaj ste vstali?</div><input type="time" id="getup"></div>
-        <div class="row"><div class="label">Počutje (1-5)</div><select id="morning"><option value="">Izberi...</option><option value="1">1 - Zelo slabo</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5 - Odlično</option></select></div>
+        <div class="row"><div class="label">Kdaj ste zjutraj vstali?</div><input type="time" id="getup"></div>
+        <div class="row"><div class="label">Vaše jutranje počutje (1: slabo – 5: super)</div><select id="morning"><option value="">Izberi...</option><option value="1">1 - slabo</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5 - super</option></select></div>
         
         <button onclick="sendMail()" class="btn-main">POŠLJI POROČILO</button>
-
-        <div class="pwa-hint">
-            Želite hitrejši dostop? <br>
-            <div class="pwa-btn" onclick="alert('Navodila:\n\nAndroid: Kliknite na tri pike zgoraj in izberite Dodaj na začetni zaslon.\n\niPhone: Kliknite gumb Deli (kvadratek s puščico) in izberite Dodaj na začetni zaslon.')">Dodaj na namizje telefona</div>
-        </div>
     </div>
 
     <div id="analiza" class="tab-content">
-        <div class="stats-summary">
-            <strong>Analiza napredka</strong><br>
-            Spremljajte svoje navade skozi vseh 21 dni.
-        </div>
-        
-        <div class="label">Izberite parameter za graf:</div>
-        <select id="chartParam" onchange="drawChart()">
-            <option value="morning">Jutranje počutje (1-5)</option>
-            <option value="fallasleep">Čas do spanca (min)</option>
-            <option value="wakeups">Število prebujanj</option>
-            <option value="electronics">Ugasnjena elektronika (min)</option>
-            <option value="coffee">Zadnja kava (ur)</option>
-            <option value="alcohol">Alkohol (ur)</option>
-            <option value="food">Zadnji obrok (ur)</option>
+        <select id="chartParam" onchange="drawChart()" style="margin-bottom: 15px;">
+            <option value="morning">Vaše jutranje počutje (1-5)</option>
+            <option value="fallasleep">Čas, da ste zaspali (minute)</option>
+            <option value="electronics">Elektronika pred spanjem (minute)</option>
+            <option value="coffee">Zadnja kava (ure pred spanjem)</option>
+            <option value="alcohol">Zadnji alkohol (ure pred spanjem)</option>
+            <option value="food">Zadnji obrok (ure pred spanjem)</option>
+            <option value="wakeups">Število prebujanj ponoči</option>
+            <option value="questions">Zapisana vprašanja/skrbi (DA/NE)</option>
+            <option value="backasleep">Uspeli zaspati nazaj (DA/NE)</option>
         </select>
-
-        <div class="chart-card">
-            <canvas id="progressChart" width="400" height="320"></canvas>
-        </div>
+        <div class="chart-card"><canvas id="progressChart"></canvas></div>
     </div>
+</div>
+
+<div class="install-bar" id="installBar">
+    <span>Namesti na namizje</span>
+    <button class="install-btn" onclick="alert('iPhone: Deli > Dodaj na začetni zaslon\nAndroid: Tri pike > Namesti')">NAVODILA</button>
 </div>
 
 <script>
@@ -144,41 +136,31 @@ function selectDay(n) {
     document.querySelectorAll('#dayNav button').forEach(b => b.classList.remove('active'));
     document.getElementById('btn' + n).classList.add('active');
     const entry = SERVER_DATA.find(x => x.dan == n);
-    const fields = ['bedtime','getup','fallasleep','electronics','coffee','alcohol','food','questions','wakeups','backasleep','morning'];
-    fields.forEach(f => { 
-        document.getElementById(f).value = entry ? (entry[f] || "") : (f==='questions'?'ne':(f==='backasleep'?'—':"")); 
-    });
+    const flds = ['bedtime','getup','fallasleep','electronics','coffee','alcohol','food','questions','wakeups','backasleep','morning'];
+    flds.forEach(f => { document.getElementById(f).value = entry ? (entry[f] || "") : (f==='questions'?'ne':(f==='backasleep'?'—':"")); });
 }
 
 function drawChart() {
     if (SERVER_DATA.length === 0) return;
     const param = document.getElementById('chartParam').value;
-    const sortedData = [...SERVER_DATA].sort((a,b) => a.dan - b.dan);
-    
-    const labels = sortedData.map(d => "D" + d.dan);
-    const values = sortedData.map(d => parseFloat(d[param]) || 0);
+    const sorted = [...SERVER_DATA].sort((a,b) => a.dan - b.dan);
+    const labels = sorted.map(d => "D" + d.dan);
+    const isBinary = (param === 'questions' || param === 'backasleep');
+    const values = sorted.map(d => isBinary ? (d[param] === 'da' ? 1 : 0) : (parseFloat(d[param]) || 0));
 
     const ctx = document.getElementById('progressChart').getContext('2d');
     if (chartInstance) chartInstance.destroy();
-
     chartInstance = new Chart(ctx, {
         type: 'line',
         data: {
             labels: labels,
-            datasets: [{
-                label: document.getElementById('chartParam').options[document.getElementById('chartParam').selectedIndex].text,
-                data: values,
-                borderColor: '#2d6e6e',
-                backgroundColor: 'rgba(45, 110, 110, 0.1)',
-                pointBackgroundColor: '#2d6e6e',
-                fill: true,
-                tension: 0.4
-            }]
+            datasets: [{ data: values, borderColor: '#2d6e6e', backgroundColor: 'rgba(45, 110, 110, 0.1)', fill: true, tension: 0.3 }]
         },
-        options: { 
-            responsive: true, 
-            maintainAspectRatio: false,
-            scales: { y: { beginAtZero: true, grid: { color: '#eee' } }, x: { grid: { display: false } } },
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            scales: {
+                y: { ticks: { callback: v => isBinary ? (v === 1 ? 'DA' : (v === 0 ? 'NE' : '')) : v } }
+            },
             plugins: { legend: { display: false } }
         }
     });
@@ -186,34 +168,20 @@ function drawChart() {
 
 window.onload = async () => {
     const p = new URLSearchParams(window.location.search);
-    const ime = p.get('ime') || "";
-    document.getElementById('uName').value = ime;
+    document.getElementById('uName').value = p.get('ime') || "";
     document.getElementById('uEmail').value = p.get('email') || "";
-    if(ime) {
-        try {
-            const r = await fetch(API_URL + "?ime=" + encodeURIComponent(ime));
-            const j = await r.json();
-            SERVER_DATA = j.days || [];
-            selectDay(parseInt(p.get('dan')) || 1);
-        } catch (e) { console.log("Napaka pri branju."); }
-    }
+    try {
+        const r = await fetch(API_URL + "?ime=" + encodeURIComponent(p.get('ime')));
+        const j = await r.json();
+        SERVER_DATA = j.days || [];
+        selectDay(parseInt(p.get('dan')) || 1);
+    } catch (e) { selectDay(1); }
 };
 
 function sendMail() {
     const ime = document.getElementById('uName').value;
     const dan = document.getElementById('selDay').value;
-    const morning = document.getElementById('morning').value;
-    const coffee = document.getElementById('coffee').value;
-    
-    let msg = `POROČILO SPANJA: ${ime} - DAN ${dan}\n`;
-    msg += `-----------------------------------\n`;
-    msg += `Počutje: ${morning}/5\n`;
-    msg += `Zaspanost: ${document.getElementById('fallasleep').value} min\n`;
-    msg += `Zadnja kava: ${coffee} ur pred spanjem\n`;
-    msg += `Prebujanja: ${document.getElementById('wakeups').value}\n`;
-    
-    const subj = `Dnevnik Spanja D${dan} — ${ime}`;
-    window.location.href = `mailto:info@hypno-transformations.com?subject=${encodeURIComponent(subj)}&body=${encodeURIComponent(msg)}`;
+    window.location.href = `mailto:info@hypno-transformations.com?subject=Spanec D${dan} - ${ime}&body=Poročilo za dan ${dan}`;
 }
 </script>
 </body>
