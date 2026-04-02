@@ -110,10 +110,28 @@
 </div>
 
 <script>
-// TVOJ REALNI URL, KI SI GA POSLAL:
-const API_URL = 'https://script.google.com/macros/s/AKfycbwqI4CAqpL1GDWy0wkMv2Px5xkE6IcJTR0IyeK7waCgr-BOiFwxC3MCsU_nBZ95O4yU/exec'; 
+const API_URL = 'https://script.google.com/macros/s/AKfycbwqI4CAqpL1GDWy0wkMv2Px5xkE6IcJTR0IyeK7waCgr-BOiFwxC3MCsU_nBZ95O4yU/exec';
 const ADMIN_EMAIL = 'info@hypno-transformations.com';
 
+// TUKAJ JE TA NOVA KODA, KI JO DODAŠ:
+window.onload = function() {
+    const params = new URLSearchParams(window.location.search);
+    
+    // Če v povezavi piše ?ime=Matej3, bo to vpisalo v polje Ime
+    if (params.has('ime')) {
+        const vpisanoIme = params.get('ime');
+        document.getElementById('uName').value = vpisanoIme;
+        
+        // Takoj ko se stran naloži, naj poskusi poiskati podatke za to ime
+        loadFromApi(); 
+    }
+    
+    // Če v povezavi piše ?email=..., bo to vpisalo v polje Email
+    if (params.has('email')) {
+        document.getElementById('uEmail').value = params.get('email');
+    }
+};
+    
 function switchTab(name, btn) {
     document.getElementById('tab-vnos').classList.toggle('hidden', name !== 'vnos');
     document.getElementById('tab-pregled').classList.toggle('hidden', name !== 'pregled');
