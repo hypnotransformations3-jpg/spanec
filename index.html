@@ -2,58 +2,51 @@
 <html lang="sl-SI">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sleep Program — Dnevnik Spanja</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Sleep Program — Dashboard</title>
+    
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="mobile-web-app-capable" content="yes">
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root { --teal: #2d6e6e; --bg: #f4f7f7; --accent: #e0f2f2; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg); margin: 0; padding: 10px; color: #333; }
-        .container { max-width: 500px; margin: 0 auto; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); margin: 0; padding: 10px; -webkit-tap-highlight-color: transparent; }
+        .container { max-width: 500px; margin: 0 auto; background: white; padding: 20px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
         
-        /* Logo */
-        .logo-container { text-align: center; margin-bottom: 25px; }
-        .logo-container img { max-width: 220px; height: auto; }
+        .logo-container { text-align: center; margin-bottom: 20px; }
+        .logo-container img { max-width: 220px; height: auto; display: block; margin: 0 auto; }
 
-        /* Uporabnik info */
+        /* Zavihki */
+        .tabs { display: flex; margin-bottom: 20px; background: #eee; border-radius: 10px; padding: 4px; }
+        .tab { flex: 1; text-align: center; padding: 10px; cursor: pointer; font-weight: bold; color: #666; border-radius: 8px; transition: 0.3s; }
+        .tab.active { color: white; background: var(--teal); box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
         .user-info { display: flex; gap: 8px; margin-bottom: 15px; }
-        .user-info input { background: #f9f9f9; border: 1px solid #ddd; padding: 10px; border-radius: 6px; flex: 1; font-size: 14px; color: #666; }
+        .user-info input { background: #f0f0f0; border: 1px solid #ddd; padding: 10px; border-radius: 8px; flex: 1; font-size: 14px; color: #555; }
 
-        /* SKUPNI PREGLED (Stats Card) */
-        .stats-card { 
-            background: var(--accent); 
-            padding: 15px; 
-            border-radius: 10px; 
-            margin-bottom: 20px; 
-            border: 1px solid #b2d8d8;
-            display: none; 
-        }
-        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 0.85em; margin-top: 10px; }
-        .stat-item b { color: var(--teal); font-size: 1.1em; display: block; margin-top: 2px; }
-
-        /* Graf posoda */
-        #chartsContainer { margin-top: 15px; background: #fff; border-radius: 8px; padding: 5px; }
-
-        /* Navigacija dni */
         #dayNav { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-bottom: 20px; }
-        #dayNav button { padding: 12px 2px; cursor: pointer; border: 1px solid #ccc; border-radius: 6px; background: white; font-weight: bold; font-size: 14px; transition: 0.2s; }
+        #dayNav button { padding: 12px 2px; cursor: pointer; border: 1px solid #ddd; border-radius: 8px; background: white; font-weight: bold; font-size: 14px; }
         #dayNav button.active { background: var(--teal); color: white; border-color: var(--teal); }
 
-        /* Vrstice - Mobilna prilagoditev */
-        .section-h { background: var(--teal); color: white; padding: 10px; margin-top: 25px; font-weight: bold; border-radius: 4px; font-size: 0.85em; text-transform: uppercase; letter-spacing: 1px; }
-        .row { display: flex; flex-direction: column; padding: 15px 0; border-bottom: 1px solid #eee; }
-        .label { font-size: 0.95em; margin-bottom: 8px; font-weight: 500; color: #444; line-height: 1.3; }
-        .in-box { display: flex; align-items: center; gap: 10px; width: 100%; }
+        .section-h { background: var(--teal); color: white; padding: 10px; margin-top: 20px; font-weight: bold; border-radius: 6px; font-size: 0.85em; text-transform: uppercase; letter-spacing: 1px; }
+        .row { display: flex; flex-direction: column; padding: 15px 0; border-bottom: 1px solid #f0f0f0; }
+        .label { font-size: 0.95em; margin-bottom: 8px; font-weight: 500; color: #333; line-height: 1.3; }
         
-        input, select, textarea { 
-            padding: 12px; border: 1px solid #ccc; border-radius: 8px; width: 100%; font-size: 16px; box-sizing: border-box; background: #fff;
-        }
-        .unit { font-size: 0.85em; color: #777; min-width: 35px; text-align: right; }
+        input, select, textarea { padding: 14px; border: 1px solid #ccc; border-radius: 10px; width: 100%; font-size: 16px; box-sizing: border-box; background: #fff; }
+        
+        .btn-main { width: 100%; padding: 18px; background: var(--teal); color: white; border: none; border-radius: 10px; margin-top: 25px; cursor: pointer; font-weight: bold; font-size: 17px; box-shadow: 0 4px 10px rgba(45, 110, 110, 0.3); }
 
-        .btn-main { 
-            width: 100%; padding: 18px; background: var(--teal); color: white; border: none; 
-            border-radius: 8px; margin-top: 30px; cursor: pointer; font-weight: bold; font-size: 16px;
-        }
-        textarea { resize: vertical; min-height: 80px; }
+        /* Analitika */
+        .chart-card { background: #fff; border: 1px solid #ddd; border-radius: 12px; padding: 10px; margin-top: 10px; }
+        .stats-summary { background: var(--accent); padding: 15px; border-radius: 10px; margin-bottom: 15px; font-size: 0.9em; line-height: 1.4; color: #245a5a; }
+
+        /* Navodila za namizje */
+        .pwa-hint { margin-top: 30px; text-align: center; font-size: 0.8em; color: #888; border-top: 1px solid #eee; padding-top: 15px; }
+        .pwa-btn { display: inline-block; padding: 8px 15px; background: #eee; border-radius: 20px; font-weight: bold; cursor: pointer; margin-top: 10px; color: #555; }
     </style>
 </head>
 <body>
@@ -63,108 +56,80 @@
         <img src="https://info.hypno-transformations.com/wp-content/uploads/2024/01/logo-header.png" alt="Hypno-Transformations Logo">
     </div>
 
+    <div class="tabs">
+        <div class="tab active" onclick="openTab('vnos')">Vnos</div>
+        <div class="tab" onclick="openTab('analiza')">Analiza</div>
+    </div>
+
     <div class="user-info">
-        <input type="text" id="uName" readonly placeholder="Ime">
-        <input type="email" id="uEmail" placeholder="Vaš email">
+        <input type="text" id="uName" readonly>
+        <input type="email" id="uEmail" readonly>
     </div>
 
-    <div id="statsCard" class="stats-card">
-        <div style="font-weight: bold; color: var(--teal); font-size: 0.85em; text-transform: uppercase;">Vaš skupni napredek:</div>
-        <div class="stats-grid">
-            <div class="stat-item">🌞 Povpr. počutje: <b id="statPocutje">/</b></div>
-            <div class="stat-item">☕ Zadnja kava: <b id="statKava">/</b> ur</div>
-            <div class="stat-item">😴 Zaspanost: <b id="statZaspatje">/</b> min</div>
-            <div class="stat-item">📱 Elektronika: <b id="statElektronika">/</b> min</div>
-        </div>
-        <div id="chartsContainer">
-            <canvas id="progressChart"></canvas>
-        </div>
-    </div>
+    <div id="vnos" class="tab-content active">
+        <div id="dayNav"></div>
+        <input type="hidden" id="selDay" value="1">
 
-    <div id="dayNav"></div>
-    <input type="hidden" id="selDay" value="1">
+        <div class="section-h">🌜 Večer</div>
+        <div class="row"><div class="label">Kdaj ste šli v posteljo?</div><input type="time" id="bedtime"></div>
+        <div class="row"><div class="label">Čas do spanca (min)</div><input type="number" id="fallasleep" placeholder="min"></div>
+        <div class="row"><div class="label">Elektronika (min pred spanjem)</div><input type="number" id="electronics"></div>
+        <div class="row"><div class="label">Zadnja kava (ur pred spanjem)</div><input type="number" id="coffee"></div>
+        <div class="row"><div class="label">Zadnji alkohol (ur pred spanjem)</div><input type="number" id="alcohol"></div>
+        <div class="row"><div class="label">Zadnji obrok (ur pred spanjem)</div><input type="number" id="food"></div>
+        <div class="row"><div class="label">Zapisana vprašanja/skrbi?</div><select id="questions"><option value="ne">ne</option><option value="da">da</option></select></div>
 
-    <div class="section-h">🌜 VEČER</div>
-    <div class="row">
-        <div class="label">Kdaj ste šli zvečer v posteljo?</div>
-        <div class="in-box"><input type="time" id="bedtime"></div>
-    </div>
-    <div class="row">
-        <div class="label">Čas, da ste zaspali (min)</div>
-        <div class="in-box"><input type="number" id="fallasleep" placeholder="0"><span class="unit">min</span></div>
-    </div>
-    <div class="row">
-        <div class="label">Ugasnjena elektronika (min pred spanjem)</div>
-        <div class="in-box"><input type="number" id="electronics" placeholder="0"><span class="unit">min</span></div>
-    </div>
-    <div class="row">
-        <div class="label">Zadnja kava (ur pred spanjem)</div>
-        <div class="in-box"><input type="number" id="coffee" placeholder="0"><span class="unit">ur</span></div>
-    </div>
-    <div class="row">
-        <div class="label">Zadnji alkohol (ur pred spanjem)</div>
-        <div class="in-box"><input type="number" id="alcohol" placeholder="0"><span class="unit">ur</span></div>
-    </div>
-    <div class="row">
-        <div class="label">Zadnji obrok / hrana (ur pred spanjem)</div>
-        <div class="in-box"><input type="number" id="food" placeholder="0"><span class="unit">ur</span></div>
-    </div>
-    <div class="row">
-        <div class="label">Zapisana vprašanja/skrbi za jutri?</div>
-        <div class="in-box">
-            <select id="questions">
-                <option value="ne">ne</option>
-                <option value="da">da</option>
-            </select>
+        <div class="section-h">😴 Ponoči</div>
+        <div class="row"><div class="label">Število prebujanj</div><input type="number" id="wakeups"></div>
+        <div class="row"><div class="label">Zaspali nazaj?</div><select id="backasleep"><option value="—">—</option><option value="da">da</option><option value="ne">ne</option></select></div>
+
+        <div class="section-h">🌞 Zjutraj</div>
+        <div class="row"><div class="label">Kdaj ste vstali?</div><input type="time" id="getup"></div>
+        <div class="row"><div class="label">Počutje (1-5)</div><select id="morning"><option value="">Izberi...</option><option value="1">1 - Zelo slabo</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5 - Odlično</option></select></div>
+        
+        <button onclick="sendMail()" class="btn-main">POŠLJI POROČILO</button>
+
+        <div class="pwa-hint">
+            Želite hitrejši dostop? <br>
+            <div class="pwa-btn" onclick="alert('Navodila:\n\nAndroid: Kliknite na tri pike zgoraj in izberite Dodaj na začetni zaslon.\n\niPhone: Kliknite gumb Deli (kvadratek s puščico) in izberite Dodaj na začetni zaslon.')">Dodaj na namizje telefona</div>
         </div>
     </div>
 
-    <div class="section-h">😴 PONOČI</div>
-    <div class="row">
-        <div class="label">Število prebujanj ponoči</div>
-        <div class="in-box"><input type="number" id="wakeups" placeholder="0"><span class="unit">×</span></div>
-    </div>
-    <div class="row">
-        <div class="label">Ste uspeli zaspati nazaj?</div>
-        <div class="in-box">
-            <select id="backasleep">
-                <option value="—">—</option>
-                <option value="da">da</option>
-                <option value="ne">ne</option>
-            </select>
+    <div id="analiza" class="tab-content">
+        <div class="stats-summary">
+            <strong>Analiza napredka</strong><br>
+            Spremljajte svoje navade skozi vseh 21 dni.
+        </div>
+        
+        <div class="label">Izberite parameter za graf:</div>
+        <select id="chartParam" onchange="drawChart()">
+            <option value="morning">Jutranje počutje (1-5)</option>
+            <option value="fallasleep">Čas do spanca (min)</option>
+            <option value="wakeups">Število prebujanj</option>
+            <option value="electronics">Ugasnjena elektronika (min)</option>
+            <option value="coffee">Zadnja kava (ur)</option>
+            <option value="alcohol">Alkohol (ur)</option>
+            <option value="food">Zadnji obrok (ur)</option>
+        </select>
+
+        <div class="chart-card">
+            <canvas id="progressChart" width="400" height="320"></canvas>
         </div>
     </div>
-
-    <div class="section-h">🌞 ZJUTRAJ</div>
-    <div class="row">
-        <div class="label">Kdaj ste zjutraj vstali?</div>
-        <div class="in-box"><input type="time" id="getup"></div>
-    </div>
-    <div class="row">
-        <div class="label">Vaše jutranje počutje (1-5)</div>
-        <div class="in-box">
-            <select id="morning">
-                <option value="">Izberite...</option>
-                <option value="1">1 - Zelo slabo</option>
-                <option value="2">2 - Slabo</option>
-                <option value="3">3 - Povprečno</option>
-                <option value="4">4 - Dobro</option>
-                <option value="5">5 - Odlično</option>
-            </select>
-        </div>
-    </div>
-
-    <div class="section-h">📝 REFLEKSIJA</div>
-    <div class="row"><label class="label">Kaj vas je danes razveselilo?</label><textarea id="aha"></textarea></div>
-    <div class="row"><label class="label">Namera za nocoj</label><textarea id="tip"></textarea></div>
-
-    <button onclick="sendMail()" class="btn-main">POŠLJI POROČILO</button>
 </div>
 
 <script>
 const API_URL = 'https://script.google.com/macros/s/AKfycbyr6HnUXPX3nGS8Ht257Iv4kCtOpoqC78I1Zca2-gkfcUVlqGh5opBAWIHk3tB6TPwK/exec';
 let SERVER_DATA = [];
-let myChart = null;
+let chartInstance = null;
+
+function openTab(id) {
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    event.currentTarget.classList.add('active');
+    if(id === 'analiza') setTimeout(drawChart, 100);
+}
 
 const nav = document.getElementById('dayNav');
 for(let i=1; i<=21; i++) {
@@ -179,48 +144,44 @@ function selectDay(n) {
     document.querySelectorAll('#dayNav button').forEach(b => b.classList.remove('active'));
     document.getElementById('btn' + n).classList.add('active');
     const entry = SERVER_DATA.find(x => x.dan == n);
-    const fields = ['bedtime','getup','fallasleep','electronics','coffee','alcohol','food','questions','wakeups','backasleep','morning','aha','tip'];
-    fields.forEach(f => { document.getElementById(f).value = entry ? (entry[f] || "") : ""; });
+    const fields = ['bedtime','getup','fallasleep','electronics','coffee','alcohol','food','questions','wakeups','backasleep','morning'];
+    fields.forEach(f => { 
+        document.getElementById(f).value = entry ? (entry[f] || "") : (f==='questions'?'ne':(f==='backasleep'?'—':"")); 
+    });
 }
 
-function updateChart(days) {
-    days.sort((a,b) => a.dan - b.dan);
-    const labels = days.map(d => "D" + d.dan);
-    const moodData = days.map(d => parseInt(d.morning) || 0);
+function drawChart() {
+    if (SERVER_DATA.length === 0) return;
+    const param = document.getElementById('chartParam').value;
+    const sortedData = [...SERVER_DATA].sort((a,b) => a.dan - b.dan);
     
-    if(myChart) myChart.destroy();
+    const labels = sortedData.map(d => "D" + d.dan);
+    const values = sortedData.map(d => parseFloat(d[param]) || 0);
+
     const ctx = document.getElementById('progressChart').getContext('2d');
-    myChart = new Chart(ctx, {
+    if (chartInstance) chartInstance.destroy();
+
+    chartInstance = new Chart(ctx, {
         type: 'line',
         data: {
             labels: labels,
             datasets: [{
-                label: 'Počutje (1-5)',
-                data: moodData,
+                label: document.getElementById('chartParam').options[document.getElementById('chartParam').selectedIndex].text,
+                data: values,
                 borderColor: '#2d6e6e',
                 backgroundColor: 'rgba(45, 110, 110, 0.1)',
-                fill: true, tension: 0.3
+                pointBackgroundColor: '#2d6e6e',
+                fill: true,
+                tension: 0.4
             }]
         },
-        options: { responsive: true, scales: { y: { min: 1, max: 5, ticks: { stepSize: 1 } } } }
+        options: { 
+            responsive: true, 
+            maintainAspectRatio: false,
+            scales: { y: { beginAtZero: true, grid: { color: '#eee' } }, x: { grid: { display: false } } },
+            plugins: { legend: { display: false } }
+        }
     });
-}
-
-function calculateStats(days) {
-    if(!days || days.length === 0) return;
-    let s = { p:0, k:0, z:0, e:0, c:0 };
-    days.forEach(d => {
-        if(d.morning) { s.p += parseInt(d.morning); s.c++; }
-        s.k += parseFloat(d.coffee) || 0;
-        s.z += parseInt(d.fallasleep) || 0;
-        s.e += parseInt(d.electronics) || 0;
-    });
-    document.getElementById('statPocutje').innerText = (s.p / s.c).toFixed(1);
-    document.getElementById('statKava').innerText = (s.k / days.length).toFixed(1);
-    document.getElementById('statZaspatje').innerText = (s.z / days.length).toFixed(0);
-    document.getElementById('statElektronika').innerText = (s.e / days.length).toFixed(0);
-    document.getElementById('statsCard').style.display = 'block';
-    updateChart(days);
 }
 
 window.onload = async () => {
@@ -233,21 +194,25 @@ window.onload = async () => {
             const r = await fetch(API_URL + "?ime=" + encodeURIComponent(ime));
             const j = await r.json();
             SERVER_DATA = j.days || [];
-            if(SERVER_DATA.length > 0) calculateStats(SERVER_DATA);
             selectDay(parseInt(p.get('dan')) || 1);
-        } catch (e) { console.log("Prvi vnos."); }
+        } catch (e) { console.log("Napaka pri branju."); }
     }
 };
 
 function sendMail() {
     const ime = document.getElementById('uName').value;
     const dan = document.getElementById('selDay').value;
-    let msg = `${ime} - DAN ${dan}\n\n`;
-    msg += `Zaspatje: ${document.getElementById('fallasleep').value} min\n`;
-    msg += `Kava: ${document.getElementById('coffee').value} ur\n`;
-    msg += `Počutje: ${document.getElementById('morning').value}\n`;
-    msg += `Razveselilo: ${document.getElementById('aha').value}`;
-    const subj = `Spanec Dan ${dan}/21 — ${ime}`;
+    const morning = document.getElementById('morning').value;
+    const coffee = document.getElementById('coffee').value;
+    
+    let msg = `POROČILO SPANJA: ${ime} - DAN ${dan}\n`;
+    msg += `-----------------------------------\n`;
+    msg += `Počutje: ${morning}/5\n`;
+    msg += `Zaspanost: ${document.getElementById('fallasleep').value} min\n`;
+    msg += `Zadnja kava: ${coffee} ur pred spanjem\n`;
+    msg += `Prebujanja: ${document.getElementById('wakeups').value}\n`;
+    
+    const subj = `Dnevnik Spanja D${dan} — ${ime}`;
     window.location.href = `mailto:info@hypno-transformations.com?subject=${encodeURIComponent(subj)}&body=${encodeURIComponent(msg)}`;
 }
 </script>
