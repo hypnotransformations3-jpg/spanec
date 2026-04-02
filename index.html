@@ -38,7 +38,7 @@
         input, select { padding: 14px; border: 1px solid #ccc; border-radius: 10px; width: 100%; font-size: 16px; box-sizing: border-box; }
         
         .btn-main { width: 100%; padding: 18px; background: var(--teal); color: white; border: none; border-radius: 10px; margin-top: 25px; cursor: pointer; font-weight: bold; font-size: 17px; }
-        .chart-card { background: #fff; border: 1px solid #ddd; border-radius: 12px; padding: 10px; margin-top: 10px; height: 350px; }
+        .chart-card { background: #fff; border: 1px solid #ddd; border-radius: 12px; padding: 10px; margin-top: 10px; height: 380px; }
         .pwa-hint { margin-top: 30px; text-align: center; font-size: 0.8em; color: #888; border-top: 1px solid #eee; padding-top: 15px; }
         .pwa-btn { display: inline-block; padding: 8px 15px; background: #eee; border-radius: 20px; font-weight: bold; cursor: pointer; margin-top: 10px; color: #555; }
     </style>
@@ -94,12 +94,19 @@
     </div>
 
     <div id="analiza" class="tab-content">
+        <div class="label">Izberite parameter za pregled:</div>
         <select id="chartParam" onchange="drawChart()" style="margin-bottom: 15px;">
             <option value="morning">Jutranje počutje (1-5)</option>
+            <option value="bedtime">Čas odhoda v posteljo</option>
+            <option value="getup">Čas jutranjega vstajanja</option>
             <option value="fallasleep">Čas uspavanja (min)</option>
-            <option value="electronics">Elektronika (min)</option>
+            <option value="electronics">Elektronika (min pred spanjem)</option>
             <option value="coffee">Zadnja kava (ure)</option>
-            <option value="wakeups">Prebujanja ponoči</option>
+            <option value="alcohol">Zadnji alkohol (ure)</option>
+            <option value="food">Zadnji obrok (ure)</option>
+            <option value="questions">Zapisana vprašanja (da/ne)</option>
+            <option value="wakeups">Število prebujanj</option>
+            <option value="backasleep">Ponovni spanec (da/ne)</option>
         </select>
         <div class="chart-card"><canvas id="progressChart"></canvas></div>
     </div>
@@ -141,7 +148,19 @@ function drawChart() {
     const param = document.getElementById('chartParam').value;
     const sorted = [...SERVER_DATA].sort((a,b) => a.dan - b.dan);
     const labels = sorted.map(d => "D" + d.dan);
-    const values = sorted.map(d => parseFloat(d[param]) || 0);
+    
+    // Pretvorba vrednosti za graf (da/ne v 1/0, ure v decimalke)
+    const values = sorted.map(d => {
+        let val = d[param];
+        if (val === 'da') return 1;
+        if (val === 'ne' || val === '—') return 0;
+        if (param === 'bedtime' || param === 'getup') {
+            if(!val) return 0;
+            let parts = val.split(':');
+            return parseInt(parts[0]) + (parseInt(parts[1])/60);
+        }
+        return parseFloat(val) || 0;
+    });
 
     const ctx = document.getElementById('progressChart').getContext('2d');
     if (chartInstance) chartInstance.destroy();
@@ -153,7 +172,22 @@ function drawChart() {
         },
         options: {
             responsive: true, maintainAspectRatio: false,
-            plugins: { legend: { display: false } }
+            plugins: { legend: { display: false } },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        callback: function(value) {
+                            if (param === 'questions' || param === 'backasleep') {
+                                if (value === 1) return 'da';
+                                if (value === 0) return 'ne';
+                                return '';
+                            }
+                            return value;
+                        }
+                    }
+                }
+            }
         }
     });
 }
@@ -188,7 +222,6 @@ function sendMail() {
         mo: document.getElementById('morning').value
     };
 
-    // POPRAVLJENA VRSTICA ZA PARSER:
     const mailBody = `${ime} je uspešno shranil/a Dan ${dan} od 21.\n\nPODATKI — DAN ${dan}\n\n` +
         `🌜 ZVEČER\n` +
         `Kdaj ste šli zvečer v posteljo?: ${d.bt}\n` +
@@ -205,7 +238,6 @@ function sendMail() {
         `Kdaj ste zjutraj vstali?: ${d.gu}\n` +
         `Vaše jutranje počutje (1-5): ${d.mo}`;
 
-    // POPRAVLJEN SUBJECT Z EMOJIJEM:
     const subject = `🌙 Spanec Dan ${dan}/21 — ${ime}`;
     window.location.href = `mailto:info@hypno-transformations.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(mailBody)}`;
 }
