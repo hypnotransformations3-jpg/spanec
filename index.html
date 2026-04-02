@@ -125,7 +125,6 @@ function openTab(id) {
     document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
     document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
     document.getElementById(id).classList.add('active');
-    event.currentTarget.classList.add('active');
     if(id === 'analiza') setTimeout(drawChart, 150);
 }
 
