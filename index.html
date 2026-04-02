@@ -16,7 +16,6 @@ body{font-family:'Lato',sans-serif;background:var(--cr);color:var(--ch);min-heig
 
 /* HEADER */
 .header{background:linear-gradient(135deg,var(--t),var(--t2));padding:22px 18px 16px;text-align:center;position:relative;overflow:hidden}
-.header::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 70% 30%,rgba(200,169,110,.15),transparent 60%);pointer-events:none}
 .header-logo{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gl);opacity:.85;margin-bottom:5px;font-weight:300}
 .header h1{font-family:'Playfair Display',serif;font-size:clamp(20px,5vw,26px);color:#fff;font-weight:600;line-height:1.2;margin-bottom:4px}
 .header h1 span{color:var(--gl);font-style:italic}
@@ -28,7 +27,6 @@ body{font-family:'Lato',sans-serif;background:var(--cr);color:var(--ch);min-heig
 .user-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px}
 .user-field{flex:1;min-width:120px}
 .user-field label{display:block;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--t);font-weight:700;margin-bottom:2px}
-.user-hint{font-size:10px;color:var(--ts)}
 
 /* TABS */
 .tabs{display:flex;background:var(--ww);border-bottom:1px solid var(--br);position:sticky;top:0;z-index:10}
@@ -40,420 +38,208 @@ body{font-family:'Lato',sans-serif;background:var(--cr);color:var(--ch);min-heig
 .progress-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
 .progress-label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--t);font-weight:700}
 .progress-num{font-family:'Playfair Display',serif;font-size:17px;color:var(--t);font-weight:600}
-.progress-num small{font-family:'Lato',sans-serif;font-size:11px;color:var(--ts)}
 .bar-track{height:6px;background:var(--tp);border-radius:100px;overflow:hidden}
 .bar-fill{height:100%;background:linear-gradient(90deg,var(--t),var(--go));border-radius:100px;transition:width .6s}
 .day-dots{display:flex;gap:3px;margin-top:8px;flex-wrap:wrap}
-.dot{width:26px;height:26px;border-radius:50%;border:2px solid var(--br);background:var(--cr);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:var(--ts);cursor:pointer;transition:all .2s;flex-shrink:0}
+.dot{width:26px;height:26px;border-radius:50%;border:2px solid var(--br);background:var(--cr);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:var(--ts);cursor:pointer;transition:all .2s}
 .dot.done{background:var(--t);border-color:var(--t);color:#fff}
 .dot.active{background:var(--gl);border-color:var(--go);color:var(--ch);transform:scale(1.1)}
 
 /* MAIN */
 .main{padding:10px 12px 60px}
 .day-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
-.nav-btn{width:40px;height:40px;border-radius:50%;border:2px solid var(--br);background:var(--ww);color:var(--t);font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s}
-.nav-btn:disabled{opacity:.3;cursor:default}
+.nav-btn{width:40px;height:40px;border-radius:50%;border:2px solid var(--br);background:var(--ww);color:var(--t);font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center}
 .day-title{font-family:'Playfair Display',serif;font-size:20px;font-weight:600;color:var(--t);text-align:center}
-.day-date{border:none;border-bottom:1px dashed var(--br);background:transparent;font-size:12px;color:var(--ts);text-align:center;font-family:'Lato',sans-serif;outline:none;width:130px;margin-top:2px;display:block;margin:2px auto 0}
+.day-date{border:none;border-bottom:1px dashed var(--br);background:transparent;font-size:12px;color:var(--ts);text-align:center;width:130px;margin:2px auto 0;display:block}
 
-/* SEKCIJA */
-.section{background:var(--ww);border-radius:14px;border:1px solid var(--br);padding:0;margin-bottom:12px;overflow:hidden;box-shadow:0 2px 8px rgba(45,110,110,.07)}
+/* SEKCIJE */
+.section{background:var(--ww);border-radius:14px;border:1px solid var(--br);margin-bottom:12px;overflow:hidden;box-shadow:0 2px 8px rgba(45,110,110,.07)}
 .section-header{background:linear-gradient(135deg,var(--t),var(--t2));padding:12px 16px;display:flex;align-items:center;gap:8px}
 .section-header h2{font-family:'Playfair Display',serif;font-size:15px;font-weight:600;color:#fff;margin:0}
-.section-header .icon{font-size:18px}
-.section-desc{font-size:12px;color:rgba(255,255,255,.8);padding:8px 16px 10px;background:rgba(45,110,110,.08);border-bottom:1px solid var(--br);line-height:1.5}
 
-/* TABELA */
 .data-table{width:100%;border-collapse:collapse}
 .data-table tr{border-bottom:1px solid var(--br)}
-.data-table tr:last-child{border-bottom:none}
-.data-table tr:nth-child(even){background:var(--cr)}
 .data-table td{padding:10px 14px;vertical-align:middle}
-.data-table td:first-child{font-size:13px;color:var(--ch);font-weight:400;line-height:1.4;width:55%}
-.data-table td:last-child{width:45%}
-.data-table td .emoji{font-size:14px;margin-right:3px}
+.data-table td:first-child{font-size:13px;color:var(--ch);width:55%}
 
-/* INPUT TIPI */
-input[type=text],input[type=time],input[type=number],textarea,select{
-  border:1px solid var(--br);border-radius:8px;padding:7px 10px;
-  font-family:'Lato',sans-serif;font-size:13px;color:var(--ch);
-  background:var(--cr);outline:none;width:100%;transition:border-color .2s}
-input:focus,textarea:focus{border-color:var(--t)}
-textarea{resize:vertical;min-height:60px}
+input[type=text],input[type=time],input[type=number],textarea{
+  border:1px solid var(--br);border-radius:8px;padding:7px 10px;font-family:'Lato',sans-serif;font-size:13px;background:var(--cr);width:100%}
 
-/* DA/NE GUMBI */
 .yn-row{display:flex;gap:6px}
-.yn-btn{flex:1;padding:7px 4px;border-radius:8px;border:2px solid var(--br);background:var(--cr);
-  color:var(--ts);font-size:12px;font-weight:700;cursor:pointer;font-family:'Lato',sans-serif;transition:all .2s;text-align:center}
+.yn-btn{flex:1;padding:7px 4px;border-radius:8px;border:2px solid var(--br);background:var(--cr);color:var(--ts);font-size:12px;font-weight:700;cursor:pointer}
 .yn-btn.sel-yes{background:var(--t);border-color:var(--t);color:#fff}
 .yn-btn.sel-no{background:#c0756a;border-color:#c0756a;color:#fff}
-.yn-btn.sel-na{background:var(--ts);border-color:var(--ts);color:#fff}
 
-/* ŠTEVILO PREBUJANJ */
 .count-row{display:flex;align-items:center;gap:10px}
-.cnt-btn{width:32px;height:32px;border-radius:50%;border:2px solid var(--t);background:none;color:var(--t);font-size:18px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.cnt-btn{width:32px;height:32px;border-radius:50%;border:2px solid var(--t);background:none;color:var(--t);font-size:18px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center}
 .cnt-val{font-family:'Playfair Display',serif;font-size:22px;color:var(--t);font-weight:600;min-width:28px;text-align:center}
 
-/* SKALA 1-5 */
 .scale-row{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
-.scale-dot{width:36px;height:36px;border-radius:50%;border:2px solid var(--br);background:var(--cr);
-  display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;
-  cursor:pointer;color:var(--ts);transition:all .2s;flex-shrink:0}
-.scale-lbl{font-size:11px;color:var(--ts)}
+.scale-dot{width:36px;height:36px;border-radius:50%;border:2px solid var(--br);background:var(--cr);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;cursor:pointer;color:var(--ts)}
 
-/* AHA + SUGESTIJA */
-.textarea-wrap{padding:12px 14px}
-.textarea-label{font-size:12px;color:var(--ts);margin-bottom:4px;line-height:1.4}
-.textarea-example{font-size:11px;color:var(--tl);font-style:italic;margin-bottom:6px;line-height:1.4}
+.save-btn{width:100%;padding:14px;background:linear-gradient(135deg,var(--t),var(--t2));color:#fff;border:none;border-radius:12px;font-family:'Lato',sans-serif;font-size:15px;font-weight:700;cursor:pointer;margin-bottom:8px}
 
-/* NASVETI */
-.tips-wrap{padding:14px 16px}
-.tip-item{display:flex;gap:10px;margin-bottom:10px;align-items:flex-start}
-.tip-num{width:22px;height:22px;border-radius:50%;background:var(--t);color:#fff;
-  display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0}
-.tip-text{font-size:12px;color:var(--ts);line-height:1.5}
-.tip-text b{color:var(--ch)}
-.footer-note{font-size:11px;color:var(--ts);font-style:italic;text-align:center;margin-top:6px;padding-top:10px;border-top:1px solid var(--br)}
-
-/* SHRANI GUMB */
-.save-btn{width:100%;padding:14px;background:linear-gradient(135deg,var(--t),var(--t2));color:#fff;
-  border:none;border-radius:12px;font-family:'Lato',sans-serif;font-size:15px;font-weight:700;
-  cursor:pointer;box-shadow:0 4px 14px rgba(45,110,110,.25);margin-bottom:8px;transition:all .2s}
-.save-btn:hover{transform:translateY(-2px)}
+/* PREGLED TABELA */
+.table-wrap{overflow-x:auto;padding:12px}
+table{width:100%;border-collapse:separate;border-spacing:0;min-width:800px;font-size:12px}
+th{background:var(--t);color:#fff;padding:8px 6px;text-align:left;font-weight:700;font-size:10px;text-transform:uppercase}
+td{padding:7px 6px;border-bottom:1px solid var(--br);vertical-align:top}
 
 /* MODAL */
 .overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:100;display:flex;align-items:flex-end;justify-content:center}
 .modal{background:var(--ww);border-radius:20px 20px 0 0;padding:22px 18px 32px;width:100%;max-width:500px;max-height:85vh;overflow-y:auto}
-.modal-icon{font-size:38px;text-align:center;margin-bottom:8px}
-.modal-title{font-family:'Playfair Display',serif;font-size:20px;font-weight:600;color:var(--t);text-align:center;margin-bottom:4px}
-.modal-sub{font-size:13px;color:var(--ts);text-align:center;margin-bottom:16px}
-.email-btn{display:block;width:100%;padding:14px 0;background:linear-gradient(135deg,var(--t),var(--t2));color:#fff;
-  border-radius:12px;font-size:15px;font-weight:700;text-align:center;text-decoration:none;
-  box-shadow:0 4px 14px rgba(45,110,110,.3);margin-bottom:12px}
-.info-box{background:var(--tp);border-radius:10px;padding:10px 14px;margin-bottom:12px;font-size:12px;color:var(--t);line-height:1.6}
-.summary-box{background:var(--cr);border-radius:10px;padding:12px 14px;font-size:12px;line-height:1.9;margin-bottom:12px}
-.sum-row{display:flex;gap:8px}
-.sum-lbl{color:var(--t);font-weight:700;min-width:110px;flex-shrink:0}
-.close-btn{width:100%;padding:11px;background:none;border:2px solid var(--br);border-radius:10px;
-  font-family:'Lato',sans-serif;font-size:14px;font-weight:700;color:var(--ts);cursor:pointer}
+.email-btn{display:block;width:100%;padding:14px 0;background:linear-gradient(135deg,var(--t),var(--t2));color:#fff;border-radius:12px;font-size:15px;font-weight:700;text-align:center;text-decoration:none;margin-bottom:12px}
 
-/* PREGLED */
-.table-wrap{overflow-x:auto;padding:12px}
-table{width:100%;border-collapse:separate;border-spacing:0;min-width:480px;font-size:12px}
-th{background:var(--t);color:#fff;padding:8px 6px;text-align:left;font-weight:700;font-size:10px;letter-spacing:1px;text-transform:uppercase}
-th:first-child{border-radius:10px 0 0 0}th:last-child{border-radius:0 10px 0 0}
-td{padding:7px 6px;border-bottom:1px solid var(--br);vertical-align:top}
-tr:nth-child(even) td{background:var(--cr)}
-.td-day{font-weight:700;color:var(--t);font-family:'Playfair Display',serif;white-space:nowrap}
-.td-empty{color:var(--br)}
-
-/* VPOGLEDI */
-.insight-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;padding:12px}
-.insight-card{background:var(--ww);border:1px solid var(--br);border-radius:12px;padding:14px;text-align:center;box-shadow:0 2px 8px rgba(45,110,110,.07)}
-.insight-icon{font-size:22px;margin-bottom:4px}
-.insight-val{font-family:'Playfair Display',serif;font-size:22px;font-weight:600;color:var(--t);line-height:1}
-.insight-label{font-size:11px;color:var(--ts);margin-top:4px;line-height:1.3}
-.trend-box{margin:0 12px 12px;background:var(--ww);border:1px solid var(--br);border-radius:12px;padding:14px}
-.trend-title{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--t);font-weight:700;margin-bottom:10px}
-.bars{display:flex;align-items:flex-end;gap:3px;height:60px}
-.bar-col{flex:1;display:flex;flex-direction:column;align-items:center}
-.bar{width:100%;border-radius:3px 3px 0 0;min-height:2px}
-.bar-n{font-size:7px;color:var(--ts);margin-top:2px}
-
-.page-footer{text-align:center;padding:8px 12px 24px;font-size:11px;color:var(--ts);opacity:.7}
-.page-footer a{color:var(--t);text-decoration:none}
-
-.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(120px);
-  background:var(--t);color:#fff;padding:12px 24px;border-radius:100px;font-size:13px;font-weight:700;
-  z-index:200;transition:transform .35s cubic-bezier(.4,0,.2,1);box-shadow:0 4px 20px rgba(0,0,0,.2);
-  pointer-events:none;max-width:88vw;text-align:center}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(120px);background:var(--t);color:#fff;padding:12px 24px;border-radius:100px;font-size:13px;z-index:200;transition:transform .35s}
 .toast.show{transform:translateX(-50%) translateY(0)}
-.toast.err{background:#c0756a}
 .hidden{display:none!important}
-
-@media(max-width:380px){
-  .data-table td:first-child{width:50%}
-  .data-table td:last-child{width:50%}
-}
 </style>
 </head>
 <body>
 
-<!-- HEADER -->
 <div class="header">
   <span class="moon">🌙</span>
   <div class="header-logo">Hypno-Transformations · Program</div>
   <h1>Moj Dnevnik <span>Spanja in Počitka</span></h1>
-  <p class="header-desc">Tukaj beležite svoje podatke, analizirate navade in spremljate napredek pri doseganju krepčilnega spanca.</p>
-  <a href="https://www.hypno-transformations.com" target="_blank" style="display:inline-block;margin-top:8px;font-size:11px;color:var(--gl);opacity:0.85;text-decoration:none;letter-spacing:1px;">🌐 www.hypno-transformations.com</a>
 </div>
 
-<!-- USER BAR -->
 <div class="user-bar">
   <div class="user-row">
-    <div class="user-field">
-      <label>Ime *</label>
-      <input type="text" id="uName" placeholder="Vaše ime" oninput="onUserChange()">
-    </div>
-    <div class="user-field">
-      <label>Email *</label>
-      <input type="text" id="uEmail" placeholder="vas@email.com" oninput="onUserChange()">
-    </div>
+    <div class="user-field"><label>Ime *</label><input type="text" id="uName" placeholder="Vaše ime" oninput="onUserChange()"></div>
+    <div class="user-field"><label>Email *</label><input type="text" id="uEmail" placeholder="vas@email.com" oninput="onUserChange()"></div>
   </div>
-  <div class="user-hint">📧 Po shranitvi se odpre vaš email — samo pritisnite Pošlji</div>
 </div>
 
-<!-- TABS -->
 <div class="tabs">
   <button class="tab active" onclick="switchTab('vnos',this)">✏️ Vnos</button>
   <button class="tab" onclick="switchTab('pregled',this)">📋 Pregled</button>
-  <button class="tab" onclick="switchTab('vpogledi',this)">✨ Vpogledi</button>
 </div>
 
-<!-- ══════════════ VNOS TAB ══════════════ -->
 <div id="tab-vnos">
   <div class="progress-wrap">
-    <div class="progress-top">
-      <span class="progress-label">Napredek programa</span>
-      <span class="progress-num" id="progNum">0<small>/21</small></span>
-    </div>
+    <div class="progress-top"><span class="progress-label">Napredek</span><span class="progress-num" id="progNum">0/21</span></div>
     <div class="bar-track"><div class="bar-fill" id="progBar" style="width:0%"></div></div>
     <div class="day-dots" id="dayDots"></div>
   </div>
 
   <div class="main">
-    <!-- DAN NAVIGACIJA -->
     <div class="day-nav">
-      <button class="nav-btn" id="prevBtn" onclick="changeDay(-1)">‹</button>
+      <button class="nav-btn" onclick="changeDay(-1)">‹</button>
       <div style="text-align:center">
         <div class="day-title" id="dayTitle">Dan 1</div>
-        <input class="day-date" type="text" id="fDate" placeholder="datum (npr. 1.4.2026)" oninput="autosave()">
+        <input class="day-date" type="text" id="fDate" placeholder="datum" oninput="autosave()">
       </div>
-      <button class="nav-btn" id="nextBtn" onclick="changeDay(1)">›</button>
+      <button class="nav-btn" onclick="changeDay(1)">›</button>
     </div>
 
-    <!-- 📝 PODATKI O SINOČNJEM SPANCU -->
     <div class="section">
-      <div class="section-header">
-        <span class="icon">📝</span>
-        <h2>Podatki o sinočnjem spancu</h2>
-      </div>
+      <div class="section-header"><h2>Dnevni vnos</h2></div>
       <table class="data-table">
-        <tr>
-          <td><span class="emoji">😴💤</span>Kdaj ste šli zvečer v posteljo?</td>
-          <td><input type="time" id="fBed" oninput="autosave()" step="60" lang="sl"></td>
-        </tr>
-        <tr>
-          <td><span class="emoji">☀️</span>Kdaj ste zjutraj vstali?</td>
-          <td><input type="time" id="fGetup" oninput="autosave()" step="60" lang="sl"></td>
-        </tr>
-        <tr>
-          <td><span class="emoji">⏳✨</span>Čas, da ste zaspali (ocena v minutah)</td>
-          <td><input type="number" id="fFall" min="0" max="240" placeholder="npr. 15" oninput="autosave()"></td>
-        </tr>
-        <tr>
-          <td><span class="emoji">📵</span>Ugasnjena elektronika (min pred spanjem)</td>
-          <td><input type="number" id="fElec" min="0" max="480" placeholder="npr. 60" oninput="autosave()"></td>
-        </tr>
-        <tr>
-          <td><span class="emoji">☕</span>Zadnja kava (koliko ur pred spanjem)</td>
-          <td><input type="number" id="fCoffee" min="0" max="24" placeholder="npr. 6" oninput="autosave()"></td>
-        </tr>
-        <tr>
-          <td><span class="emoji">🍷</span>Zadnji alkohol (koliko ur pred spanjem)</td>
-          <td><input type="text" id="fAlc" placeholder="npr. 3 ure prej" oninput="autosave()"></td>
-        </tr>
-        <tr>
-          <td><span class="emoji">🍽️</span>Zadnji obrok / hrana (koliko ur pred spanjem)</td>
-          <td><input type="text" id="fFood" placeholder="npr. 2 uri prej" oninput="autosave()"></td>
-        </tr>
-        <tr>
-          <td><span class="emoji">📝</span>Zapisana vprašanja/skrbi za jutri? (vsaj 1h prej)</td>
-          <td>
-            <div class="yn-row">
-              <button class="yn-btn" onclick="setYN('fQ',this,'da','yes')">Da</button>
-              <button class="yn-btn" onclick="setYN('fQ',this,'ne','no')">Ne</button>
-            </div>
-            <input type="hidden" id="fQ">
-          </td>
-        </tr>
-        <tr>
-          <td><span class="emoji">🌜👀</span>Število prebujanj ponoči</td>
-          <td>
-            <div class="count-row">
-              <button class="cnt-btn" onclick="changeCount(-1)">−</button>
-              <span class="cnt-val" id="wakeDisp">0</span>
-              <button class="cnt-btn" onclick="changeCount(1)">+</button>
-              <input type="hidden" id="fWake" value="0">
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td><span class="emoji">💤</span>Ste uspeli zaspati nazaj?</td>
-          <td>
-            <div class="yn-row">
-              <button class="yn-btn" onclick="setYN('fBack',this,'da','yes')">Da</button>
-              <button class="yn-btn" onclick="setYN('fBack',this,'ne','no')">Ne</button>
-              <button class="yn-btn" onclick="setYN('fBack',this,'—','na')" style="font-size:11px">N/A</button>
-            </div>
-            <input type="hidden" id="fBack">
-          </td>
-        </tr>
-        <tr>
-          <td><span class="emoji">⭐</span>Vaše jutranje počutje (1: slabo – 5: super)</td>
-          <td>
-            <div class="scale-row">
-              <div class="scale-dot" onclick="setScale(1)" data-n="1">1</div>
-              <div class="scale-dot" onclick="setScale(2)" data-n="2">2</div>
-              <div class="scale-dot" onclick="setScale(3)" data-n="3">3</div>
-              <div class="scale-dot" onclick="setScale(4)" data-n="4">4</div>
-              <div class="scale-dot" onclick="setScale(5)" data-n="5">5</div>
-            </div>
-            <div class="scale-lbl" id="scaleLbl" style="margin-top:4px"></div>
-            <input type="hidden" id="fMorn">
-          </td>
-        </tr>
+        <tr><td>Kdaj ste šli zvečer v posteljo?</td><td><input type="time" id="fBed" oninput="autosave()"></td></tr>
+        <tr><td>Čas, da ste zaspali (min)</td><td><input type="number" id="fFall" oninput="autosave()"></td></tr>
+        <tr><td>Elektronika (min prej)</td><td><input type="number" id="fElec" oninput="autosave()"></td></tr>
+        <tr><td>Zadnja kava (ur prej)</td><td><input type="number" id="fCoffee" oninput="autosave()"></td></tr>
+        <tr><td>Zadnji alkohol (ur prej)</td><td><input type="text" id="fAlc" oninput="autosave()"></td></tr>
+        <tr><td>Zadnji obrok (ur prej)</td><td><input type="text" id="fFood" oninput="autosave()"></td></tr>
+        <tr><td>Vprašanja/skrbi za jutri?</td><td>
+          <div class="yn-row">
+            <button class="yn-btn" onclick="setYN('fQ',this,'da','yes')">Da</button>
+            <button class="yn-btn" onclick="setYN('fQ',this,'ne','no')">Ne</button>
+          </div>
+          <input type="hidden" id="fQ">
+        </td></tr>
+        <tr><td>Število prebujanj</td><td>
+          <div class="count-row">
+            <button class="cnt-btn" onclick="changeCount(-1)">−</button>
+            <span class="cnt-val" id="wakeDisp">0</span>
+            <button class="cnt-btn" onclick="changeCount(1)">+</button>
+            <input type="hidden" id="fWake" value="0">
+          </div>
+        </td></tr>
+        <tr><td>Ste zaspali nazaj?</td><td>
+          <div class="yn-row">
+            <button class="yn-btn" onclick="setYN('fBack',this,'da','yes')">Da</button>
+            <button class="yn-btn" onclick="setYN('fBack',this,'ne','no')">Ne</button>
+          </div>
+          <input type="hidden" id="fBack">
+        </td></tr>
+        <tr><td>Kdaj ste zjutraj vstali?</td><td><input type="time" id="fGetup" oninput="autosave()"></td></tr>
+        <tr><td>Počutje (1-5)</td><td>
+          <div class="scale-row">
+            <div class="scale-dot" onclick="setScale(1)" data-n="1">1</div>
+            <div class="scale-dot" onclick="setScale(2)" data-n="2">2</div>
+            <div class="scale-dot" onclick="setScale(3)" data-n="3">3</div>
+            <div class="scale-dot" onclick="setScale(4)" data-n="4">4</div>
+            <div class="scale-dot" onclick="setScale(5)" data-n="5">5</div>
+          </div>
+          <input type="hidden" id="fMorn">
+        </td></tr>
       </table>
     </div>
 
-    <!-- 🌟 AHA MOMENT -->
     <div class="section">
-      <div class="section-header">
-        <span class="icon">🌟</span>
-        <h2>Aha! moment &amp; Današnje veselje</h2>
-      </div>
-      <div class="textarea-wrap">
-        <div class="textarea-label">Kaj vas je danes razveselilo? Zapišite kratek trenutek hvaležnosti ali spoznanje, ki vam je polepšalo dan.</div>
-        <div class="textarea-example">Primer: Danes me je razveselil vonj po sveži kavi in sončni žarki na mojem obrazu.</div>
-        <textarea id="fAha" placeholder="Vaš aha moment..." oninput="autosave()"></textarea>
-      </div>
+      <div class="section-header"><h2>Kaj vas je danes razveselilo?</h2></div>
+      <div class="textarea-wrap"><textarea id="fAha" oninput="autosave()"></textarea></div>
     </div>
 
-    <!-- ✨ SUGESTIJA ZA SPANEC -->
     <div class="section">
-      <div class="section-header">
-        <span class="icon">✨</span>
-        <h2>Moja sugestija za današnji sproščen spanec</h2>
-      </div>
-      <div class="textarea-wrap">
-        <div class="textarea-label">Zapišite si svojo namero za nocoj:</div>
-        <div class="textarea-example">Namig: "Nocoj bom 30 minut pred spanjem odložil/a telefon in namesto tega prebral/a nekaj strani knjige ali naredil/a kratko vajo raztezanja."</div>
-        <textarea id="fTip" placeholder="Vaša sugestija za nocoj..." oninput="autosave()"></textarea>
-      </div>
+      <div class="section-header"><h2>Vaša namera za nocoj</h2></div>
+      <div class="textarea-wrap"><textarea id="fTip" oninput="autosave()"></textarea></div>
     </div>
 
-    <!-- SHRANI GUMB -->
     <button class="save-btn" onclick="saveDay()">💾 Shrani dan <span id="saveDayNum">1</span></button>
+  </div>
+</div>
 
-    <!-- 💡 NASVETI -->
-    <div class="section">
-      <div class="section-header">
-        <span class="icon">💡</span>
-        <h2>Nasveti za boljšo higieno spanja</h2>
-      </div>
-      <div class="tips-wrap">
-        <div class="tip-item">
-          <div class="tip-num">1</div>
-          <div class="tip-text"><b>Metoda "Brain Dump":</b> Če so vaši možgani preveč aktivni, zapišite vse skrbi na list papirja 1 uro pred spanjem. To možganom dovoli, da se sprostijo.</div>
-        </div>
-        <div class="tip-item">
-          <div class="tip-num">2</div>
-          <div class="tip-text"><b>Tehnika dihanja 4-7-8:</b> Vdih (4s), zadržek (7s), izdih (8s). Ta tehnika fiziološko umiri živčni sistem.</div>
-        </div>
-        <div class="tip-item">
-          <div class="tip-num">3</div>
-          <div class="tip-text"><b>Hladna soba:</b> Idealna temperatura za spanje je med 16 in 18 °C.</div>
-        </div>
-        <div class="tip-item">
-          <div class="tip-num">4</div>
-          <div class="tip-text"><b>Tema:</b> Poskrbite za popolno temo v spalnici, kar spodbuja izločanje melatonina (hormona spanja).</div>
-        </div>
-        <div class="footer-note">Dnevnik pripravljen za vašo osebno uporabo in analizo.</div>
-      </div>
-    </div>
-
-    <div class="page-footer"><a href="https://www.hypno-transformations.com" target="_blank">🌐 www.hypno-transformations.com</a></div>
-
-<!-- ══════════════ PREGLED TAB ══════════════ -->
 <div id="tab-pregled" class="hidden">
   <div class="table-wrap">
     <table>
-      <thead><tr>
-        <th>Dan</th><th>Posteljo</th><th>Vstajanje</th><th>Zaspatje</th>
-        <th>Zbujanja</th><th>Počutje</th><th>Vprašanja</th><th>Aha moment</th>
-      </tr></thead>
+      <thead>
+        <tr>
+          <th>Dan</th><th>Postelja</th><th>Zaspal (min)</th><th>Elek.</th><th>Kava</th>
+          <th>Alkohol</th><th>Hrana</th><th>Skrbi</th><th>Prebujanj</th>
+          <th>Nazaj</th><th>Vstajanje</th><th>Aha moment</th><th>Namera</th>
+        </tr>
+      </thead>
       <tbody id="pregledBody"></tbody>
     </table>
   </div>
 </div>
 
-<!-- ══════════════ VPOGLEDI TAB ══════════════ -->
-<div id="tab-vpogledi" class="hidden">
-  <div class="insight-grid" id="insightGrid"></div>
-  <div class="trend-box" id="trendBox" style="display:none">
-    <div class="trend-title">📈 Trend jutranjenga počutja</div>
-    <div class="bars" id="trendBars"></div>
-  </div>
-  <div class="page-footer"><a href="https://www.hypno-transformations.com" target="_blank">hypno-transformations.com</a></div>
-</div>
-
-<!-- MODAL -->
 <div class="overlay hidden" id="modal" onclick="closeModal()">
   <div class="modal" onclick="event.stopPropagation()">
-    <div class="modal-icon">✅</div>
-    <div class="modal-title" id="modalTitle">Dan shranjen!</div>
-    <div class="modal-sub" id="modalSub"></div>
-    <a class="email-btn" id="emailBtn" href="#">📧 Pošlji potrdilo po emailu</a>
-    <div class="info-box">
-      <b>Kako deluje:</b><br>
-      1. Kliknite gumb zgoraj<br>
-      2. Odpre se vaš email z vsemi podatki<br>
-      3. Pritisnite <b>Pošlji</b> — to je vse!<br><br>
-      ✉️ <b>Prejemnik:</b> info@hypno-transformations.com<br>
-      📋 <b>CC kopija:</b> <span id="modalEmail"></span><br><br>
-      🌐 <a href="https://www.hypno-transformations.com" target="_blank" style="color:var(--t);">www.hypno-transformations.com</a>
-    </div>
-    <div class="summary-box" id="modalSummary"></div>
-    <button class="close-btn" onclick="closeModal()">Zapri</button>
+    <div class="modal-title">Podatki pripravljeni</div>
+    <a class="email-btn" id="emailBtn" href="#">📧 Pošlji email potrditev</a>
+    <button class="save-btn" style="background:var(--ts)" onclick="closeModal()">Zapri</button>
   </div>
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
-const SL=['','Slabo 😔','Slabše 😕','Povprečno 😐','Dobro 🙂','Odlično 😊'];
-const SC=['','#c0756a','#c9956a','#c8a96e','#5aacac','#2d6e6e'];
 const ADMIN='info@hypno-transformations.com';
-const API_URL='https://script.google.com/macros/s/AKfycbws4fF9tMmrEQN6aRxyVaMsscHMQqgsc2qo6h_hHu_NfL4WDbBDYfrZ6wKrlcT8Sop4/exec';
+const API_URL='https://script.google.com/macros/s/AKfycbwqI4CAqpL1GDWy0wkMv2Px5xkE6IcJTR0IyeK7waCgr-BOiFwxC3MCsU_nBZ95O4yU/exec';
 
-let currentDay=1, allData={}, savedDays={}, apiData=null, apiLoaded=false;
+let currentDay=1, allData={}, savedDays={}, apiData=null;
 
 window.addEventListener('load',()=>{
-  const p=new URLSearchParams(window.location.search);
-  const urlDay=parseInt(p.get('dan'))||0;
-  const urlName=p.get('ime')||'';
-  const urlMail=p.get('email')||'';
-  try{
-    const s=localStorage.getItem('spanec21');
-    if(s){const d=JSON.parse(s);allData=d.data||{};savedDays=d.saved||{};}
-    const su=localStorage.getItem('spanec21user');
-    if(su){const u=JSON.parse(su);document.getElementById('uName').value=u.name||'';document.getElementById('uEmail').value=u.email||'';}
-  }catch(e){}
-  if(urlName)document.getElementById('uName').value=urlName;
-  if(urlMail)document.getElementById('uEmail').value=urlMail;
-  if(urlDay>=1&&urlDay<=21)currentDay=urlDay;
+  const s=localStorage.getItem('spanec21');
+  if(s){const d=JSON.parse(s);allData=d.data||{};savedDays=d.saved||{};}
+  const su=localStorage.getItem('spanec21user');
+  if(su){const u=JSON.parse(su);document.getElementById('uName').value=u.name||'';document.getElementById('uEmail').value=u.email||'';}
   buildDots();loadDay(currentDay);updateProgress();
 });
 
 function switchTab(name,btn){
-  ['vnos','pregled','vpogledi'].forEach(t=>document.getElementById('tab-'+t).classList.toggle('hidden',t!==name));
+  document.getElementById('tab-vnos').classList.toggle('hidden',name!=='vnos');
+  document.getElementById('tab-pregled').classList.toggle('hidden',name!=='pregled');
   document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
-  if(name==='pregled'||name==='vpogledi') loadFromApi();
+  if(name==='pregled') loadFromApi();
 }
 
 function onUserChange(){
-  try{localStorage.setItem('spanec21user',JSON.stringify({name:document.getElementById('uName').value,email:document.getElementById('uEmail').value}));}catch(e){}
+  localStorage.setItem('spanec21user',JSON.stringify({name:document.getElementById('uName').value,email:document.getElementById('uEmail').value}));
 }
 
 function buildDots(){
@@ -462,7 +248,7 @@ function buildDots(){
     const d=document.createElement('div');
     d.className='dot'+(savedDays[i]?' done':'')+(i===currentDay?' active':'');
     d.textContent=i;
-    d.onclick=(n=>()=>{currentDay=n;buildDots();loadDay(n);})(i);
+    d.onclick=()=>{currentDay=i;buildDots();loadDay(i);};
     wrap.appendChild(d);
   }
 }
@@ -471,206 +257,118 @@ function loadDay(n){
   currentDay=n;
   document.getElementById('dayTitle').textContent='Dan '+n;
   document.getElementById('saveDayNum').textContent=n;
-  document.getElementById('prevBtn').disabled=n<=1;
-  document.getElementById('nextBtn').disabled=n>=21;
   const d=allData[n]||{};
   document.getElementById('fDate').value=d.date||'';
-  document.getElementById('fBed').value=d.bed||'';
-  document.getElementById('fGetup').value=d.getup||'';
-  document.getElementById('fFall').value=d.fall||'';
-  document.getElementById('fElec').value=d.elec||'';
+  document.getElementById('fBed').value=d.bedtime||'';
+  document.getElementById('fFall').value=d.fallasleep||'';
+  document.getElementById('fElec').value=d.electronics||'';
   document.getElementById('fCoffee').value=d.coffee||'';
-  document.getElementById('fAlc').value=d.alc||'';
+  document.getElementById('fAlc').value=d.alcohol||'';
   document.getElementById('fFood').value=d.food||'';
+  document.getElementById('fQ').value=d.questions||'';
+  document.getElementById('fWake').value=d.wakeups||0;
+  document.getElementById('wakeDisp').textContent=d.wakeups||0;
+  document.getElementById('fBack').value=d.backasleep||'';
+  document.getElementById('fGetup').value=d.getup||'';
   document.getElementById('fAha').value=d.aha||'';
   document.getElementById('fTip').value=d.tip||'';
-  const wu=d.wake!==undefined?d.wake:0;
-  document.getElementById('fWake').value=wu;
-  document.getElementById('wakeDisp').textContent=wu;
-  restoreYN('fQ',d.q||'');
-  restoreYN('fBack',d.back||'');
   document.getElementById('fMorn').value=d.morn||'';
   updateScaleUI(d.morn||'');
-}
-
-function restoreYN(id,val){
-  document.getElementById(id).value=val;
-  const row=document.getElementById(id).previousElementSibling;
-  if(!row)return;
-  row.querySelectorAll('.yn-btn').forEach(b=>{
-    b.className='yn-btn';
-    const fn=b.getAttribute('onclick')||'';
-    if(val==='da'&&fn.includes("'yes'"))b.classList.add('sel-yes');
-    if(val==='ne'&&fn.includes("'no'"))b.classList.add('sel-no');
-    if(val==='—'&&fn.includes("'na'"))b.classList.add('sel-na');
-  });
 }
 
 function autosave(){
   if(!allData[currentDay])allData[currentDay]={};
   const d=allData[currentDay];
   d.date=document.getElementById('fDate').value;
-  d.bed=document.getElementById('fBed').value;
-  d.getup=document.getElementById('fGetup').value;
-  d.fall=document.getElementById('fFall').value;
-  d.elec=document.getElementById('fElec').value;
+  d.bedtime=document.getElementById('fBed').value;
+  d.fallasleep=document.getElementById('fFall').value;
+  d.electronics=document.getElementById('fElec').value;
   d.coffee=document.getElementById('fCoffee').value;
-  d.alc=document.getElementById('fAlc').value;
+  d.alcohol=document.getElementById('fAlc').value;
   d.food=document.getElementById('fFood').value;
+  d.questions=document.getElementById('fQ').value;
+  d.wakeups=parseInt(document.getElementById('fWake').value)||0;
+  d.backasleep=document.getElementById('fBack').value;
+  d.getup=document.getElementById('fGetup').value;
   d.aha=document.getElementById('fAha').value;
   d.tip=document.getElementById('fTip').value;
-  d.wake=parseInt(document.getElementById('fWake').value)||0;
-  d.q=document.getElementById('fQ').value;
-  d.back=document.getElementById('fBack').value;
   d.morn=document.getElementById('fMorn').value;
-  persist();
+  localStorage.setItem('spanec21',JSON.stringify({data:allData,saved:savedDays}));
 }
-
-function persist(){try{localStorage.setItem('spanec21',JSON.stringify({data:allData,saved:savedDays}));}catch(e){}}
 
 function setYN(id,btn,val,cls){
   document.getElementById(id).value=val;
-  const row=btn.parentElement;
-  row.querySelectorAll('.yn-btn').forEach(b=>b.className='yn-btn');
+  btn.parentElement.querySelectorAll('.yn-btn').forEach(b=>b.className='yn-btn');
   btn.classList.add('sel-'+cls);
   autosave();
 }
 
 function changeCount(delta){
   const el=document.getElementById('fWake');
-  const v=Math.max(0,(parseInt(el.value)||0)+delta);
-  el.value=v;document.getElementById('wakeDisp').textContent=v;autosave();
+  el.value=Math.max(0,(parseInt(el.value)||0)+delta);
+  document.getElementById('wakeDisp').textContent=el.value;
+  autosave();
 }
 
 function setScale(n){
-  document.getElementById('fMorn').value=n;updateScaleUI(n);autosave();
+  document.getElementById('fMorn').value=n;
+  updateScaleUI(n);
+  autosave();
 }
+
 function updateScaleUI(n){
   document.querySelectorAll('.scale-dot').forEach(d=>{
-    const dn=parseInt(d.getAttribute('data-n'));
-    d.style.background=dn==n?SC[dn]:'';
-    d.style.borderColor=dn==n?SC[dn]:'';
-    d.style.color=dn==n?'#fff':'';
+    const dn=d.getAttribute('data-n');
+    d.style.background=(dn==n)?'#2d6e6e':'';
+    d.style.color=(dn==n)?'#fff':'';
   });
-  document.getElementById('scaleLbl').textContent=n?SL[n]:'';
 }
 
 function changeDay(delta){
-  autosave();currentDay=Math.max(1,Math.min(21,currentDay+delta));buildDots();loadDay(currentDay);
+  currentDay=Math.max(1,Math.min(21,currentDay+delta));
+  buildDots();loadDay(currentDay);
 }
 
 function updateProgress(){
-  const n=Object.keys(savedDays).filter(k=>savedDays[k]).length;
-  document.getElementById('progNum').innerHTML=n+'<small>/21</small>';
+  const n=Object.keys(savedDays).length;
+  document.getElementById('progNum').textContent=n+'/21';
   document.getElementById('progBar').style.width=(n/21*100)+'%';
-}
-
-function buildMailto(name,email,day,d){
-  const subj='🌙 Spanec Dan '+day+'/21 — '+name;
-  const body=name+' je uspešno shranil/a Dan '+day+' od 21.\n\nPODATKI — DAN '+day+(d.date?' ('+d.date+')':'')+'\n\n🌃 ZVEČER\nKdaj ste šli zvečer v posteljo?: '+(d.bed||'—')+'\nČas, da ste zaspali (ocena v minutah): '+(d.fall?d.fall+' min':'—')+'\nUgasnjena elektronika (min pred spanjem): '+(d.elec?d.elec+' min':'—')+'\nZadnja kava (koliko ur pred spanjem): '+(d.coffee?d.coffee+' ur':'—')+'\nZadnji alkohol (koliko ur pred spanjem): '+(d.alc||'—')+'\nZadnji obrok / hrana (koliko ur pred spanjem): '+(d.food||'—')+'\nZapisana vprašanja/skrbi za jutri?: '+(d.q||'—')+'\n\n🌜 PONOČI\nŠtevilo prebujanj ponoči: '+(d.wake??0)+'×\nSte uspeli zaspati nazaj?: '+(d.back||'—')+'\n\n🌅 ZJUTRAJ\nKdaj ste zjutraj vstali?: '+(d.getup||'—')+'\nVaše jutranje počutje (1: slabo – 5: super): '+(d.morn?d.morn+'/5 — '+SL[d.morn]:'—')+'\n\n✨ REFLEKSIJA\nKaj vas je danes razveselilo?: '+(d.aha||'—')+'\nZapišite si svojo namero za nocoj: '+(d.tip||'—')+'\n\n—\nMatej Smolnikar · Hypno-Transformations\nhttps://www.hypno-transformations.com';
-  return 'mailto:'+ADMIN+'?cc='+encodeURIComponent(email)+'&subject='+encodeURIComponent(subj)+'&body='+encodeURIComponent(body);
 }
 
 function saveDay(){
   const name=document.getElementById('uName').value.trim();
   const email=document.getElementById('uEmail').value.trim();
-  if(!name||!email){showToast('⚠️ Vnesite ime in email!',true);return;}
-  if(!email.includes('@')){showToast('⚠️ Email ni veljaven!',true);return;}
-  autosave();
-  savedDays[currentDay]=true;persist();buildDots();updateProgress();
-  const d=allData[currentDay]||{};
-  document.getElementById('modalTitle').textContent='Dan '+currentDay+' shranjen!';
-  document.getElementById('modalSub').textContent=name+' · '+email;
-  document.getElementById('modalEmail').textContent=email;
-  document.getElementById('emailBtn').href=buildMailto(name,email,currentDay,d);
-  const rows=[
-    ['😴 V posteljo',d.bed],['☀️ Vstajanje',d.getup],
-    ['⏳ Zaspatje',d.fall?d.fall+' min':''],
-    ['📵 Elektronika',d.elec?d.elec+' min':''],
-    ['☕ Kava',d.coffee?d.coffee+' ur':''],
-    ['🍷 Alkohol',d.alc],['🍽️ Hrana',d.food],
-    ['📝 Vprašanja',d.q],['🌜 Prebujanja',d.wake+'×'],
-    ['⭐ Počutje',d.morn?d.morn+'/5 '+SL[d.morn]:''],
-    ['💡 Aha moment',d.aha],
-  ].filter(([,v])=>v);
-  document.getElementById('modalSummary').innerHTML=rows.map(([l,v])=>'<div class="sum-row"><span class="sum-lbl">'+l+'</span><span>'+v+'</span></div>').join('');
-  document.getElementById('modal').classList.remove('hidden');
-  showToast('✓ Dan '+currentDay+' shranjen!');
+  if(!name||!email){showToast('Vnesite ime in email!');return;}
+  savedDays[currentDay]=true;
+  autosave();buildDots();updateProgress();
+  const d=allData[currentDay];
+  const body=`Dnevnik Dan ${currentDay}\nBedtime: ${d.bedtime}\nFallasleep: ${d.fallasleep}\nWakeups: ${d.wakeups}\nAha: ${d.aha}\nTip: ${d.tip}`;
+  document.getElementById('emailBtn').href='mailto:'+ADMIN+'?cc='+email+'&subject=Spanec Dan '+currentDay+'&body='+encodeURIComponent(body);
+  document.getElementById('modal').classList.remove('hidden');https://script.google.com/macros/s/AKfycbwqI4CAqpL1GDWy0wkMv2Px5xkE6IcJTR0IyeK7waCgr-BOiFwxC3MCsU_nBZ95O4yU/exec
 }
 
 function closeModal(){document.getElementById('modal').classList.add('hidden');}
 
-let toastTimer;
-function showToast(msg,err){
-  const t=document.getElementById('toast');t.textContent=msg;
-  t.className='toast show'+(err?' err':'');
-  clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),2500);
-}
-
 async function loadFromApi() {
   const name = document.getElementById('uName').value.trim();
   if (!name) return;
-  const pregledBody = document.getElementById('pregledBody');
-  const insightGrid = document.getElementById('insightGrid');
-  pregledBody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:20px;color:var(--ts)">⏳ Nalagam podatke...</td></tr>';
-  insightGrid.innerHTML = '<div style="padding:20px;color:var(--ts);font-size:13px;text-align:center">⏳ Nalagam...</div>';
-  try {
-    const res = await fetch(API_URL + '?ime=' + encodeURIComponent(name));
-    const json = await res.json();
-    if (json.error) throw new Error(json.error);
-    apiData = json;
-    apiLoaded = true;
-  } catch(e) {
-    pregledBody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:20px;color:#c0756a">⚠️ Napaka pri nalaganju: ' + e.message + '</td></tr>';
-    insightGrid.innerHTML = '<div style="padding:20px;color:#c0756a;font-size:13px;text-align:center">⚠️ Napaka pri nalaganju podatkov</div>';
-    return;
-  }
-  buildPregled();
-  buildVpogledi();
-}
-
-function buildPregled(){
+  const res = await fetch(API_URL + '?ime=' + encodeURIComponent(name));
+  apiData = await res.json();
   const tbody = document.getElementById('pregledBody');
-  tbody.innerHTML = '';
-  const days = (apiData && apiData.days) ? apiData.days : [];
-  
-  if (days.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:20px;color:var(--ts)">Ni podatkov. Najprej vnesite podatke v zavihku Vnos.</td></tr>';
-    return;
-  }
-
-  tbody.innerHTML = days.map(d => `
+  tbody.innerHTML = (apiData.days || []).map(d => `
     <tr>
-      <td class="td-day">Dan ${d['Dan'] || '—'}</td>
-      <td>${d['Kdaj ste sli zvecer v posteljo?'] || '—'}</td>
-      <td>${d['Kdaj ste zjutraj vstali?'] || '—'}</td>
-      <td>${d['Cas zaspatja (min)'] || '0'} min</td>
-      <td>${d['Prebujanja ponoci'] || '0'}×</td>
-      <td style="color:${SC[parseInt(d['Jutranje pocutje (1-5)']) || 0] || 'var(--ts)'}"><b>${d['Jutranje pocutje (1-5)'] || '—'}</b></td>
-      <td>${d['Vprasanja za jutri'] || '—'}</td>
-      <td style="font-size:10px">${d['Kaj vas je razveselilo'] || '—'}</td>
+      <td>${d.Dan || ''}</td><td>${d.bedtime || ''}</td><td>${d.fallasleep || ''}</td>
+      <td>${d.electronics || ''}</td><td>${d.coffee || ''}</td><td>${d.alcohol || ''}</td>
+      <td>${d.food || ''}</td><td>${d.questions || ''}</td><td>${d.wakeups || ''}</td>
+      <td>${d.backasleep || ''}</td><td>${d.getup || ''}</td><td>${d.aha || ''}</td><td>${d.tip || ''}</td>
     </tr>
   `).join('');
 }
 
-function buildVpogledi() {
-  const grid = document.getElementById('insightGrid');
-  const s = apiData.stats;
-  if(!s) return;
-
-  const cards = [
-    {lbl:'Povprečno počutje', val: s.avgPocutje + '/5', icon:'⭐'},
-    {lbl:'Povprečno zaspatje', val: s.avgZaspatje + ' min', icon:'⏳'},
-    {lbl:'Skupaj prebujanj', val: s.skupajPrebujanj + '×', icon:'🌜'},
-    {lbl:'Povprečna kava', val: s.avgKava + ' ur', icon:'☕'}
-  ];
-
-  grid.innerHTML = cards.map(c => `
-    <div class="insight-card">
-      <div class="insight-icon">${c.icon}</div>
-      <div class="insight-val">${c.val}</div>
-      <div class="insight-label">${c.lbl}</div>
-    </div>
-  `).join('');
+function showToast(m){
+  const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2500);
 }
-</script></body></html>
+</script>
+</body>
+</html>
