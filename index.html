@@ -14,83 +14,71 @@
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Lato',sans-serif;background:var(--cr);color:var(--ch);min-height:100vh}
 
-/* HEADER */
 .header{background:linear-gradient(135deg,var(--t),var(--t2));padding:22px 18px 16px;text-align:center;position:relative;overflow:hidden}
 .header-logo{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gl);opacity:.85;margin-bottom:5px;font-weight:300}
 .header h1{font-family:'Playfair Display',serif;font-size:clamp(20px,5vw,26px);color:#fff;font-weight:600;line-height:1.2;margin-bottom:4px}
 .header h1 span{color:var(--gl);font-style:italic}
-.header-desc{font-size:12px;color:rgba(255,255,255,.8);line-height:1.5;max-width:380px;margin:0 auto;font-weight:300}
 .moon{font-size:26px;margin-bottom:4px;display:block}
 
-/* USER BAR */
 .user-bar{background:var(--ww);border-bottom:1px solid var(--br);padding:10px 12px}
 .user-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px}
 .user-field{flex:1;min-width:120px}
 .user-field label{display:block;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--t);font-weight:700;margin-bottom:2px}
 
-/* TABS */
 .tabs{display:flex;background:var(--ww);border-bottom:1px solid var(--br);position:sticky;top:0;z-index:10}
-.tab{flex:1;padding:10px 4px;border:none;background:none;font-family:'Lato',sans-serif;font-size:12px;font-weight:700;color:var(--ts);cursor:pointer;border-bottom:3px solid transparent;transition:all .2s}
+.tab{flex:1;padding:12px 4px;border:none;background:none;font-family:'Lato',sans-serif;font-size:12px;font-weight:700;color:var(--ts);cursor:pointer;border-bottom:3px solid transparent;transition:all .2s}
 .tab.active{color:var(--t);border-bottom-color:var(--t)}
 
-/* PROGRESS */
 .progress-wrap{background:var(--ww);padding:10px 12px;border-bottom:1px solid var(--br)}
 .progress-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
 .progress-label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--t);font-weight:700}
 .progress-num{font-family:'Playfair Display',serif;font-size:17px;color:var(--t);font-weight:600}
 .bar-track{height:6px;background:var(--tp);border-radius:100px;overflow:hidden}
 .bar-fill{height:100%;background:linear-gradient(90deg,var(--t),var(--go));border-radius:100px;transition:width .6s}
-.day-dots{display:flex;gap:3px;margin-top:8px;flex-wrap:wrap}
-.dot{width:26px;height:26px;border-radius:50%;border:2px solid var(--br);background:var(--cr);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:var(--ts);cursor:pointer;transition:all .2s}
+.day-dots{display:flex;gap:4px;margin-top:10px;flex-wrap:wrap;justify-content:center}
+.dot{width:28px;height:28px;border-radius:50%;border:1px solid var(--br);background:var(--cr);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--ts);cursor:pointer}
 .dot.done{background:var(--t);border-color:var(--t);color:#fff}
-.dot.active{background:var(--gl);border-color:var(--go);color:var(--ch);transform:scale(1.1)}
+.dot.active{background:var(--gl);border-color:var(--go);color:var(--ch);transform:scale(1.15)}
 
-/* MAIN */
-.main{padding:10px 12px 60px}
-.day-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
-.nav-btn{width:40px;height:40px;border-radius:50%;border:2px solid var(--br);background:var(--ww);color:var(--t);font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center}
-.day-title{font-family:'Playfair Display',serif;font-size:20px;font-weight:600;color:var(--t);text-align:center}
-.day-date{border:none;border-bottom:1px dashed var(--br);background:transparent;font-size:12px;color:var(--ts);text-align:center;width:130px;margin:2px auto 0;display:block}
+.main{padding:12px 12px 80px}
+.day-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:15px}
+.nav-btn{width:42px;height:42px;border-radius:50%;border:1px solid var(--br);background:var(--ww);color:var(--t);font-size:20px;cursor:pointer}
+.day-title{font-family:'Playfair Display',serif;font-size:22px;font-weight:600;color:var(--t);text-align:center}
+.day-date{border:none;border-bottom:1px dashed var(--br);background:transparent;font-size:12px;color:var(--ts);text-align:center;width:130px;display:block;margin:2px auto}
 
-/* SEKCIJE */
-.section{background:var(--ww);border-radius:14px;border:1px solid var(--br);margin-bottom:12px;overflow:hidden;box-shadow:0 2px 8px rgba(45,110,110,.07)}
-.section-header{background:linear-gradient(135deg,var(--t),var(--t2));padding:12px 16px;display:flex;align-items:center;gap:8px}
-.section-header h2{font-family:'Playfair Display',serif;font-size:15px;font-weight:600;color:#fff;margin:0}
+.section{background:var(--ww);border-radius:14px;border:1px solid var(--br);margin-bottom:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.05)}
+.section-header{background:linear-gradient(135deg,var(--t),var(--t2));padding:10px 16px;color:#fff}
+.section-header h2{font-family:'Playfair Display',serif;font-size:15px;margin:0}
 
 .data-table{width:100%;border-collapse:collapse}
 .data-table tr{border-bottom:1px solid var(--br)}
-.data-table td{padding:10px 14px;vertical-align:middle}
-.data-table td:first-child{font-size:13px;color:var(--ch);width:55%}
-
-input[type=text],input[type=time],input[type=number],textarea{
-  border:1px solid var(--br);border-radius:8px;padding:7px 10px;font-family:'Lato',sans-serif;font-size:13px;background:var(--cr);width:100%}
+.data-table td{padding:12px 14px;vertical-align:middle;font-size:13px}
+input[type=text],input[type=time],input[type=number],textarea{border:1px solid var(--br);border-radius:8px;padding:8px;font-family:inherit;font-size:13px;background:var(--cr);width:100%}
 
 .yn-row{display:flex;gap:6px}
-.yn-btn{flex:1;padding:7px 4px;border-radius:8px;border:2px solid var(--br);background:var(--cr);color:var(--ts);font-size:12px;font-weight:700;cursor:pointer}
-.yn-btn.sel-yes{background:var(--t);border-color:var(--t);color:#fff}
-.yn-btn.sel-no{background:#c0756a;border-color:#c0756a;color:#fff}
+.yn-btn{flex:1;padding:8px;border-radius:8px;border:1px solid var(--br);background:var(--cr);font-weight:700;font-size:12px;cursor:pointer}
+.yn-btn.sel-yes{background:var(--t);color:#fff;border-color:var(--t)}
+.yn-btn.sel-no{background:#c0756a;color:#fff;border-color:#c0756a}
 
-.count-row{display:flex;align-items:center;gap:10px}
-.cnt-btn{width:32px;height:32px;border-radius:50%;border:2px solid var(--t);background:none;color:var(--t);font-size:18px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center}
-.cnt-val{font-family:'Playfair Display',serif;font-size:22px;color:var(--t);font-weight:600;min-width:28px;text-align:center}
+.count-row{display:flex;align-items:center;gap:15px}
+.cnt-btn{width:34px;height:34px;border-radius:50%;border:1.5px solid var(--t);background:none;color:var(--t);font-size:20px;font-weight:700;cursor:pointer}
+.cnt-val{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--t);min-width:30px;text-align:center}
 
-.scale-row{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
-.scale-dot{width:36px;height:36px;border-radius:50%;border:2px solid var(--br);background:var(--cr);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;cursor:pointer;color:var(--ts)}
+.scale-row{display:flex;gap:6px;flex-wrap:wrap}
+.scale-dot{width:38px;height:38px;border-radius:50%;border:1px solid var(--br);background:var(--cr);display:flex;align-items:center;justify-content:center;font-weight:700;cursor:pointer;color:var(--ts)}
 
-.save-btn{width:100%;padding:14px;background:linear-gradient(135deg,var(--t),var(--t2));color:#fff;border:none;border-radius:12px;font-family:'Lato',sans-serif;font-size:15px;font-weight:700;cursor:pointer;margin-bottom:8px}
+.save-btn{width:100%;padding:16px;background:linear-gradient(135deg,var(--t),var(--t2));color:#fff;border:none;border-radius:12px;font-size:16px;font-weight:700;cursor:pointer;margin-top:10px}
 
-/* PREGLED TABELA */
-.table-wrap{overflow-x:auto;padding:12px}
-table{width:100%;border-collapse:separate;border-spacing:0;min-width:800px;font-size:12px}
-th{background:var(--t);color:#fff;padding:8px 6px;text-align:left;font-weight:700;font-size:10px;text-transform:uppercase}
-td{padding:7px 6px;border-bottom:1px solid var(--br);vertical-align:top}
+.table-wrap{overflow-x:auto;padding:12px;background:#fff}
+table{width:100%;border-collapse:collapse;min-width:1000px;font-size:12px}
+th{background:var(--t);color:#fff;padding:10px 6px;text-align:left;text-transform:uppercase;font-size:10px}
+td{padding:10px 6px;border-bottom:1px solid var(--br)}
 
-/* MODAL */
-.overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:100;display:flex;align-items:flex-end;justify-content:center}
-.modal{background:var(--ww);border-radius:20px 20px 0 0;padding:22px 18px 32px;width:100%;max-width:500px;max-height:85vh;overflow-y:auto}
-.email-btn{display:block;width:100%;padding:14px 0;background:linear-gradient(135deg,var(--t),var(--t2));color:#fff;border-radius:12px;font-size:15px;font-weight:700;text-align:center;text-decoration:none;margin-bottom:12px}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:100;display:flex;align-items:center;justify-content:center;padding:20px}
+.modal{background:var(--ww);border-radius:18px;padding:25px;width:100%;max-width:450px;text-align:center}
+.email-btn{display:block;width:100%;padding:15px;background:var(--t);color:#fff;border-radius:10px;text-decoration:none;font-weight:700;margin:15px 0}
 
-.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(120px);background:var(--t);color:#fff;padding:12px 24px;border-radius:100px;font-size:13px;z-index:200;transition:transform .35s}
+.toast{position:fixed;bottom:25px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--ch);color:#fff;padding:12px 25px;border-radius:50px;transition:0.4s;z-index:200}
 .toast.show{transform:translateX(-50%) translateY(0)}
 .hidden{display:none!important}
 </style>
@@ -99,56 +87,53 @@ td{padding:7px 6px;border-bottom:1px solid var(--br);vertical-align:top}
 
 <div class="header">
   <span class="moon">🌙</span>
-  <div class="header-logo">Hypno-Transformations · Program</div>
-  <h1>Moj Dnevnik <span>Spanja in Počitka</span></h1>
+  <div class="header-logo">Hypno-Transformations</div>
+  <h1>Moj Dnevnik <span>Spanja</span></h1>
 </div>
 
 <div class="user-bar">
   <div class="user-row">
-    <div class="user-field"><label>Ime *</label><input type="text" id="uName" placeholder="Vaše ime" oninput="onUserChange()"></div>
-    <div class="user-field"><label>Email *</label><input type="text" id="uEmail" placeholder="vas@email.com" oninput="onUserChange()"></div>
+    <div class="user-field"><label>Ime</label><input type="text" id="uName" oninput="onUserChange()"></div>
+    <div class="user-field"><label>Email</label><input type="text" id="uEmail" oninput="onUserChange()"></div>
   </div>
 </div>
 
 <div class="tabs">
-  <button class="tab active" onclick="switchTab('vnos',this)">✏️ Vnos</button>
-  <button class="tab" onclick="switchTab('pregled',this)">📋 Pregled</button>
+  <button class="tab active" onclick="switchTab('vnos',this)">✏️ VNOS</button>
+  <button class="tab" onclick="switchTab('pregled',this)">📋 PREGLED</button>
 </div>
 
 <div id="tab-vnos">
   <div class="progress-wrap">
-    <div class="progress-top"><span class="progress-label">Napredek</span><span class="progress-num" id="progNum">0/21</span></div>
-    <div class="bar-track"><div class="bar-fill" id="progBar" style="width:0%"></div></div>
+    <div class="progress-top"><span class="progress-label">NAPREDEK</span><span class="progress-num" id="progNum">0/21</span></div>
+    <div class="bar-track"><div class="bar-fill" id="progBar"></div></div>
     <div class="day-dots" id="dayDots"></div>
   </div>
 
   <div class="main">
     <div class="day-nav">
       <button class="nav-btn" onclick="changeDay(-1)">‹</button>
-      <div style="text-align:center">
-        <div class="day-title" id="dayTitle">Dan 1</div>
-        <input class="day-date" type="text" id="fDate" placeholder="datum" oninput="autosave()">
-      </div>
+      <div><div class="day-title" id="dayTitle">Dan 1</div><input type="text" class="day-date" id="fDate" placeholder="Datum" oninput="autosave()"></div>
       <button class="nav-btn" onclick="changeDay(1)">›</button>
     </div>
 
     <div class="section">
-      <div class="section-header"><h2>Dnevni vnos</h2></div>
+      <div class="section-header"><h2>Podatki o spanju</h2></div>
       <table class="data-table">
-        <tr><td>Kdaj ste šli zvečer v posteljo?</td><td><input type="time" id="fBed" oninput="autosave()"></td></tr>
-        <tr><td>Čas, da ste zaspali (min)</td><td><input type="number" id="fFall" oninput="autosave()"></td></tr>
-        <tr><td>Elektronika (min prej)</td><td><input type="number" id="fElec" oninput="autosave()"></td></tr>
-        <tr><td>Zadnja kava (ur prej)</td><td><input type="number" id="fCoffee" oninput="autosave()"></td></tr>
-        <tr><td>Zadnji alkohol (ur prej)</td><td><input type="text" id="fAlc" oninput="autosave()"></td></tr>
-        <tr><td>Zadnji obrok (ur prej)</td><td><input type="text" id="fFood" oninput="autosave()"></td></tr>
-        <tr><td>Vprašanja/skrbi za jutri?</td><td>
+        <tr><td>Postelja (ura)</td><td><input type="time" id="fBed" oninput="autosave()"></td></tr>
+        <tr><td>Zaspal (min)</td><td><input type="number" id="fFall" oninput="autosave()"></td></tr>
+        <tr><td>Elektronika (min)</td><td><input type="number" id="fElec" oninput="autosave()"></td></tr>
+        <tr><td>Kava (ur prej)</td><td><input type="number" id="fCoffee" oninput="autosave()"></td></tr>
+        <tr><td>Alkohol (ur prej)</td><td><input type="text" id="fAlc" oninput="autosave()"></td></tr>
+        <tr><td>Hrana (ur prej)</td><td><input type="text" id="fFood" oninput="autosave()"></td></tr>
+        <tr><td>Skrbi zapisane?</td><td>
           <div class="yn-row">
             <button class="yn-btn" onclick="setYN('fQ',this,'da','yes')">Da</button>
             <button class="yn-btn" onclick="setYN('fQ',this,'ne','no')">Ne</button>
           </div>
           <input type="hidden" id="fQ">
         </td></tr>
-        <tr><td>Število prebujanj</td><td>
+        <tr><td>Prebujanja</td><td>
           <div class="count-row">
             <button class="cnt-btn" onclick="changeCount(-1)">−</button>
             <span class="cnt-val" id="wakeDisp">0</span>
@@ -156,14 +141,14 @@ td{padding:7px 6px;border-bottom:1px solid var(--br);vertical-align:top}
             <input type="hidden" id="fWake" value="0">
           </div>
         </td></tr>
-        <tr><td>Ste zaspali nazaj?</td><td>
+        <tr><td>Zaspali nazaj?</td><td>
           <div class="yn-row">
             <button class="yn-btn" onclick="setYN('fBack',this,'da','yes')">Da</button>
             <button class="yn-btn" onclick="setYN('fBack',this,'ne','no')">Ne</button>
           </div>
           <input type="hidden" id="fBack">
         </td></tr>
-        <tr><td>Kdaj ste zjutraj vstali?</td><td><input type="time" id="fGetup" oninput="autosave()"></td></tr>
+        <tr><td>Vstajanje (ura)</td><td><input type="time" id="fGetup" oninput="autosave()"></td></tr>
         <tr><td>Počutje (1-5)</td><td>
           <div class="scale-row">
             <div class="scale-dot" onclick="setScale(1)" data-n="1">1</div>
@@ -177,15 +162,8 @@ td{padding:7px 6px;border-bottom:1px solid var(--br);vertical-align:top}
       </table>
     </div>
 
-    <div class="section">
-      <div class="section-header"><h2>Kaj vas je danes razveselilo?</h2></div>
-      <div class="textarea-wrap"><textarea id="fAha" oninput="autosave()"></textarea></div>
-    </div>
-
-    <div class="section">
-      <div class="section-header"><h2>Vaša namera za nocoj</h2></div>
-      <div class="textarea-wrap"><textarea id="fTip" oninput="autosave()"></textarea></div>
-    </div>
+    <div class="section"><div class="section-header"><h2>Razveselilo me je (Aha)</h2></div><div style="padding:12px"><textarea id="fAha" oninput="autosave()"></textarea></div></div>
+    <div class="section"><div class="section-header"><h2>Namera za nocoj</h2></div><div style="padding:12px"><textarea id="fTip" oninput="autosave()"></textarea></div></div>
 
     <button class="save-btn" onclick="saveDay()">💾 Shrani dan <span id="saveDayNum">1</span></button>
   </div>
@@ -194,13 +172,7 @@ td{padding:7px 6px;border-bottom:1px solid var(--br);vertical-align:top}
 <div id="tab-pregled" class="hidden">
   <div class="table-wrap">
     <table>
-      <thead>
-        <tr>
-          <th>Dan</th><th>Postelja</th><th>Zaspal (min)</th><th>Elek.</th><th>Kava</th>
-          <th>Alkohol</th><th>Hrana</th><th>Skrbi</th><th>Prebujanj</th>
-          <th>Nazaj</th><th>Vstajanje</th><th>Aha moment</th><th>Namera</th>
-        </tr>
-      </thead>
+      <thead><tr><th>Dan</th><th>Postelja</th><th>Zaspal</th><th>Elek.</th><th>Kava</th><th>Alkohol</th><th>Hrana</th><th>Skrbi</th><th>Preb.</th><th>Nazaj</th><th>Vstajanje</th><th>Aha</th><th>Namera</th></tr></thead>
       <tbody id="pregledBody"></tbody>
     </table>
   </div>
@@ -208,9 +180,10 @@ td{padding:7px 6px;border-bottom:1px solid var(--br);vertical-align:top}
 
 <div class="overlay hidden" id="modal" onclick="closeModal()">
   <div class="modal" onclick="event.stopPropagation()">
-    <div class="modal-title">Podatki pripravljeni</div>
-    <a class="email-btn" id="emailBtn" href="#">📧 Pošlji email potrditev</a>
-    <button class="save-btn" style="background:var(--ts)" onclick="closeModal()">Zapri</button>
+    <h2>Podatki shranjeni!</h2>
+    <p>Ne pozabite poslati potrditve preko emaila.</p>
+    <a class="email-btn" id="emailBtn" href="#">📧 Pošlji Email</a>
+    <button class="save-btn" style="background:#5a5a5a" onclick="closeModal()">Zapri</button>
   </div>
 </div>
 
@@ -218,16 +191,17 @@ td{padding:7px 6px;border-bottom:1px solid var(--br);vertical-align:top}
 
 <script>
 const ADMIN='info@hypno-transformations.com';
+// SEM PRILEPI SVOJ NOV URL IZ DEPLOYMENTA
 const API_URL='https://script.google.com/macros/s/AKfycbwqI4CAqpL1GDWy0wkMv2Px5xkE6IcJTR0IyeK7waCgr-BOiFwxC3MCsU_nBZ95O4yU/exec';
 
-let currentDay=1, allData={}, savedDays={}, apiData=null;
+let currentDay=1, allData={}, savedDays={};
 
 window.addEventListener('load',()=>{
   const s=localStorage.getItem('spanec21');
-  if(s){const d=JSON.parse(s);allData=d.data||{};savedDays=d.saved||{};}
+  if(s){ const d=JSON.parse(s); allData=d.data||{}; savedDays=d.saved||{}; }
   const su=localStorage.getItem('spanec21user');
-  if(su){const u=JSON.parse(su);document.getElementById('uName').value=u.name||'';document.getElementById('uEmail').value=u.email||'';}
-  buildDots();loadDay(currentDay);updateProgress();
+  if(su){ const u=JSON.parse(su); document.getElementById('uName').value=u.name||''; document.getElementById('uEmail').value=u.email||''; }
+  buildDots(); loadDay(1); updateProgress();
 });
 
 function switchTab(name,btn){
@@ -239,24 +213,21 @@ function switchTab(name,btn){
 }
 
 function onUserChange(){
-  localStorage.setItem('spanec21user',JSON.stringify({name:document.getElementById('uName').value,email:document.getElementById('uEmail').value}));
+  localStorage.setItem('spanec21user', JSON.stringify({name:document.getElementById('uName').value, email:document.getElementById('uEmail').value}));
 }
 
 function buildDots(){
-  const wrap=document.getElementById('dayDots');wrap.innerHTML='';
+  const w=document.getElementById('dayDots'); w.innerHTML='';
   for(let i=1;i<=21;i++){
     const d=document.createElement('div');
     d.className='dot'+(savedDays[i]?' done':'')+(i===currentDay?' active':'');
-    d.textContent=i;
-    d.onclick=()=>{currentDay=i;buildDots();loadDay(i);};
-    wrap.appendChild(d);
+    d.textContent=i; d.onclick=()=>{ currentDay=i; buildDots(); loadDay(i); };
+    w.appendChild(d);
   }
 }
 
 function loadDay(n){
-  currentDay=n;
-  document.getElementById('dayTitle').textContent='Dan '+n;
-  document.getElementById('saveDayNum').textContent=n;
+  currentDay=n; document.getElementById('dayTitle').textContent='Dan '+n; document.getElementById('saveDayNum').textContent=n;
   const d=allData[n]||{};
   document.getElementById('fDate').value=d.date||'';
   document.getElementById('fBed').value=d.bedtime||'';
@@ -273,7 +244,8 @@ function loadDay(n){
   document.getElementById('fAha').value=d.aha||'';
   document.getElementById('fTip').value=d.tip||'';
   document.getElementById('fMorn').value=d.morn||'';
-  updateScaleUI(d.morn||'');
+  updateScaleUI(d.morn);
+  updateYNUI();
 }
 
 function autosave(){
@@ -293,7 +265,7 @@ function autosave(){
   d.aha=document.getElementById('fAha').value;
   d.tip=document.getElementById('fTip').value;
   d.morn=document.getElementById('fMorn').value;
-  localStorage.setItem('spanec21',JSON.stringify({data:allData,saved:savedDays}));
+  localStorage.setItem('spanec21', JSON.stringify({data:allData,saved:savedDays}));
 }
 
 function setYN(id,btn,val,cls){
@@ -303,31 +275,35 @@ function setYN(id,btn,val,cls){
   autosave();
 }
 
+function updateYNUI(){
+  ['fQ','fBack'].forEach(id=>{
+    const v=document.getElementById(id).value;
+    const row=document.getElementById(id).previousElementSibling;
+    row.querySelectorAll('.yn-btn').forEach(b=>{
+      b.className='yn-btn';
+      if(v==='da' && b.textContent==='Da') b.classList.add('sel-yes');
+      if(v==='ne' && b.textContent==='Ne') b.classList.add('sel-no');
+    });
+  });
+}
+
 function changeCount(delta){
-  const el=document.getElementById('fWake');
-  el.value=Math.max(0,(parseInt(el.value)||0)+delta);
-  document.getElementById('wakeDisp').textContent=el.value;
-  autosave();
+  const e=document.getElementById('fWake'); e.value=Math.max(0,(parseInt(e.value)||0)+delta);
+  document.getElementById('wakeDisp').textContent=e.value; autosave();
 }
 
 function setScale(n){
-  document.getElementById('fMorn').value=n;
-  updateScaleUI(n);
-  autosave();
+  document.getElementById('fMorn').value=n; updateScaleUI(n); autosave();
 }
 
 function updateScaleUI(n){
   document.querySelectorAll('.scale-dot').forEach(d=>{
     const dn=d.getAttribute('data-n');
-    d.style.background=(dn==n)?'#2d6e6e':'';
-    d.style.color=(dn==n)?'#fff':'';
+    d.style.background=(dn==n)?'#2d6e6e':''; d.style.color=(dn==n)?'#fff':'';
   });
 }
 
-function changeDay(delta){
-  currentDay=Math.max(1,Math.min(21,currentDay+delta));
-  buildDots();loadDay(currentDay);
-}
+function changeDay(delta){ currentDay=Math.max(1,Math.min(21,currentDay+delta)); buildDots(); loadDay(currentDay); }
 
 function updateProgress(){
   const n=Object.keys(savedDays).length;
@@ -338,35 +314,35 @@ function updateProgress(){
 function saveDay(){
   const name=document.getElementById('uName').value.trim();
   const email=document.getElementById('uEmail').value.trim();
-  if(!name||!email){showToast('Vnesite ime in email!');return;}
-  savedDays[currentDay]=true;
-  autosave();buildDots();updateProgress();
+  if(!name||!email){ showToast('Vnesite ime in email!'); return; }
+  savedDays[currentDay]=true; autosave(); buildDots(); updateProgress();
   const d=allData[currentDay];
-  const body=`Dnevnik Dan ${currentDay}\nBedtime: ${d.bedtime}\nFallasleep: ${d.fallasleep}\nWakeups: ${d.wakeups}\nAha: ${d.aha}\nTip: ${d.tip}`;
-  document.getElementById('emailBtn').href='mailto:'+ADMIN+'?cc='+email+'&subject=Spanec Dan '+currentDay+'&body='+encodeURIComponent(body);
-  document.getElementById('modal').classList.remove('hidden');https://script.google.com/macros/s/AKfycbwqI4CAqpL1GDWy0wkMv2Px5xkE6IcJTR0IyeK7waCgr-BOiFwxC3MCsU_nBZ95O4yU/exec
+  const body=`Dnevnik Dan ${currentDay}\nPostelja: ${d.bedtime}\nZaspal min: ${d.fallasleep}\nPrebujanja: ${d.wakeups}\nAha: ${d.aha}`;
+  document.getElementById('emailBtn').href='mailto:'+ADMIN+'?cc='+email+'&subject=Dnevnik Spanja Dan '+currentDay+'&body='+encodeURIComponent(body);
+  document.getElementById('modal').classList.remove('hidden');
 }
 
-function closeModal(){document.getElementById('modal').classList.add('hidden');}
+function closeModal(){ document.getElementById('modal').classList.add('hidden'); }
 
-async function loadFromApi() {
-  const name = document.getElementById('uName').value.trim();
-  if (!name) return;
-  const res = await fetch(API_URL + '?ime=' + encodeURIComponent(name));
-  apiData = await res.json();
-  const tbody = document.getElementById('pregledBody');
-  tbody.innerHTML = (apiData.days || []).map(d => `
-    <tr>
-      <td>${d.Dan || ''}</td><td>${d.bedtime || ''}</td><td>${d.fallasleep || ''}</td>
-      <td>${d.electronics || ''}</td><td>${d.coffee || ''}</td><td>${d.alcohol || ''}</td>
-      <td>${d.food || ''}</td><td>${d.questions || ''}</td><td>${d.wakeups || ''}</td>
-      <td>${d.backasleep || ''}</td><td>${d.getup || ''}</td><td>${d.aha || ''}</td><td>${d.tip || ''}</td>
-    </tr>
-  `).join('');
+async function loadFromApi(){
+  const n=document.getElementById('uName').value.trim(); if(!n) return;
+  const tb=document.getElementById('pregledBody'); tb.innerHTML='<tr><td colspan="13" style="text-align:center">Nalagam...</td></tr>';
+  try {
+    const r=await fetch(API_URL+'?ime='+encodeURIComponent(n));
+    const j=await r.json();
+    tb.innerHTML=(j.days||[]).map(d=>`
+      <tr>
+        <td>${d.Dan||''}</td><td>${d.bedtime||''}</td><td>${d.fallasleep||''}</td>
+        <td>${d.electronics||''}</td><td>${d.coffee||''}</td><td>${d.alcohol||''}</td>
+        <td>${d.food||''}</td><td>${d.questions||''}</td><td>${d.wakeups||''}</td>
+        <td>${d.backasleep||''}</td><td>${d.getup||''}</td><td>${d.aha||''}</td><td>${d.tip||''}</td>
+      </tr>
+    `).join('');
+  } catch(e){ tb.innerHTML='<tr><td colspan="13">Napaka pri nalaganju.</td></tr>'; }
 }
 
 function showToast(m){
-  const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');
+  const t=document.getElementById('toast'); t.textContent=m; t.classList.add('show');
   setTimeout(()=>t.classList.remove('show'),2500);
 }
 </script>
