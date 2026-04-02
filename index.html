@@ -169,21 +169,23 @@ function sendData() {
   const email = document.getElementById('uEmail').value;
   if(!name || !email) { alert("Vpišite ime in email!"); return; }
 
-  // Sestavi telo emaila TOČNO tako, kot zahteva tvoj emailParser (natančna vprašanja)
+  // Sestavi telo emaila z NATANČNIMI ključi za tvoj Script
   const body = `DNEVNIK SPANJA\n\n` +
-    `Kdaj ste šli zvečer v posteljo?: ${document.getElementById('f1').value}\n` +
-    `Čas, da ste zaspali (ocena v minutah): ${document.getElementById('f2').value} min\n` +
-    `Ugasnjena elektronika (min pred spanjem): ${document.getElementById('f3').value} min\n` +
-    `Zadnja kava (koliko ur pred spanjem): ${document.getElementById('f4').value} ur\n` +
-    `Zadnji alkohol (koliko ur pred spanjem): ${document.getElementById('f5').value}\n` +
-    `Zadnji obrok / hrana (koliko ur pred spanjem): ${document.getElementById('f6').value}\n` +
-    `Zapisana vprašanja/skrbi za jutri?: ${document.getElementById('f7').value}\n` +
-    `Število prebujanj ponoči: ${document.getElementById('f8').value}\n` +
-    `Ste uspeli zaspati nazaj?: ${document.getElementById('f9').value}\n` +
+    `Dan: 1\n` + // Tukaj lahko dodaš logiko za avtomatski dan
+    `Datum: ${new Date().toLocaleDateString('sl-SI')}\n` +
+    `Kdaj ste sli zvecer v posteljo?: ${document.getElementById('f1').value}\n` +
     `Kdaj ste zjutraj vstali?: ${document.getElementById('f10').value}\n` +
-    `Vaše jutranje počutje (1: slabo – 5: super): ${document.getElementById('f11').value}\n` +
-    `Kaj vas je danes razveselilo?: ${document.getElementById('f12').value}\n` +
-    `Zapišite si svojo namero za nocoj: ${document.getElementById('f13').value}`;
+    `Cas zaspatja (min): ${document.getElementById('f2').value}\n` +
+    `Elektronika (min): ${document.getElementById('f3').value}\n` +
+    `Kava (ur): ${document.getElementById('f4').value}\n` +
+    `Alkohol: ${document.getElementById('f5').value}\n` +
+    `Hrana: ${document.getElementById('f6').value}\n` +
+    `Vprasanja za jutri: ${document.getElementById('f7').value}\n` +
+    `Prebujanja ponoci: ${document.getElementById('f8').value}\n` +
+    `Zaspati nazaj: ${document.getElementById('f9').value}\n` +
+    `Jutranje pocutje (1-5): ${document.getElementById('f11').value}\n` +
+    `Kaj vas je razveselilo: ${document.getElementById('f12').value}\n` +
+    `Namera za nocoj: ${document.getElementById('f13').value}`;
 
   const mailtoUrl = `mailto:${ADMIN_EMAIL}?cc=${email}&subject=Dnevnik Spanja: ${name}&body=${encodeURIComponent(body)}`;
   document.getElementById('emailLink').href = mailtoUrl;
@@ -195,32 +197,36 @@ function closeModal() { document.getElementById('modal').classList.add('hidden')
 async function loadFromApi() {
   const name = document.getElementById('uName').value;
   const tb = document.getElementById('pregledBody');
-  if(!name) { tb.innerHTML = '<tr><td colspan="14">Vnesite ime zgoraj za ogled podatkov.</td></tr>'; return; }
+  if(!name) { tb.innerHTML = '<tr><td colspan="15">Vnesite ime zgoraj za ogled podatkov.</td></tr>'; return; }
   
-  tb.innerHTML = '<tr><td colspan="14">Nalagam podatke...</td></tr>';
+  tb.innerHTML = '<tr><td colspan="15">Nalagam podatke...</td></tr>';
   try {
     const res = await fetch(API_URL + '?ime=' + encodeURIComponent(name));
     const json = await res.json();
     
+    // Mapiramo podatke na tvoja NATANČNA imena stolpcev
     tb.innerHTML = (json.days || []).map(d => `
       <tr>
         <td>${d['Dan'] || ''}</td>
-        <td>${d['Kdaj ste šli zvečer v posteljo?'] || ''}</td>
-        <td>${d['Čas, da ste zaspali (ocena v minutah)'] || ''}</td>
-        <td>${d['Ugasnjena elektronika (min pred spanjem)'] || ''}</td>
-        <td>${d['Zadnja kava (koliko ur pred spanjem)'] || ''}</td>
-        <td>${d['Zadnji alkohol (koliko ur pred spanjem)'] || ''}</td>
-        <td>${d['Zadnji obrok / hrana (koliko ur pred spanjem)'] || ''}</td>
-        <td>${d['Zapisana vprašanja/skrbi za jutri?'] || ''}</td>
-        <td>${d['Število prebujanj ponoči'] || ''}</td>
-        <td>${d['Ste uspeli zaspati nazaj?'] || ''}</td>
+        <td>${d['Datum'] || ''}</td>
+        <td>${d['Kdaj ste sli zvecer v posteljo?'] || ''}</td>
         <td>${d['Kdaj ste zjutraj vstali?'] || ''}</td>
-        <td>${d['Vaše jutranje počutje (1: slabo – 5: super)'] || ''}</td>
-        <td>${d['Kaj vas je danes razveselilo?'] || ''}</td>
-        <td>${d['Zapišite si svojo namero za nocoj'] || ''}</td>
+        <td>${d['Cas zaspatja (min)'] || ''}</td>
+        <td>${d['Elektronika (min)'] || ''}</td>
+        <td>${d['Kava (ur)'] || ''}</td>
+        <td>${d['Alkohol'] || ''}</td>
+        <td>${d['Hrana'] || ''}</td>
+        <td>${d['Vprasanja za jutri'] || ''}</td>
+        <td>${d['Prebujanja ponoci'] || ''}</td>
+        <td>${d['Zaspati nazaj'] || ''}</td>
+        <td>${d['Jutranje pocutje (1-5)'] || ''}</td>
+        <td>${d['Kaj vas je razveselilo'] || ''}</td>
+        <td>${d['Namera za nocoj'] || ''}</td>
       </tr>
     `).join('');
-  } catch(e) { tb.innerHTML = '<tr><td colspan="14">Napaka pri branju. Preverite API URL.</td></tr>'; }
+  } catch(e) { 
+    tb.innerHTML = '<tr><td colspan="15" style="color:red">Napaka pri branju. Preverite API URL in ali so v tabeli podatki.</td></tr>'; 
+  }
 }
 </script>
 </body>
