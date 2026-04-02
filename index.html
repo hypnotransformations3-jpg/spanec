@@ -13,6 +13,22 @@
         .in-box { display: flex; align-items: center; gap: 5px; width: 160px; }
         input, select, textarea { padding: 8px; border: 1px solid #ccc; border-radius: 4px; width: 100%; }
         .unit { font-size: 0.85em; color: #666; min-width: 30px; }
+
+        #dayNav { 
+        display: grid; 
+        grid-template-columns: repeat(7, 1fr); 
+        gap: 5px; 
+        margin-bottom: 15px; 
+        }
+        #dayNav button {
+            padding: 10px;
+            cursor: pointer;
+            background: #eee;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        #dayNav button:hover { background: var(--teal); color: white; }
     </style>
 </head>
 <body>
@@ -36,7 +52,7 @@
         <div class="in-box"><input type="number" id="fallasleep"><span class="unit">min</span></div>
     </div>
     <div class="row">
-        <div class="label">Ugasnjena elektronika (min pred spanjem)</div>
+        <div class="label">Ugasnjena elektronika (koliko minut pred spanjem)</div>
         <div class="in-box"><input type="number" id="electronics"><span class="unit">min</span></div>
     </div>
     <div class="row">
@@ -88,7 +104,7 @@
 </div>
 
 <script>
-const API_URL = 'https://script.google.com/macros/s/AKfycbz17RoF63jY6kKuCOgTfgXUpIXEXMVUGcHIq0dGM-Eaip5o0kosN6nhNRAgNt94ScrA/exec';
+const API_URL = 'https://script.google.com/macros/s/AKfycbyr6HnUXPX3nGS8Ht257Iv4kCtOpoqC78I1Zca2-gkfcUVlqGh5opBAWIHk3tB6TPwK/exec';
 let SERVER_DATA = [];
 
 const nav = document.getElementById('dayNav');
@@ -130,7 +146,7 @@ function sendMail() {
     let msg = `${ime} je uspešno shranil podatke za DAN ${dan}\n\n`;
     msg += `Kdaj ste šli zvečer v posteljo?: ${document.getElementById('bedtime').value}\n`;
     msg += `Čas, da ste zaspali (ocena v minutah): ${document.getElementById('fallasleep').value}\n`;
-    msg += `Ugasnjena elektronika (min pred spanjem): ${document.getElementById('electronics').value}\n`;
+    msg += `Ugasnjena elektronika (koliko minut pred spanjem): ${document.getElementById('electronics').value}\n`;
     msg += `Zadnja kava (koliko ur pred spanjem): ${document.getElementById('coffee').value}\n`;
     msg += `Zadnji alkohol (koliko ur pred spanjem): ${document.getElementById('alcohol').value}\n`;
     msg += `Zadnji obrok / hrana (koliko ur pred spanjem): ${document.getElementById('food').value}\n`;
