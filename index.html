@@ -5,37 +5,51 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dnevnik Spanja</title>
     <style>
-        body { font-family: sans-serif; padding: 20px; background: #f4f7f7; color: #333; }
-        .box { background: white; padding: 20px; border-radius: 10px; border: 1px solid #ccc; max-width: 600px; margin: auto; }
-        h2 { color: #2d6e6e; border-bottom: 2px solid #2d6e6e; padding-bottom: 10px; }
+        body { font-family: sans-serif; padding: 15px; background: #f4f7f7; color: #333; margin:0; }
+        .box { background: white; padding: 20px; border-radius: 10px; border: 1px solid #ccc; max-width: 800px; margin: auto; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        h2 { color: #2d6e6e; border-bottom: 2px solid #2d6e6e; padding-bottom: 10px; font-size: 1.2em; }
         .field { margin-bottom: 15px; }
-        label { display: block; font-weight: bold; font-size: 0.9em; margin-bottom: 5px; }
-        input, textarea, select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box; }
-        .btn { background: #2d6e6e; color: white; padding: 15px; border: none; width: 100%; border-radius: 5px; font-weight: bold; cursor: pointer; font-size: 16px; }
-        .tabs { display: flex; margin-bottom: 20px; justify-content: center; }
-        .tab { padding: 10px 20px; cursor: pointer; border-bottom: 3px solid transparent; font-weight: bold; }
-        .tab.active { border-bottom: 3px solid #2d6e6e; color: #2d6e6e; }
+        label { display: block; font-weight: bold; font-size: 0.85em; margin-bottom: 5px; color: #555; }
+        input, textarea, select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
+        .btn { background: #2d6e6e; color: white; padding: 15px; border: none; width: 100%; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 16px; margin-top: 10px; }
+        .tabs { display: flex; background: white; position: sticky; top: 0; z-index: 100; border-bottom: 1px solid #ccc; margin-bottom: 15px; }
+        .tab { flex: 1; text-align: center; padding: 15px; cursor: pointer; font-weight: bold; color: #666; }
+        .tab.active { border-bottom: 4px solid #2d6e6e; color: #2d6e6e; }
         .hidden { display: none; }
-        table { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 20px; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { background: #2d6e6e; color: white; }
+        /* Mobilna prilagoditev tabele */
+        .table-wrapper { overflow-x: auto; margin-top: 10px; }
+        table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        th, td { border: 1px solid #eee; padding: 12px 8px; text-align: left; }
+        th { background: #f8fcfc; color: #2d6e6e; }
+        tr:nth-child(even) { background: #fafafa; }
+        .clickable-row { cursor: pointer; }
+        .clickable-row:hover { background: #eef7f7; }
     </style>
 </head>
 <body>
 
 <div class="tabs">
-    <div id="t1" class="tab active" onclick="prikazi('vnos')">VNOS PODATKOV</div>
-    <div id="t2" class="tab" onclick="prikazi('pregled')">DNEVI NAPREDKA</div>
+    <div id="t1" class="tab active" onclick="prikazi('vnos')">VNOS</div>
+    <div id="t2" class="tab" onclick="prikazi('pregled')">NAPREDEK</div>
 </div>
 
 <div id="vnos" class="box">
-    <h2>Vnos za: <span id="izpisIme">...</span></h2>
+    <h2>Dnevnik za: <span id="izpisIme">...</span></h2>
     
-    <input type="hidden" id="uName">
-    <input type="hidden" id="uEmail">
+    <div class="field">
+        <label>Vaš Email (preverite)</label>
+        <input type="email" id="uEmail">
+    </div>
 
     <div class="field">
-        <label>Kdaj ste sli zvecer v posteljo?</label>
+        <label>Za kateri dan vnašate? (1-21)</label>
+        <input type="number" id="fDan" min="1" max="21">
+    </div>
+
+    <hr style="border:0; border-top:1px solid #eee; margin: 20px 0;">
+
+    <div class="field">
+        <label>Kdaj ste šli zvečer v posteljo?</label>
         <input type="time" id="f1">
     </div>
     <div class="field">
@@ -43,75 +57,66 @@
         <input type="time" id="f2">
     </div>
     <div class="field">
-        <label>Cas zaspatja (min)</label>
+        <label>Čas zaspanja (min)</label>
         <input type="number" id="f3">
     </div>
     <div class="field">
-        <label>Elektronika (min)</label>
-        <input type="number" id="f4">
+        <label>Jutranje počutje (1-5)</label>
+        <input type="number" id="f11" min="1" max="5" placeholder="1-najslabše, 5-odlično">
     </div>
-    <div class="field">
-        <label>Kava (ur)</label>
-        <input type="number" id="f5">
-    </div>
-    <div class="field">
-        <label>Alkohol</label>
-        <input type="text" id="f6">
-    </div>
-    <div class="field">
-        <label>Hrana</label>
-        <input type="text" id="f7">
-    </div>
-    <div class="field">
-        <label>Vprasanja za jutri (Da/Ne)</label>
-        <select id="f8"><option value="Ne">Ne</option><option value="Da">Da</option></select>
-    </div>
-    <div class="field">
-        <label>Prebujanja ponoci (število)</label>
-        <input type="number" id="f9" value="0">
-    </div>
-    <div class="field">
-        <label>Zaspati nazaj (Da/Ne)</label>
-        <select id="f10"><option value="Da">Da</option><option value="Ne">Ne</option></select>
-    </div>
-    <div class="field">
-        <label>Jutranje pocutje (1-5)</label>
-        <input type="number" id="f11" min="1" max="5">
-    </div>
-    <div class="field">
-        <label>Kaj vas je razveselilo</label>
-        <textarea id="f12"></textarea>
-    </div>
-    <div class="field">
-        <label>Namera za nocoj</label>
-        <textarea id="f13"></textarea>
+    
+    <details>
+        <summary style="padding: 10px 0; color: #2d6e6e; font-weight: bold; cursor:pointer;">Več podrobnosti (Hrana, Alkohol...)</summary>
+        <div class="field" style="margin-top:10px">
+            <label>Elektronika (min)</label>
+            <input type="number" id="f4">
+        </div>
+        <div class="field">
+            <label>Kava (ur pred spanjem)</label>
+            <input type="number" id="f5">
+        </div>
+        <div class="field">
+            <label>Alkohol / Hrana</label>
+            <input type="text" id="f6" placeholder="Alkohol">
+            <input type="text" id="f7" placeholder="Hrana" style="margin-top:5px">
+        </div>
+        <div class="field">
+            <label>Vprašanja za jutri / Prebujanja</label>
+            <select id="f8"><option value="Ne">Vprašanja: Ne</option><option value="Da">Vprašanja: Da</option></select>
+            <input type="number" id="f9" value="0" style="margin-top:5px">
+        </div>
+    </details>
+
+    <div class="field" style="margin-top:15px">
+        <label>Kaj vas je razveselilo?</label>
+        <textarea id="f12" rows="2"></textarea>
     </div>
 
-    <button class="btn" onclick="posljiMail()">ODPRI EMAIL IN SHRANITE</button>
+    <button class="btn" onclick="posljiMail()">POŠLJI IN SHRANI</button>
 </div>
 
-<div id="pregled" class="box hidden" style="max-width: 900px;">
+<div id="pregled" class="box hidden">
     <h2>Zgodovina napredka</h2>
-    <div id="tabelaPodatkov">Nalagam podatke...</div>
+    <p style="font-size: 0.8em; color: #666;">Kliknite na vrstico za podrobnosti dneva.</p>
+    <div class="table-wrapper" id="tabelaPodatkov">Nalagam...</div>
 </div>
 
 <script>
 const API_URL = 'https://script.google.com/macros/s/AKfycbwqI4CAqpL1GDWy0wkMv2Px5xkE6IcJTR0IyeK7waCgr-BOiFwxC3MCsU_nBZ95O4yU/exec';
 const MOJ_MAIL = 'info@hypno-transformations.com';
+let globalnoIme = "";
 
-// 1. FUNKCIJA: Prebere ime iz URL in ga nastavi
 window.onload = function() {
     const urlParams = new URLSearchParams(window.location.search);
-    const ime = urlParams.get('ime') || "";
+    globalnoIme = urlParams.get('ime') || "";
     const email = urlParams.get('email') || "";
+    const dan = urlParams.get('dan') || "";
     
-    if(ime) {
-        document.getElementById('uName').value = ime;
-        document.getElementById('izpisIme').innerText = ime;
+    if(globalnoIme) {
+        document.getElementById('izpisIme').innerText = globalnoIme;
     }
-    if(email) {
-        document.getElementById('uEmail').value = email;
-    }
+    if(email) document.getElementById('uEmail').value = email;
+    if(dan) document.getElementById('fDan').value = dan;
 };
 
 function prikazi(id) {
@@ -122,52 +127,53 @@ function prikazi(id) {
     if(id === 'pregled') naloziZgodovino();
 }
 
-function posljiMail() {
-    const ime = document.getElementById('uName').value;
-    const email = document.getElementById('uEmail').value;
-    
-    const body = `DNEVNIK SPANJA\n\n` +
-        `Kdaj ste sli zvecer v posteljo?: ${document.getElementById('f1').value}\n` +
-        `Kdaj ste zjutraj vstali?: ${document.getElementById('f2').value}\n` +
-        `Cas zaspatja (min): ${document.getElementById('f3').value}\n` +
-        `Elektronika (min): ${document.getElementById('f4').value}\n` +
-        `Kava (ur): ${document.getElementById('f5').value}\n` +
-        `Alkohol: ${document.getElementById('f6').value}\n` +
-        `Hrana: ${document.getElementById('f7').value}\n` +
-        `Vprasanja za jutri: ${document.getElementById('f8').value}\n` +
-        `Prebujanja ponoci: ${document.getElementById('f9').value}\n` +
-        `Zaspati nazaj: ${document.getElementById('f10').value}\n` +
-        `Jutranje pocutje (1-5): ${document.getElementById('f11').value}\n` +
-        `Kaj vas je razveselilo: ${document.getElementById('f12').value}\n` +
-        `Namera za nocoj: ${document.getElementById('f13').value}`;
-
-    window.location.href = `mailto:${MOJ_MAIL}?cc=${email}&subject=Dnevnik: ${ime}&body=${encodeURIComponent(body)}`;
+function formatirajUro(val) {
+    if(!val) return "";
+    if(typeof val === "string" && val.includes("T")) {
+        return val.split("T")[1].substring(0,5);
+    }
+    return val;
 }
 
 async function naloziZgodovino() {
-    const ime = document.getElementById('uName').value;
-    if(!ime) { document.getElementById('tabelaPodatkov').innerText = "Manjka ime."; return; }
+    if(!globalnoIme) return;
+    document.getElementById('tabelaPodatkov').innerHTML = "Nalagam...";
     
     try {
-        const res = await fetch(API_URL + "?ime=" + encodeURIComponent(ime));
+        const res = await fetch(API_URL + "?ime=" + encodeURIComponent(globalnoIme));
         const json = await res.json();
         
-        let html = "<table><tr><th>Dan</th><th>Datum</th><th>Postelja</th><th>Vstajanje</th><th>Zaspatja</th><th>Pocutje</th></tr>";
+        let html = "<table><thead><tr><th>Dan</th><th>Datum</th><th>V posteljo</th><th>Vstajanje</th><th>Pocutje</th></tr></thead><tbody>";
+        
         json.days.forEach(d => {
-            html += `<tr>
-                <td>${d['Dan'] || ''}</td>
+            html += `<tr class="clickable-row" onclick="alert('Opombe: ${d['Kaj vas je razveselilo'] || 'Ni vnosa'}')">
+                <td><b>${d['Dan'] || ''}</b></td>
                 <td>${d['Datum'] || ''}</td>
-                <td>${d['Kdaj ste sli zvecer v posteljo?'] || ''}</td>
-                <td>${d['Kdaj ste zjutraj vstali?'] || ''}</td>
-                <td>${d['Cas zaspatja (min)'] || ''}</td>
-                <td>${d['Jutranje pocutje (1-5)'] || ''}</td>
+                <td>${formatirajUro(d['Kdaj ste sli zvecer v posteljo?'])}</td>
+                <td>${formatirajUro(d['Kdaj ste zjutraj vstali?'])}</td>
+                <td style="text-align:center">${d['Jutranje pocutje (1-5)'] || ''} ⭐</td>
             </tr>`;
         });
-        html += "</table>";
+        html += "</tbody></table>";
         document.getElementById('tabelaPodatkov').innerHTML = html;
     } catch(e) {
-        document.getElementById('tabelaPodatkov').innerText = "Napaka pri nalaganju.";
+        document.getElementById('tabelaPodatkov').innerText = "Napaka pri povezavi.";
     }
+}
+
+function posljiMail() {
+    const email = document.getElementById('uEmail').value;
+    const dan = document.getElementById('fDan').value;
+    
+    const body = `DNEVNIK SPANJA - DAN ${dan}\n\n` +
+        `Ime: ${globalnoIme}\n` +
+        `Kdaj ste sli zvecer v posteljo?: ${document.getElementById('f1').value}\n` +
+        `Kdaj ste zjutraj vstali?: ${document.getElementById('f2').value}\n` +
+        `Cas zaspatja (min): ${document.getElementById('f3').value}\n` +
+        `Jutranje pocutje (1-5): ${document.getElementById('f11').value}\n` +
+        `Razveselilo me je: ${document.getElementById('f12').value}`;
+
+    window.location.href = `mailto:${MOJ_MAIL}?cc=${email}&subject=Dnevnik Dan ${dan}: ${globalnoIme}&body=${encodeURIComponent(body)}`;
 }
 </script>
 </body>
