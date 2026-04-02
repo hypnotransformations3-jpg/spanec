@@ -2,44 +2,89 @@
 <html lang="sl-SI">
 <head>
     <meta charset="UTF-8">
-    <title>Moj Dnevnik Spanja</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sleep Program — Dnevnik Spanja</title>
     <style>
-        :root { --teal: #2d6e6e; --bg: #f4f7f7; }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); margin: 0; }
-        .container { max-width: 800px; margin: 20px auto; background: white; padding: 20px; border-radius: 8px; }
-        .section-h { background: var(--teal); color: white; padding: 10px; margin-top: 20px; font-weight: bold; }
-        .row { display: flex; align-items: center; padding: 10px; border-bottom: 1px solid #eee; }
-        .label { flex: 1; font-size: 0.9em; }
-        .in-box { display: flex; align-items: center; gap: 5px; width: 160px; }
-        input, select, textarea { padding: 8px; border: 1px solid #ccc; border-radius: 4px; width: 100%; }
-        .unit { font-size: 0.85em; color: #666; min-width: 30px; }
+        :root { --teal: #2d6e6e; --bg: #f4f7f7; --accent: #e0f2f2; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg); margin: 0; padding: 10px; color: #333; }
+        .container { max-width: 500px; margin: 0 auto; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); box-sizing: border-box; }
+        
+        /* Logo */
+        .logo-container { text-align: center; margin-bottom: 25px; }
+        .logo-container img { max-width: 220px; height: auto; }
 
-        #dayNav { 
-        display: grid; 
-        grid-template-columns: repeat(7, 1fr); 
-        gap: 5px; 
-        margin-bottom: 15px; 
+        /* Uporabnik info */
+        .user-info { display: flex; gap: 8px; margin-bottom: 15px; }
+        .user-info input { background: #f9f9f9; border: 1px solid #ddd; padding: 10px; border-radius: 6px; flex: 1; font-size: 14px; color: #666; }
+
+        /* SKUPNI PREGLED (Stats Card) */
+        .stats-card { 
+            background: var(--accent); 
+            padding: 15px; 
+            border-radius: 10px; 
+            margin-bottom: 20px; 
+            border: 1px solid #b2d8d8;
+            display: none; 
         }
-        #dayNav button {
-            padding: 10px;
-            cursor: pointer;
-            background: #eee;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-weight: bold;
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 0.85em; margin-top: 10px; }
+        .stat-item b { color: var(--teal); font-size: 1.1em; display: block; margin-top: 2px; }
+
+        /* Navigacija dni - Mreža 7 stolpcev */
+        #dayNav { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-bottom: 20px; }
+        #dayNav button { padding: 12px 2px; cursor: pointer; border: 1px solid #ccc; border-radius: 6px; background: white; font-weight: bold; font-size: 14px; transition: 0.2s; }
+        #dayNav button.active { background: var(--teal); color: white; border-color: var(--teal); }
+
+        /* Vrstice - Mobilna prilagoditev (Napis nad vnosom) */
+        .section-h { background: var(--teal); color: white; padding: 10px; margin-top: 25px; font-weight: bold; border-radius: 4px; font-size: 0.85em; text-transform: uppercase; letter-spacing: 1px; }
+        .row { display: flex; flex-direction: column; padding: 15px 0; border-bottom: 1px solid #eee; }
+        .label { font-size: 0.95em; margin-bottom: 8px; font-weight: 500; color: #444; line-height: 1.3; }
+        .in-box { display: flex; align-items: center; gap: 10px; width: 100%; }
+        
+        input, select, textarea { 
+            padding: 12px; 
+            border: 1px solid #ccc; 
+            border-radius: 8px; 
+            width: 100%; 
+            font-size: 16px; 
+            box-sizing: border-box;
+            background: #fff;
+            -webkit-appearance: none; /* Odpravi čudne robove na iOS */
         }
-        #dayNav button:hover { background: var(--teal); color: white; }
+        .unit { font-size: 0.85em; color: #777; min-width: 35px; text-align: right; }
+
+        .btn-main { 
+            width: 100%; padding: 18px; background: var(--teal); color: white; border: none; 
+            border-radius: 8px; margin-top: 30px; cursor: pointer; font-weight: bold; font-size: 16px;
+            box-shadow: 0 4px 6px rgba(45, 110, 110, 0.2);
+        }
+        .btn-main:hover { background: #245a5a; }
+
+        textarea { resize: vertical; min-height: 80px; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div style="display:flex; gap:10px; margin-bottom:10px;">
-        <input type="text" id="uName" readonly placeholder="Ime">
-        <input type="email" id="uEmail" placeholder="Email">
+    <div class="logo-container">
+        <img src="https://info.hypno-transformations.com/wp-content/uploads/2024/01/logo-header.png" alt="Hypno-Transformations Logo">
     </div>
 
-    <div id="dayNav" style="display:flex; gap:5px; margin-bottom:15px;"></div>
+    <div class="user-info">
+        <input type="text" id="uName" readonly placeholder="Ime">
+        <input type="email" id="uEmail" placeholder="Vaš email">
+    </div>
+
+    <div id="statsCard" class="stats-card">
+        <div style="font-weight: bold; color: var(--teal); font-size: 0.85em; text-transform: uppercase;">Vaš skupni napredek (povprečje):</div>
+        <div class="stats-grid">
+            <div class="stat-item">🌞 Počutje: <b id="statPocutje">/</b></div>
+            <div class="stat-item">☕ Kava: <b id="statKava">/</b> ur</div>
+            <div class="stat-item">😴 Zaspanost: <b id="statZaspatje">/</b> min</div>
+            <div class="stat-item">📱 Elektronika: <b id="statElektronika">/</b> min</div>
+        </div>
+    </div>
+
+    <div id="dayNav"></div>
     <input type="hidden" id="selDay" value="1">
 
     <div class="section-h">🌜 VEČER</div>
@@ -49,37 +94,48 @@
     </div>
     <div class="row">
         <div class="label">Čas, da ste zaspali (ocena v minutah)</div>
-        <div class="in-box"><input type="number" id="fallasleep"><span class="unit">min</span></div>
+        <div class="in-box"><input type="number" id="fallasleep" placeholder="0"><span class="unit">min</span></div>
     </div>
     <div class="row">
         <div class="label">Ugasnjena elektronika (koliko minut pred spanjem)</div>
-        <div class="in-box"><input type="number" id="electronics"><span class="unit">min</span></div>
+        <div class="in-box"><input type="number" id="electronics" placeholder="0"><span class="unit">min</span></div>
     </div>
     <div class="row">
         <div class="label">Zadnja kava (koliko ur pred spanjem)</div>
-        <div class="in-box"><input type="number" id="coffee"><span class="unit">ur</span></div>
+        <div class="in-box"><input type="number" id="coffee" placeholder="0"><span class="unit">ur</span></div>
     </div>
     <div class="row">
         <div class="label">Zadnji alkohol (koliko ur pred spanjem)</div>
-        <div class="in-box"><input type="number" id="alcohol"><span class="unit">ur</span></div>
+        <div class="in-box"><input type="number" id="alcohol" placeholder="0"><span class="unit">ur</span></div>
     </div>
     <div class="row">
         <div class="label">Zadnji obrok / hrana (koliko ur pred spanjem)</div>
-        <div class="in-box"><input type="number" id="food"><span class="unit">ur</span></div>
+        <div class="in-box"><input type="number" id="food" placeholder="0"><span class="unit">ur</span></div>
     </div>
     <div class="row">
         <div class="label">Zapisana vprašanja/skrbi za jutri?</div>
-        <div class="in-box"><select id="questions"><option value="ne">ne</option><option value="da">da</option></select></div>
+        <div class="in-box">
+            <select id="questions">
+                <option value="ne">ne</option>
+                <option value="da">da</option>
+            </select>
+        </div>
     </div>
 
     <div class="section-h">😴 PONOČI</div>
     <div class="row">
         <div class="label">Število prebujanj ponoči</div>
-        <div class="in-box"><input type="number" id="wakeups"><span class="unit">×</span></div>
+        <div class="in-box"><input type="number" id="wakeups" placeholder="0"><span class="unit">×</span></div>
     </div>
     <div class="row">
         <div class="label">Ste uspeli zaspati nazaj?</div>
-        <div class="in-box"><select id="backasleep"><option value="—">—</option><option value="da">da</option><option value="ne">ne</option></select></div>
+        <div class="in-box">
+            <select id="backasleep">
+                <option value="—">—</option>
+                <option value="da">da</option>
+                <option value="ne">ne</option>
+            </select>
+        </div>
     </div>
 
     <div class="section-h">🌞 ZJUTRAJ</div>
@@ -89,59 +145,102 @@
     </div>
     <div class="row">
         <div class="label">Vaše jutranje počutje (1: slabo – 5: super)</div>
-        <div class="in-box"><input type="text" id="morning" placeholder="npr. 3/5"></div>
+        <div class="in-box">
+            <select id="morning">
+                <option value="">Izberite oceno...</option>
+                <option value="1">1 - Zelo slabo</option>
+                <option value="2">2 - Slabo</option>
+                <option value="3">3 - Povprečno</option>
+                <option value="4">4 - Dobro</option>
+                <option value="5">5 - Odlično</option>
+            </select>
+        </div>
     </div>
 
     <div class="section-h">📝 REFLEKSIJA</div>
-    <div style="padding:10px;">
-        <label>Kaj vas je danes razveselilo?</label>
-        <textarea id="aha" rows="2"></textarea>
-        <label style="display:block; margin-top:10px;">Zapišite si svojo namero za nocoj</label>
-        <textarea id="tip" rows="2"></textarea>
+    <div class="row">
+        <label class="label">Kaj vas je danes razveselilo?</label>
+        <textarea id="aha" placeholder="Vpišite kratek odgovor..."></textarea>
+    </div>
+    <div class="row">
+        <label class="label">Zapišite si svojo namero za nocoj</label>
+        <textarea id="tip" placeholder="Vpišite svojo namero..."></textarea>
     </div>
 
-    <button onclick="sendMail()" class="btn-main" style="width:100%; padding:15px; background:var(--teal); color:white; border:none; margin-top:20px; cursor:pointer;">POŠLJI POROČILO</button>
+    <button onclick="sendMail()" class="btn-main">POŠLJI POROČILO</button>
 </div>
 
 <script>
-const API_URL = 'https://script.google.com/macros/s/AKfycbyZcZKIU5D22uDaaPEVFY0tLCPBGVdm24tJLcnop6cpa8nRc0e9R5O99LNwmaw-Bxhc/exec';
+// Zamenjaj s svojim URL-jem, če se spremeni
+const API_URL = 'https://script.google.com/macros/s/AKfycbyr6HnUXPX3nGS8Ht257Iv4kCtOpoqC78I1Zca2-gkfcUVlqGh5opBAWIHk3tB6TPwK/exec';
 let SERVER_DATA = [];
 
+// Generiraj gumbe za navigacijo po dneh
 const nav = document.getElementById('dayNav');
 for(let i=1; i<=21; i++) {
     let b = document.createElement('button');
-    b.innerText = i; b.onclick = () => selectDay(i);
+    b.innerText = i; 
+    b.id = 'btn' + i;
+    b.onclick = () => selectDay(i);
     nav.appendChild(b);
 }
 
 function selectDay(n) {
     document.getElementById('selDay').value = n;
+    document.querySelectorAll('#dayNav button').forEach(b => b.classList.remove('active'));
+    document.getElementById('btn' + n).classList.add('active');
+
+    // Poišči podatke za ta dan v bazi
     const entry = SERVER_DATA.find(x => x.dan == n);
     const fields = ['bedtime','getup','fallasleep','electronics','coffee','alcohol','food','questions','wakeups','backasleep','morning','aha','tip'];
     
     fields.forEach(f => {
-        document.getElementById(f).value = entry ? (entry[f] || "") : "";
+        const el = document.getElementById(f);
+        el.value = entry ? (entry[f] || "") : "";
     });
+}
+
+function calculateStats(days) {
+    if(!days || days.length === 0) return;
+    
+    let sumPocutje = 0, sumKava = 0, sumZaspatje = 0, sumElektronika = 0;
+    let count = days.length;
+
+    days.forEach(d => {
+        sumPocutje += parseInt(d.morning) || 0;
+        sumKava += parseFloat(d.coffee) || 0;
+        sumZaspatje += parseInt(d.fallasleep) || 0;
+        sumElektronika += parseInt(d.electronics) || 0;
+    });
+
+    document.getElementById('statPocutje').innerText = (sumPocutje / count).toFixed(1);
+    document.getElementById('statKava').innerText = (sumKava / count).toFixed(1);
+    document.getElementById('statZaspatje').innerText = (sumZaspatje / count).toFixed(0);
+    document.getElementById('statElektronika').innerText = (sumElektronika / count).toFixed(0);
+    document.getElementById('statsCard').style.display = 'block';
 }
 
 window.onload = async () => {
     const p = new URLSearchParams(window.location.search);
     const ime = p.get('ime') || "";
+    const email = p.get('email') || "";
     document.getElementById('uName').value = ime;
-    document.getElementById('uEmail').value = p.get('email') || "";
+    document.getElementById('uEmail').value = email;
     
     if(ime) {
-        const r = await fetch(API_URL + "?ime=" + encodeURIComponent(ime));
-        const j = await r.json();
-        SERVER_DATA = j.days || [];
-        selectDay(parseInt(p.get('dan')) || 1);
+        try {
+            const r = await fetch(API_URL + "?ime=" + encodeURIComponent(ime));
+            const j = await r.json();
+            SERVER_DATA = j.days || [];
+            if(SERVER_DATA.length > 0) calculateStats(SERVER_DATA);
+            selectDay(parseInt(p.get('dan')) || 1);
+        } catch (e) { console.log("Podatkov še ni."); }
     }
 };
 
 function sendMail() {
     const ime = document.getElementById('uName').value;
     const dan = document.getElementById('selDay').value;
-    const email = document.getElementById('uEmail').value;
     
     let msg = `${ime} je uspešno shranil podatke za DAN ${dan}\n\n`;
     msg += `Kdaj ste šli zvečer v posteljo?: ${document.getElementById('bedtime').value}\n`;
@@ -158,7 +257,8 @@ function sendMail() {
     msg += `Kaj vas je danes razveselilo?: ${document.getElementById('aha').value}\n`;
     msg += `Zapišite si svojo namero za nocoj: ${document.getElementById('tip').value}`;
 
-    window.location.href = `mailto:info@hypno-transformations.com?subject=Dnevnik Spanja Dan ${dan}: ${ime}&body=${encodeURIComponent(msg)}`;
+    const subject = `Spanec Dan ${dan}/21 — ${ime}`;
+    window.location.href = `mailto:info@hypno-transformations.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(msg)}`;
 }
 </script>
 </body>
