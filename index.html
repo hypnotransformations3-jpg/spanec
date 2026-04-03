@@ -7,7 +7,7 @@
     
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        :root { --teal: #2d6e6e; --bg: #f4f7f7; --accent: #e0f2f2; }
+        :root { --teal: #2d6e6e; --bg: #f4f7f7; }
         body { font-family: 'Segoe UI', sans-serif; background: var(--bg); margin: 0; padding: 10px; }
         .container { max-width: 500px; margin: 0 auto; background: white; padding: 20px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
         .logo-section { text-align: center; margin-bottom: 25px; }
@@ -19,7 +19,7 @@
         .tab-content { display: none; }
         .tab-content.active { display: block; }
         .user-info { display: flex; gap: 8px; margin-bottom: 15px; }
-        .user-info input { background: #f0f0f0; border: 1px solid #ddd; padding: 10px; border-radius: 8px; flex: 1; }
+        .user-info input { background: #f0f0f0; border: 1px solid #ddd; padding: 10px; border-radius: 8px; flex: 1; font-size: 14px; }
         #dayNav { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-bottom: 20px; }
         #dayNav button { padding: 12px 2px; cursor: pointer; border: 1px solid #ddd; border-radius: 8px; background: white; font-weight: bold; }
         #dayNav button.active { background: var(--teal); color: white; }
@@ -28,7 +28,6 @@
         .label { font-size: 0.95em; margin-bottom: 8px; font-weight: 500; }
         input, select { padding: 14px; border: 1px solid #ccc; border-radius: 10px; width: 100%; font-size: 16px; box-sizing: border-box; }
         .btn-main { width: 100%; padding: 18px; background: var(--teal); color: white; border: none; border-radius: 10px; margin-top: 25px; cursor: pointer; font-weight: bold; font-size: 17px; }
-        .chart-card { background: #fff; border: 1px solid #ddd; border-radius: 12px; padding: 10px; height: 380px; }
     </style>
 </head>
 <body>
@@ -45,8 +44,8 @@
     </div>
 
     <div class="user-info">
-        <input type="text" id="uName" readonly placeholder="Ime">
-        <input type="email" id="uEmail" readonly placeholder="E-pošta">
+        <input type="text" id="uName" readonly>
+        <input type="email" id="uEmail" readonly>
     </div>
 
     <div id="vnos" class="tab-content active">
@@ -74,21 +73,14 @@
     </div>
 
     <div id="analiza" class="tab-content">
-        <select id="chartParam" onchange="drawChart()" style="margin-bottom: 15px;">
-            <option value="morning">Jutranje počutje (1-5)</option>
-            <option value="fallasleep">Čas uspavanja (min)</option>
-            <option value="wakeups">Prebujanja ponoči</option>
-        </select>
-        <div class="chart-card"><canvas id="progressChart"></canvas></div>
+        <p style="text-align:center; color:#666;">Analiza bo na voljo po uvozu podatkov.</p>
     </div>
 </div>
 
 <script>
-const API_URL = 'https://script.google.com/macros/s/AKfycbyr6HnUXPX3nGS8Ht257Iv4kCtOpoqC78I1Zca2-gkfcUVlqGh5opBAWIHk3tB6TPwK/exec';
-let SERVER_DATA = [];
-
 function openTab(id) {
-    document.querySelectorAll('.tab-content, .tab').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
     document.getElementById(id).classList.add('active');
     event.currentTarget.classList.add('active');
 }
@@ -107,7 +99,7 @@ function selectDay(n) {
     document.getElementById('btn' + n).classList.add('active');
 }
 
-window.onload = async () => {
+window.onload = () => {
     const p = new URLSearchParams(window.location.search);
     document.getElementById('uName').value = p.get('ime') || "";
     document.getElementById('uEmail').value = p.get('email') || "";
@@ -131,18 +123,10 @@ function sendMail() {
         mo: document.getElementById('morning').value
     };
 
-    // DEBUGGER - Preveri v konzoli brskalnika (F12), če so podatki pravi!
-    console.log("Podatki za email:", d);
-
     const pocutjeMap = {
-        '1': '1/5 — Slabo 😔',
-        '2': '2/5 — Slabše 😕',
-        '3': '3/5 — Povprečno 😐',
-        '4': '4/5 — Dobro 🙂',
-        '5': '5/5 — Odlično 😊'
+        '1': '1/5 — Slabo 😔', '2': '2/5 — Slabše 😕', '3': '3/5 — Povprečno 😐', '4': '4/5 — Dobro 🙂', '5': '5/5 — Odlično 😊'
     };
 
-    // NATANČNO ujemajoče se oznake za tvoj parser:
     const mailBody = `${ime} je uspešno shranil/a Dan ${dan} od 21.\n\nPODATKI — DAN ${dan}\n\n` +
         `🌜 ZVEČER\n` +
         `Kdaj ste šli zvečer v posteljo?: ${d.bt}\n` +
@@ -158,6 +142,9 @@ function sendMail() {
         `🌞 ZJUTRAJ\n` +
         `Kdaj ste zjutraj vstali?: ${d.gu}\n` +
         `Vaše jutranje počutje (1: slabo – 5: super): ${pocutjeMap[d.mo] || d.mo}`;
+
+    // TOLE JE KONTROLA - Prikaže okno z vsebino pred pošiljanjem
+    alert("PREVERI FORMAT:\n\n" + mailBody);
 
     const subject = `🌙 Spanec Dan ${dan}/21 — ${ime}`;
     window.location.href = `mailto:info@hypno-transformations.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(mailBody)}`;
