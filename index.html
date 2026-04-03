@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Moj napredek spanja — Dashboard</title>
+    <title>Moj napredek spanja</title>
+    <link rel="manifest" href="manifest.json">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root { --teal: #2d6e6e; --bg: #f4f7f7; }
@@ -24,9 +25,10 @@
         #dayNav button.active { background: var(--teal); color: white; }
         .section-h { background: var(--teal); color: white; padding: 10px; margin-top: 20px; font-weight: bold; border-radius: 6px; font-size: 0.85em; text-transform: uppercase; }
         .row { display: flex; flex-direction: column; padding: 15px 0; border-bottom: 1px solid #f0f0f0; }
-        .label { font-size: 0.95em; margin-bottom: 8px; font-weight: 500; }
+        .label { font-size: 0.95em; margin-bottom: 8px; font-weight: 500; color: #333; }
         input, select { padding: 14px; border: 1px solid #ccc; border-radius: 10px; width: 100%; font-size: 16px; box-sizing: border-box; }
-        .btn-main { width: 100%; padding: 18px; background: var(--teal); color: white; border: none; border-radius: 10px; margin-top: 25px; cursor: pointer; font-weight: bold; font-size: 17px; }
+        .btn-main { width: 100%; padding: 18px; background: var(--teal); color: white; border: none; border-radius: 10px; margin-top: 15px; cursor: pointer; font-weight: bold; font-size: 17px; }
+        #installBtn { background: #444; margin-top: 10px; display: none; }
         .chart-card { background: #fff; border: 1px solid #ddd; border-radius: 12px; padding: 10px; height: 380px; margin-top:10px; }
     </style>
 </head>
@@ -54,11 +56,11 @@
 
         <div class="section-h">🌜 Večer</div>
         <div class="row"><div class="label">Kdaj ste šli zvečer v posteljo?</div><input type="time" id="bedtime"></div>
-        <div class="row"><div class="label">Čas, da ste zaspali (v minutah)</div><input type="number" id="fallasleep"></div>
-        <div class="row"><div class="label">Ugasnjena elektronika (min pred spanjem)</div><input type="number" id="electronics"></div>
-        <div class="row"><div class="label">Zadnja kava (ure pred spanjem)</div><input type="number" id="coffee"></div>
-        <div class="row"><div class="label">Zadnji alkohol (ure pred spanjem)</div><input type="number" id="alcohol"></div>
-        <div class="row"><div class="label">Zadnji obrok (ure pred spanjem)</div><input type="number" id="food"></div>
+        <div class="row"><div class="label">Čas, da ste zaspali (ocena v minutah)</div><input type="number" id="fallasleep"></div>
+        <div class="row"><div class="label">Ugasnjena elektronika (koliko minut pred spanjem)</div><input type="number" id="electronics"></div>
+        <div class="row"><div class="label">Zadnja kava (koliko ur pred spanjem)</div><input type="number" id="coffee"></div>
+        <div class="row"><div class="label">Zadnji alkohol (koliko ur pred spanjem)</div><input type="number" id="alcohol"></div>
+        <div class="row"><div class="label">Zadnji obrok / hrana (koliko ur pred spanjem)</div><input type="number" id="food"></div>
         <div class="row"><div class="label">Zapisana vprašanja/skrbi za jutri?</div><select id="questions"><option value="ne">ne</option><option value="da">da</option></select></div>
 
         <div class="section-h">😴 Ponoči</div>
@@ -70,12 +72,17 @@
         <div class="row"><div class="label">Vaše jutranje počutje (1-5)</div><select id="morning"><option value="">Izberi...</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></div>
         
         <button onclick="sendMail()" class="btn-main">POŠLJI POROČILO</button>
+        <button id="installBtn" class="btn-main">NAMESTI NA NAMIZJE</button>
     </div>
 
     <div id="analiza" class="tab-content">
         <select id="chartParam" onchange="drawChart()" style="margin-bottom: 15px;">
             <option value="morning">Jutranje počutje (1-5)</option>
             <option value="fallasleep">Čas uspavanja (min)</option>
+            <option value="electronics">Elektronika (min)</option>
+            <option value="coffee">Zadnja kava (ure)</option>
+            <option value="alcohol">Zadnji alkohol (ure)</option>
+            <option value="food">Zadnji obrok (ure)</option>
             <option value="wakeups">Prebujanja ponoči</option>
         </select>
         <div class="chart-card"><canvas id="progressChart"></canvas></div>
@@ -83,7 +90,6 @@
 </div>
 
 <script>
-// TUKAJ JE VAŠ NOV URL (ZFXBlqO):
 const API_URL = 'https://script.google.com/macros/s/AKfycbwT_P25u2XIfGSjRiWm6KzKDCr86p-xIKroh2EWGFoymiw_ltAZD572KLFxoZFXBlqO/exec';
 let SERVER_DATA = [];
 let chartInstance = null;
@@ -124,7 +130,8 @@ function drawChart() {
     if (chartInstance) chartInstance.destroy();
     chartInstance = new Chart(ctx, {
         type: 'line',
-        data: { labels: labels, datasets: [{ data: values, borderColor: '#2d6e6e', fill: false }] }
+        data: { labels: labels, datasets: [{ label: param, data: values, borderColor: '#2d6e6e', tension: 0.3, fill: false }] },
+        options: { responsive: true, maintainAspectRatio: false }
     });
 }
 
@@ -141,30 +148,37 @@ window.onload = async () => {
     } catch (e) { selectDay(1); }
 };
 
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    document.getElementById('installBtn').style.display = 'block';
+});
+document.getElementById('installBtn').addEventListener('click', async () => {
+    if (deferredPrompt) {
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        if (outcome === 'accepted') document.getElementById('installBtn').style.display = 'none';
+        deferredPrompt = null;
+    }
+});
+
 function sendMail() {
     const ime = document.getElementById('uName').value;
     const dan = document.getElementById('selDay').value;
     const d = {
-        bt: document.getElementById('bedtime').value, 
-        fa: document.getElementById('fallasleep').value,
-        el: document.getElementById('electronics').value, 
-        cf: document.getElementById('coffee').value,
-        al: document.getElementById('alcohol').value, 
-        fd: document.getElementById('food').value,
-        qs: document.getElementById('questions').value, 
-        wu: document.getElementById('wakeups').value,
-        ba: document.getElementById('backasleep').value, 
-        gu: document.getElementById('getup').value,
+        bt: document.getElementById('bedtime').value, fa: document.getElementById('fallasleep').value,
+        el: document.getElementById('electronics').value, cf: document.getElementById('coffee').value,
+        al: document.getElementById('alcohol').value, fd: document.getElementById('food').value,
+        qs: document.getElementById('questions').value, wu: document.getElementById('wakeups').value,
+        ba: document.getElementById('backasleep').value, gu: document.getElementById('getup').value,
         mo: document.getElementById('morning').value
     };
-
-    // Format počutja, ki ga parser pričakuje (samo številka ali cel niz, če ga tako bereš)
-    const pocutjeStr = d.mo; 
 
     const mailBody = `${ime} je uspešno shranil/a Dan ${dan} od 21.\n\nPODATKI — DAN ${dan}\n\n` +
         `🌜 ZVEČER\n` +
         `Kdaj ste šli zvečer v posteljo?: ${d.bt}\n` +
-        `Čas, da ste zaspali (ocena v minutah): ${d.fa}\n` + // Odstranjen "min", da parser dobi čisto številko
+        `Čas, da ste zaspali (ocena v minutah): ${d.fa}\n` +
         `Ugasnjena elektronika (koliko minut pred spanjem): ${d.el}\n` +
         `Zadnja kava (koliko ur pred spanjem): ${d.cf}\n` +
         `Zadnji alkohol (koliko ur pred spanjem): ${d.al}\n` +
@@ -175,10 +189,9 @@ function sendMail() {
         `Ste uspeli zaspati nazaj?: ${d.ba}\n\n` +
         `🌞 ZJUTRAJ\n` +
         `Kdaj ste zjutraj vstali?: ${d.gu}\n` +
-        `Vaše jutranje počutje (1-5): ${pocutjeStr}`;
+        `Vaše jutranje počutje (1-5): ${d.mo}`;
 
-    const subject = `🌙 Spanec Dan ${dan}/21 — ${ime}`;
-    window.location.href = `mailto:info@hypno-transformations.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(mailBody)}`;
+    window.location.href = `mailto:info@hypno-transformations.com?subject=🌙 Spanec Dan ${dan}/21 — ${ime}&body=${encodeURIComponent(mailBody)}`;
 }
 </script>
 </body>
