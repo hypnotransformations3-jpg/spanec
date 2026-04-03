@@ -19,9 +19,8 @@
         .tab-content { display: none; }
         .tab-content.active { display: block; }
         
-        /* Zagotovljena vidnost uporabniških podatkov */
         .user-info { display: flex; gap: 8px; margin-bottom: 15px; }
-        .user-info input { background: #f0f0f0; border: 1px solid #ddd; padding: 10px; border-radius: 8px; flex: 1; font-size: 14px; color: #333; }
+        .user-info input { background: #f0f0f0 !important; border: 1px solid #ddd !important; padding: 10px; border-radius: 8px; flex: 1; font-size: 14px; color: #333 !important; display: block !important; }
 
         #dayNav { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-bottom: 20px; }
         #dayNav button { padding: 12px 2px; cursor: pointer; border: 1px solid #ddd; border-radius: 8px; background: white; font-weight: bold; }
@@ -125,7 +124,8 @@ function selectDay(n) {
     const entry = SERVER_DATA.find(x => x.dan == n);
     const flds = ['bedtime','getup','fallasleep','electronics','coffee','alcohol','food','questions','wakeups','backasleep','morning','happy','intention'];
     flds.forEach(f => { 
-        document.getElementById(f).value = entry ? (entry[f] || "") : (f==='questions'?'ne':(f==='backasleep'?'—':"")); 
+        const el = document.getElementById(f);
+        if(el) el.value = entry ? (entry[f] || "") : (f==='questions'?'ne':(f==='backasleep'?'—':"")); 
     });
 }
 
@@ -159,8 +159,13 @@ window.onload = async () => {
     const p = new URLSearchParams(window.location.search);
     const ime = p.get('ime') || "";
     const email = p.get('email') || "";
-    document.getElementById('uName').value = ime;
-    document.getElementById('uEmail').value = email;
+    
+    // Polnjenje polj za ime in email takoj ob zagonu
+    const uNameEl = document.getElementById('uName');
+    const uEmailEl = document.getElementById('uEmail');
+    if(uNameEl) uNameEl.value = ime;
+    if(uEmailEl) uEmailEl.value = email;
+
     try {
         const r = await fetch(API_URL + "?ime=" + encodeURIComponent(ime));
         const j = await r.json();
