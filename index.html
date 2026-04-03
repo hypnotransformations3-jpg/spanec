@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Moj napredek spanja — Dashboard</title>
-    
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root { --teal: #2d6e6e; --bg: #f4f7f7; }
@@ -14,7 +13,7 @@
         .logo-section img { max-width: 108px; height: auto; display: block; margin: 0 auto 10px; }
         .logo-text { color: var(--teal); font-size: 24px; font-weight: bold; margin: 0; }
         .tabs { display: flex; margin-bottom: 20px; background: #eee; border-radius: 10px; padding: 4px; }
-        .tab { flex: 1; text-align: center; padding: 12px; cursor: pointer; font-weight: bold; color: #666; border-radius: 8px; transition: 0.3s; }
+        .tab { flex: 1; text-align: center; padding: 12px; cursor: pointer; font-weight: bold; color: #666; border-radius: 8px; }
         .tab.active { color: white; background: var(--teal); }
         .tab-content { display: none; }
         .tab-content.active { display: block; }
@@ -25,10 +24,10 @@
         #dayNav button.active { background: var(--teal); color: white; }
         .section-h { background: var(--teal); color: white; padding: 10px; margin-top: 20px; font-weight: bold; border-radius: 6px; font-size: 0.85em; text-transform: uppercase; }
         .row { display: flex; flex-direction: column; padding: 15px 0; border-bottom: 1px solid #f0f0f0; }
-        .label { font-size: 0.95em; margin-bottom: 8px; font-weight: 500; color: #333; line-height: 1.3; }
+        .label { font-size: 0.95em; margin-bottom: 8px; font-weight: 500; }
         input, select { padding: 14px; border: 1px solid #ccc; border-radius: 10px; width: 100%; font-size: 16px; box-sizing: border-box; }
         .btn-main { width: 100%; padding: 18px; background: var(--teal); color: white; border: none; border-radius: 10px; margin-top: 25px; cursor: pointer; font-weight: bold; font-size: 17px; }
-        .chart-card { background: #fff; border: 1px solid #ddd; border-radius: 12px; padding: 10px; margin-top: 10px; height: 380px; }
+        .chart-card { background: #fff; border: 1px solid #ddd; border-radius: 12px; padding: 10px; height: 380px; margin-top:10px; }
     </style>
 </head>
 <body>
@@ -45,8 +44,8 @@
     </div>
 
     <div class="user-info">
-        <input type="text" id="uName" readonly placeholder="Ime">
-        <input type="email" id="uEmail" readonly placeholder="E-pošta">
+        <input type="text" id="uName" readonly>
+        <input type="email" id="uEmail" readonly>
     </div>
 
     <div id="vnos" class="tab-content active">
@@ -59,4 +58,127 @@
         <div class="row"><div class="label">Ugasnjena elektronika (min pred spanjem)</div><input type="number" id="electronics"></div>
         <div class="row"><div class="label">Zadnja kava (ure pred spanjem)</div><input type="number" id="coffee"></div>
         <div class="row"><div class="label">Zadnji alkohol (ure pred spanjem)</div><input type="number" id="alcohol"></div>
-        <div class="row"><div class="label">Zadnji obrok
+        <div class="row"><div class="label">Zadnji obrok (ure pred spanjem)</div><input type="number" id="food"></div>
+        <div class="row"><div class="label">Zapisana vprašanja/skrbi za jutri?</div><select id="questions"><option value="ne">ne</option><option value="da">da</option></select></div>
+
+        <div class="section-h">😴 Ponoči</div>
+        <div class="row"><div class="label">Število prebujanj ponoči</div><input type="number" id="wakeups"></div>
+        <div class="row"><div class="label">Ste uspeli zaspati nazaj?</div><select id="backasleep"><option value="—">—</option><option value="da">da</option><option value="ne">ne</option></select></div>
+
+        <div class="section-h">🌞 Zjutraj</div>
+        <div class="row"><div class="label">Kdaj ste zjutraj vstali?</div><input type="time" id="getup"></div>
+        <div class="row"><div class="label">Vaše jutranje počutje (1-5)</div><select id="morning"><option value="">Izberi...</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></div>
+        
+        <button onclick="sendMail()" class="btn-main">POŠLJI POROČILO</button>
+    </div>
+
+    <div id="analiza" class="tab-content">
+        <select id="chartParam" onchange="drawChart()" style="margin-bottom: 15px;">
+            <option value="morning">Jutranje počutje (1-5)</option>
+            <option value="fallasleep">Čas uspavanja (min)</option>
+            <option value="wakeups">Prebujanja ponoči</option>
+        </select>
+        <div class="chart-card"><canvas id="progressChart"></canvas></div>
+    </div>
+</div>
+
+<script>
+// TUKAJ JE VAŠ NOV URL (ZFXBlqO):
+const API_URL = 'https://script.google.com/macros/s/AKfycbwT_P25u2XIfGSjRiWm6KzKDCr86p-xIKroh2EWGFoymiw_ltAZD572KLFxoZFXBlqO/exec';
+let SERVER_DATA = [];
+let chartInstance = null;
+
+function openTab(id) {
+    document.querySelectorAll('.tab-content, .tab').forEach(el => el.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    event.currentTarget.classList.add('active');
+    if(id === 'analiza') setTimeout(drawChart, 150);
+}
+
+const nav = document.getElementById('dayNav');
+for(let i=1; i<=21; i++) {
+    let b = document.createElement('button');
+    b.innerText = i; b.id = 'btn' + i;
+    b.onclick = () => selectDay(i);
+    nav.appendChild(b);
+}
+
+function selectDay(n) {
+    document.getElementById('selDay').value = n;
+    document.querySelectorAll('#dayNav button').forEach(b => b.classList.remove('active'));
+    document.getElementById('btn' + n).classList.add('active');
+    const entry = SERVER_DATA.find(x => x.dan == n);
+    const flds = ['bedtime','getup','fallasleep','electronics','coffee','alcohol','food','questions','wakeups','backasleep','morning'];
+    flds.forEach(f => { 
+        document.getElementById(f).value = entry ? (entry[f] || "") : (f==='questions'?'ne':(f==='backasleep'?'—':"")); 
+    });
+}
+
+function drawChart() {
+    if (SERVER_DATA.length === 0) return;
+    const param = document.getElementById('chartParam').value;
+    const sorted = [...SERVER_DATA].sort((a,b) => a.dan - b.dan);
+    const labels = sorted.map(d => "D" + d.dan);
+    const values = sorted.map(d => parseFloat(d[param]) || 0);
+    const ctx = document.getElementById('progressChart').getContext('2d');
+    if (chartInstance) chartInstance.destroy();
+    chartInstance = new Chart(ctx, {
+        type: 'line',
+        data: { labels: labels, datasets: [{ data: values, borderColor: '#2d6e6e', fill: false }] }
+    });
+}
+
+window.onload = async () => {
+    const p = new URLSearchParams(window.location.search);
+    const ime = p.get('ime') || "";
+    document.getElementById('uName').value = ime;
+    document.getElementById('uEmail').value = p.get('email') || "";
+    try {
+        const r = await fetch(API_URL + "?ime=" + encodeURIComponent(ime));
+        const j = await r.json();
+        SERVER_DATA = j.days || [];
+        selectDay(parseInt(p.get('dan')) || 1);
+    } catch (e) { selectDay(1); }
+};
+
+function sendMail() {
+    const ime = document.getElementById('uName').value;
+    const dan = document.getElementById('selDay').value;
+    const d = {
+        bt: document.getElementById('bedtime').value,
+        fa: document.getElementById('fallasleep').value,
+        el: document.getElementById('electronics').value,
+        cf: document.getElementById('coffee').value,
+        al: document.getElementById('alcohol').value,
+        fd: document.getElementById('food').value,
+        qs: document.getElementById('questions').value,
+        wu: document.getElementById('wakeups').value,
+        ba: document.getElementById('backasleep').value,
+        gu: document.getElementById('getup').value,
+        mo: document.getElementById('morning').value
+    };
+
+    const pocutje = ['', '1/5 — Slabo 😔', '2/5 — Slabše 😕', '3/5 — Povprečno 😐', '4/5 — Dobro 🙂', '5/5 — Odlično 😊'][d.mo] || d.mo;
+
+    const mailBody = `${ime} je uspešno shranil/a Dan ${dan} od 21.\n\nPODATKI — DAN ${dan}\n\n` +
+        `🌜 ZVEČER\n` +
+        `Kdaj ste šli zvečer v posteljo?: ${d.bt}\n` +
+        `Čas, da ste zaspali (ocena v minutah): ${d.fa} min\n` +
+        `Ugasnjena elektronika (koliko minut pred spanjem): ${d.el} min\n` +
+        `Zadnja kava (koliko ur pred spanjem): ${d.cf} ur\n` +
+        `Zadnji alkohol (koliko ur pred spanjem): ${d.al} ur\n` +
+        `Zadnji obrok / hrana (koliko ur pred spanjem): ${d.fd} ur\n` +
+        `Zapisana vprašanja/skrbi za jutri?: ${d.qs}\n\n` +
+        `😴 PONOČI\n` +
+        `Število prebujanj ponoči: ${d.wu}×\n` +
+        `Ste uspeli zaspati nazaj?: ${d.ba}\n\n` +
+        `🌞 ZJUTRAJ\n` +
+        `Kdaj ste zjutraj vstali?: ${d.gu}\n` +
+        `Vaše jutranje počutje (1: slabo – 5: super): ${pocutje}`;
+
+    const subject = `🌙 Spanec Dan ${dan}/21 — ${ime}`;
+    window.location.href = `mailto:info@hypno-transformations.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(mailBody)}`;
+}
+</script>
+</body>
+</html>
