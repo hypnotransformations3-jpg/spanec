@@ -18,8 +18,11 @@
         .tab.active { color: white; background: var(--teal); }
         .tab-content { display: none; }
         .tab-content.active { display: block; }
+        
+        /* POPRAVEK: Vidnost imena in maila */
         .user-info { display: flex; gap: 8px; margin-bottom: 15px; }
-        .user-info input { background: #f0f0f0; border: 1px solid #ddd; padding: 10px; border-radius: 8px; flex: 1; font-size: 14px; }
+        .user-info input { background: #e9ecef; border: 1px solid #ced4da; padding: 10px; border-radius: 8px; flex: 1; font-size: 14px; color: #495057; }
+
         #dayNav { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-bottom: 20px; }
         #dayNav button { padding: 12px 2px; cursor: pointer; border: 1px solid #ddd; border-radius: 8px; background: white; font-weight: bold; }
         #dayNav button.active { background: var(--teal); color: white; }
@@ -46,8 +49,8 @@
     </div>
 
     <div class="user-info">
-        <input type="text" id="uName" readonly>
-        <input type="email" id="uEmail" readonly>
+        <input type="text" id="uName" placeholder="Ime" readonly>
+        <input type="email" id="uEmail" placeholder="Email" readonly>
     </div>
 
     <div id="vnos" class="tab-content active">
@@ -134,12 +137,10 @@ function drawChart() {
     const values = sorted.map(d => {
         let val = d[param];
         if (!val) return 0;
-        // Pretvorba ur v decimalno številko za graf, če je vrednost npr "22:30"
         if (typeof val === 'string' && val.includes(':')) {
             let parts = val.split(':');
             return parseInt(parts[0]) + (parseInt(parts[1])/60);
         }
-        // Pretvorba da/ne v 1/0
         if (val === 'da') return 1;
         if (val === 'ne') return 0;
         return parseFloat(val) || 0;
@@ -157,8 +158,9 @@ function drawChart() {
 window.onload = async () => {
     const p = new URLSearchParams(window.location.search);
     const ime = p.get('ime') || "";
+    const email = p.get('email') || "";
     document.getElementById('uName').value = ime;
-    document.getElementById('uEmail').value = p.get('email') || "";
+    document.getElementById('uEmail').value = email;
     try {
         const r = await fetch(API_URL + "?ime=" + encodeURIComponent(ime));
         const j = await r.json();
@@ -182,4 +184,50 @@ document.getElementById('installBtn').addEventListener('click', async () => {
     }
 });
 
-function sendMail()
+function sendMail() {
+    const ime = document.getElementById('uName').value;
+    const dan = document.getElementById('selDay').value;
+    const d = {
+        bt: document.getElementById('bedtime').value, 
+        gu: document.getElementById('getup').value,
+        fa: document.getElementById('fallasleep').value,
+        el: document.getElementById('electronics').value, 
+        cf: document.getElementById('coffee').value,
+        al: document.getElementById('alcohol').value, 
+        fd: document.getElementById('food').value,
+        qs: document.getElementById('questions').value, 
+        wu: document.getElementById('wakeups').value,
+        ba: document.getElementById('backasleep').value, 
+        mo: document.getElementById('morning').value, 
+        ha: document.getElementById('happy').value,
+        in: document.getElementById('intention').value
+    };
+
+    const pocutjeMap = {
+        '1': '1/5 — Slabo 😔', '2': '2/5 — Slabše 😕', '3': '3/5 — Povprečno 😐', '4': '4/5 — Dobro 🙂', '5': '5/5 — Odlično 😊'
+    };
+    const pocutjeStr = pocutjeMap[d.mo] || d.mo;
+
+    const mailBody = `${ime} je uspešno shranil/a Dan ${dan} od 21.\n\nPODATKI — DAN ${dan}\n\n` +
+        `🌜 ZVEČER\n` +
+        `Kdaj ste šli zvečer v posteljo?: ${d.bt}\n` +
+        `Kdaj ste zjutraj vstali?: ${d.gu}\n` +
+        `Čas, da ste zaspali (ocena v minutah): ${d.fa}\n` +
+        `Ugasnjena elektronika (koliko minut pred spanjem): ${d.el}\n` +
+        `Zadnja kava (koliko ur pred spanjem): ${d.cf}\n` +
+        `Zadnji alkohol (koliko ur pred spanjem): ${d.al}\n` +
+        `Zadnji obrok / hrana (koliko ur pred spanjem): ${d.fd}\n` +
+        `Zapisana vprašanja/skrbi za jutri?: ${d.qs}\n\n` +
+        `😴 PONOČI\n` +
+        `Število prebujanj ponoči: ${d.wu}\n` +
+        `Ste uspeli zaspati nazaj?: ${d.ba}\n\n` +
+        `🌞 ZJUTRAJ\n` +
+        `Vaše jutranje počutje (1: slabo – 5: super): ${pocutjeStr}\n` +
+        `Kaj vas je danes razveselilo?: ${d.ha}\n` +
+        `Zapišite si svojo namero za nocoj: ${d.in}`;
+
+    window.location.href = `mailto:info@hypno-transformations.com?subject=🌙 Spanec Dan ${dan}/21 — ${ime}&body=${encodeURIComponent(mailBody)}`;
+}
+</script>
+</body>
+</html>
