@@ -19,9 +19,9 @@
         .tab-content { display: none; }
         .tab-content.active { display: block; }
         
-        /* POPRAVEK: Vidnost imena in maila */
+        /* Zagotovljena vidnost uporabniških podatkov */
         .user-info { display: flex; gap: 8px; margin-bottom: 15px; }
-        .user-info input { background: #e9ecef; border: 1px solid #ced4da; padding: 10px; border-radius: 8px; flex: 1; font-size: 14px; color: #495057; }
+        .user-info input { background: #f0f0f0; border: 1px solid #ddd; padding: 10px; border-radius: 8px; flex: 1; font-size: 14px; color: #333; }
 
         #dayNav { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-bottom: 20px; }
         #dayNav button { padding: 12px 2px; cursor: pointer; border: 1px solid #ddd; border-radius: 8px; background: white; font-weight: bold; }
@@ -50,7 +50,7 @@
 
     <div class="user-info">
         <input type="text" id="uName" placeholder="Ime" readonly>
-        <input type="email" id="uEmail" placeholder="Email" readonly>
+        <input type="email" id="uEmail" placeholder="E-naslov" readonly>
     </div>
 
     <div id="vnos" class="tab-content active">
